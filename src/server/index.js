@@ -1,4 +1,6 @@
-var http = require("http");
+// @flow
+
+import http from "http";
 
 //create a server object:
 http
