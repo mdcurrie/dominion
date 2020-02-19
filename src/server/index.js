@@ -1,11 +1,16 @@
-// @flow
+const express = require("express");
+//const expressWs = require("express-ws");
 
-import http from "http";
+const app = express();
+//const ws = expressWs(app);
 
-//create a server object:
-http
-  .createServer(function(req, res) {
-    res.write("Hello World!"); //write a response to the client
-    res.end(); //end the response
-  })
-  .listen(8080); //the server object listens on port 8080
+// app.ws("/echo", function(ws, req) {
+//   ws.on("message", function(msg) {
+//     ws.send(msg);
+//   });
+// });
+
+app.use(express.static("dist"));
+app.listen(process.env.PORT || 8080, () =>
+  console.log(`Listening on port ${process.env.PORT || 8080}!`)
+);
