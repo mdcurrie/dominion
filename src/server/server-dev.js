@@ -10,7 +10,6 @@ import webpackHotMiddleware from "webpack-hot-middleware";
 import config from "../../webpack.dev.config.js";
 
 const store = createStore(rootReducer);
-store.subscribe(() => console.log(store.getState()));
 
 const app = express(),
   DIST_DIR = __dirname,
@@ -18,21 +17,30 @@ const app = express(),
   compiler = webpack(config);
 
 expressWs(app);
-app.ws("/dominion", function(ws) {
-  const connectionId = uuid.v4();
-  store.dispatch({
-    type: "ADD_CONNECTION",
-    connection: { ws, id: connectionId }
+app.ws("/dominion", function(ws, req) {
+  const unsubscribe = store.subscribe(() => {
+    const state = store.getState();
+    ws.send(
+      JSON.stringify({
+        status: state.status,
+        connections: state.connections.map(c => c.username)
+      })
+    );
   });
 
-  ws.on("message", function(msg) {
-    ws.send(msg);
+  const id = uuid.v4();
+  const url = new URL(req.url, `ws://${req.headers.host}`);
+  const username = url.searchParams.get("username");
+  store.dispatch({
+    type: "ADD_CONNECTION",
+    connection: { ws, id, username }
   });
 
   ws.on("close", function() {
+    unsubscribe();
     store.dispatch({
       type: "REMOVE_CONNECTION",
-      connection: { ws, id: connectionId }
+      connection: { ws, id, username }
     });
   });
 });

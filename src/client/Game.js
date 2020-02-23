@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
+import Waiting from "./Waiting";
 
-const Game = ({ playerName }) => {
+const Game = ({ username }) => {
+  const [gameState, setGameState] = useState({
+    status: "NOT_IN_PROGRESS",
+    connections: []
+  });
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080/dominion");
-    socket.addEventListener("open", function(event) {
-      socket.send("Hello Server!");
-    });
-    // Listen for messages
-    socket.addEventListener("message", function(event) {
-      console.log("Message from server ", event.data);
-    });
+    const socket = new WebSocket(
+      `ws://localhost:8080/dominion?username=${encodeURIComponent(username)}`
+    );
+    socket.onmessage = function(event) {
+      setGameState(JSON.parse(event.data));
+    };
   }, []);
-  return <div>Hello dominion</div>;
+
+  if (gameState.status === "NOT_IN_PROGRESS") {
+    return <Waiting connections={gameState.connections} />;
+  } else {
+    return <div>Hello dominion</div>;
+  }
 };
 
 export default Game;

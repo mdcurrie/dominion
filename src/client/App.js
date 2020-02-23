@@ -4,15 +4,15 @@ import Login from "./Login";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [playerName, setPlayerName] = useState("");
+  const [username, setUsername] = useState("");
 
   return loggedIn ? (
-    <Game playerName={playerName} />
+    <Game username={username} />
   ) : (
     <Login
-      playerName={playerName}
+      username={username}
       setLoggedIn={setLoggedIn}
-      setPlayerName={setPlayerName}
+      setUsername={setUsername}
     />
   );
 };

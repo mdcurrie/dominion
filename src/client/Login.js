@@ -1,17 +1,22 @@
 import React from "react";
+import styles from "./Login.css";
 
-const Login = ({ playerName, setLoggedIn, setPlayerName }) => {
+const Login = ({ username, setLoggedIn, setUsername }) => {
   return (
-    <input
-      type="text"
-      value={playerName}
-      onChange={e => setPlayerName(e.target.value)}
-      onKeyPress={e => {
-        if (e.key === "Enter") {
-          setLoggedIn(true);
-        }
-      }}
-    />
+    <div className="login">
+      <input
+        type="text"
+        value={username}
+        onChange={event => setUsername(event.target.value)}
+        onKeyPress={event => {
+          if (event.key === "Enter") {
+            setLoggedIn(true);
+          }
+        }}
+        placeholder="Enter a username"
+      />
+      <button onClick={() => setLoggedIn(true)}>Connect!</button>
+    </div>
   );
 };
 
