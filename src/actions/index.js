@@ -1,1 +1,2 @@
-export { addConnection, removeConnection } from "./connections";
+export { sagaAddConnection, sagaRemoveConnection } from "./connections";
+export { updateStatus } from "./status";

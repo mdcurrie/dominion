@@ -3,14 +3,18 @@ import uuid from "uuid";
 import express from "express";
 import webpack from "webpack";
 import expressWs from "express-ws";
-import { createStore } from "redux";
-import rootReducer from "../reducers";
+import { createStore, applyMiddleware } from "redux";
+import createSagaMiddleware from "redux-saga";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import webpackHotMiddleware from "webpack-hot-middleware";
+import rootReducer from "../reducers";
+import rootSaga from "../sagas";
 import config from "../../webpack.dev.config.js";
-import { addConnection, removeConnection } from "../actions";
+import { sagaAddConnection, sagaRemoveConnection } from "../actions";
 
-const store = createStore(rootReducer);
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(rootSaga);
 
 const app = express(),
   DIST_DIR = __dirname,
@@ -32,7 +36,7 @@ app.ws("/dominion", function(ws, req) {
   const id = uuid.v4();
   const url = new URL(req.url, `ws://${req.headers.host}`);
   const username = url.searchParams.get("username");
-  store.dispatch(addConnection({ ws, id, username }));
+  store.dispatch(sagaAddConnection({ ws, id, username }));
 
   ws.on("message", function(msg) {
     store.dispatch(JSON.parse(msg));
@@ -40,7 +44,7 @@ app.ws("/dominion", function(ws, req) {
 
   ws.on("close", function() {
     unsubscribe();
-    store.dispatch(removeConnection({ ws, id, username }));
+    store.dispatch(sagaRemoveConnection({ ws, id, username }));
   });
 });
 
