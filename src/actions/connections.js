@@ -12,16 +12,16 @@ export function removeConnection({ ws, id, username }) {
   };
 }
 
-export function sagaAddConnection({ ws, id, username }) {
+export function asyncAddConnection({ ws, id, username }) {
   return {
-    type: "SAGA/ADD_CONNECTION",
+    type: "ASYNC_ADD_CONNECTION",
     connection: { ws, id, username }
   };
 }
 
-export function sagaRemoveConnection({ ws, id, username }) {
+export function asyncRemoveConnection({ ws, id, username }) {
   return {
-    type: "SAGA/REMOVE_CONNECTION",
+    type: "ASYNC_REMOVE_CONNECTION",
     connection: { ws, id, username }
   };
 }

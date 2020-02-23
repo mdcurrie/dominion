@@ -10,7 +10,7 @@ import webpackHotMiddleware from "webpack-hot-middleware";
 import rootReducer from "../reducers";
 import rootSaga from "../sagas";
 import config from "../../webpack.dev.config.js";
-import { sagaAddConnection, sagaRemoveConnection } from "../actions";
+import { asyncAddConnection, asyncRemoveConnection } from "../actions";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -28,7 +28,8 @@ app.ws("/dominion", function(ws, req) {
     ws.send(
       JSON.stringify({
         status: state.status,
-        connections: state.connections.map(c => c.username)
+        connections: state.connections.map(c => c.username),
+        game: state.game,
       })
     );
   });
@@ -36,7 +37,7 @@ app.ws("/dominion", function(ws, req) {
   const id = uuid.v4();
   const url = new URL(req.url, `ws://${req.headers.host}`);
   const username = url.searchParams.get("username");
-  store.dispatch(sagaAddConnection({ ws, id, username }));
+  store.dispatch(asyncAddConnection({ ws, id, username }));
 
   ws.on("message", function(msg) {
     store.dispatch(JSON.parse(msg));
@@ -44,7 +45,7 @@ app.ws("/dominion", function(ws, req) {
 
   ws.on("close", function() {
     unsubscribe();
-    store.dispatch(sagaRemoveConnection({ ws, id, username }));
+    store.dispatch(asyncRemoveConnection({ ws, id, username }));
   });
 });
 
