@@ -34,6 +34,10 @@ app.ws("/dominion", function(ws, req) {
   const username = url.searchParams.get("username");
   store.dispatch(addConnection({ ws, id, username }));
 
+  ws.on("message", function(msg) {
+    store.dispatch(JSON.parse(msg));
+  });
+
   ws.on("close", function() {
     unsubscribe();
     store.dispatch(removeConnection({ ws, id, username }));

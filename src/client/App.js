@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import Game from "./Game";
-import Login from "./Login";
+import AfterLogin from "./AfterLogin";
+import BeforeLogin from "./BeforeLogin";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
 
   return loggedIn ? (
-    <Game username={username} />
+    <AfterLogin username={username} />
   ) : (
-    <Login
+    <BeforeLogin
       username={username}
       setLoggedIn={setLoggedIn}
       setUsername={setUsername}

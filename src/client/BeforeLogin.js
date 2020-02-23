@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./Login.css";
+import styles from "./BeforeLogin.css";
 
-const Login = ({ username, setLoggedIn, setUsername }) => {
+const BeforeLogin = ({ username, setLoggedIn, setUsername }) => {
   return (
     <div className="login">
       <input
@@ -20,4 +20,4 @@ const Login = ({ username, setLoggedIn, setUsername }) => {
   );
 };
 
-export default Login;
+export default BeforeLogin;
