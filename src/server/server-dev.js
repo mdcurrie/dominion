@@ -8,6 +8,7 @@ import rootReducer from "../reducers";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import webpackHotMiddleware from "webpack-hot-middleware";
 import config from "../../webpack.dev.config.js";
+import { addConnection, removeConnection } from "../actions";
 
 const store = createStore(rootReducer);
 
@@ -31,17 +32,11 @@ app.ws("/dominion", function(ws, req) {
   const id = uuid.v4();
   const url = new URL(req.url, `ws://${req.headers.host}`);
   const username = url.searchParams.get("username");
-  store.dispatch({
-    type: "ADD_CONNECTION",
-    connection: { ws, id, username }
-  });
+  store.dispatch(addConnection({ ws, id, username }));
 
   ws.on("close", function() {
     unsubscribe();
-    store.dispatch({
-      type: "REMOVE_CONNECTION",
-      connection: { ws, id, username }
-    });
+    store.dispatch(removeConnection({ ws, id, username }));
   });
 });
 
