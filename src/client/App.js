@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import Game from "./Game";
+import Login from "./Login";
 
 const App = () => {
-  useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080/dominion");
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [playerName, setPlayerName] = useState("");
 
-    // Connection opened
-    socket.addEventListener("open", function(event) {
-      socket.send("Hello Server!");
-    });
-
-    // Listen for messages
-    socket.addEventListener("message", function(event) {
-      console.log("Message from server ", event.data);
-    });
-  }, []);
-  return <div>Welcome to Dominion</div>;
+  return loggedIn ? (
+    <Game playerName={playerName} />
+  ) : (
+    <Login
+      playerName={playerName}
+      setLoggedIn={setLoggedIn}
+      setPlayerName={setPlayerName}
+    />
+  );
 };
 
 export default App;
