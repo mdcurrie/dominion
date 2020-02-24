@@ -29,7 +29,7 @@ app.ws("/dominion", function(ws, req) {
       JSON.stringify({
         status: state.status,
         connections: state.connections.map(c => c.username),
-        game: state.game,
+        game: state.game
       })
     );
   });

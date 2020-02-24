@@ -1,5 +1,6 @@
 const initialState = {
   supply: [],
+  trash: [],
   players: [],
   currentPlayerId: null
 };
