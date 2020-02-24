@@ -1,3 +1,4 @@
+import sample from "lodash/sample";
 import shuffle from "lodash/shuffle";
 import kingdomCards from "./kingdomCards";
 
@@ -83,11 +84,24 @@ function supplyRandomizer(numberOfPlayers) {
   ];
 }
 
-export default function gameRandomizer(numberOfPlayers) {
+function createPlayers(connections) {
+  return connections.map(c => ({
+    id: c.id,
+    username: c.username,
+    cards: {
+      hand: [],
+      discard: [],
+      deck: shuffle([...Array(3).fill("Estate"), ...Array(7).fill("Copper")])
+    }
+  }));
+}
+
+export default function gameRandomizer({ connections }) {
+  const numberOfPlayers = connections.length;
   return {
     supply: supplyRandomizer(numberOfPlayers),
     trash: [],
-    players: [],
-    currentPlayerId: null
+    players: createPlayers(connections),
+    currentPlayerId: sample(connections.map(c => c.id))
   };
 }

@@ -2,11 +2,12 @@ import { put, takeEvery, select } from "redux-saga/effects";
 import { updateStatus } from "../actions/status";
 import { startGame } from "../actions/game";
 import gameRandomizer from "../utils/randomizer";
-import { numberOfPlayersSelector } from "../selectors";
+import { connectionsSelector, numberOfPlayersSelector } from "../selectors";
 
 export function* asyncStartGame() {
   const numberOfPlayers = yield select(numberOfPlayersSelector);
-  yield put(startGame(gameRandomizer(numberOfPlayers)));
+  const connections = yield select(connectionsSelector);
+  yield put(startGame(gameRandomizer({ connections })));
   yield put(updateStatus("IN_PROGRESS"));
 }
 
