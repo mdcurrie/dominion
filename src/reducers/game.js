@@ -14,7 +14,7 @@ const initialState = {
 };
 
 const game = (state = initialState, action) => {
-  let playerIndex, player;
+  let playerIndex, player, cardIndex;
   switch (action.type) {
     case "START_GAME":
       return action.game;
@@ -41,7 +41,7 @@ const game = (state = initialState, action) => {
           { ...player, cards: { hand, deck, discard, inplay } },
           ...state.players.slice(playerIndex + 1)
         ],
-        currentPlayer: { ...state.currentPlayer, actions: 1, buys: 0, gold: 0 }
+        currentPlayer: { ...state.currentPlayer, actions: 1, buys: 1, gold: 0 }
       };
     case "END_TURN":
       playerIndex = state.players.findIndex(
@@ -80,6 +80,44 @@ const game = (state = initialState, action) => {
           ...state.currentPlayer,
           id: state.players[nextPlayerIndex].id
         }
+      };
+    case "BUY_CARD":
+      if (state.currentPlayer.id !== action.id) {
+        return state;
+      }
+
+      cardIndex = state.supply.findIndex(card => card.name === action.name);
+      if (state.supply[cardIndex].count <= 0 || state.currentPlayer.buys <= 0) {
+        return state;
+      }
+      playerIndex = state.players.findIndex(
+        player => player.id === state.currentPlayer.id
+      );
+
+      return {
+        ...state,
+        supply: [
+          ...state.supply.slice(0, cardIndex),
+          {
+            name: state.supply[cardIndex].name,
+            count: state.supply[cardIndex].count - 1
+          },
+          ...state.supply.slice(cardIndex + 1)
+        ],
+        players: [
+          ...state.players.slice(0, playerIndex),
+          {
+            ...state.players[playerIndex],
+            cards: {
+              ...state.players[playerIndex].cards,
+              discard: [
+                ...state.players[playerIndex].cards.discard,
+                action.name
+              ]
+            }
+          },
+          ...state.players.slice(playerIndex + 1)
+        ]
       };
     default:
       return state;

@@ -22,3 +22,11 @@ export function moveToNextPlayer() {
     type: "MOVE_TO_NEXT_PLAYER"
   };
 }
+
+export function buyCard({ name, id }) {
+  return {
+    type: "BUY_CARD",
+    name,
+    id
+  };
+}
