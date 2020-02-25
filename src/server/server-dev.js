@@ -40,7 +40,7 @@ app.ws("/dominion", function(ws, req) {
   store.dispatch(asyncAddConnection({ ws, id: connectionId, username }));
 
   ws.on("message", function(msg) {
-    store.dispatch(JSON.parse(msg));
+    store.dispatch({ ...JSON.parse(msg), id: connectionId });
   });
 
   ws.on("close", function() {

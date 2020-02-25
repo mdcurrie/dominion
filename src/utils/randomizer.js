@@ -91,6 +91,7 @@ function createPlayers(connections) {
     cards: {
       hand: [],
       discard: [],
+      inplay: [],
       deck: shuffle([...Array(3).fill("Estate"), ...Array(7).fill("Copper")])
     }
   }));

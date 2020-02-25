@@ -18,7 +18,8 @@ const AfterLogin = ({ username }) => {
         buys: 0,
         gold: 0
       }
-    }
+    },
+    log: []
   });
   useEffect(() => {
     socket.ws = new WebSocket(
@@ -39,6 +40,7 @@ const AfterLogin = ({ username }) => {
         status={gameState.status}
         connections={gameState.connections}
         game={gameState.game}
+        ws={socket.ws}
       />
     );
   }

@@ -4,3 +4,9 @@ export function startGame(game) {
     game
   };
 }
+
+export function startTurn() {
+  return {
+    type: "START_TURN"
+  };
+}
