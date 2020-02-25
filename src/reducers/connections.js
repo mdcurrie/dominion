@@ -4,7 +4,7 @@ const connections = (state = [], action) => {
     case "ADD_CONNECTION":
       return [...state, action.connection];
     case "REMOVE_CONNECTION":
-      index = state.findIndex(x => x.id === action.connection.id);
+      index = state.findIndex(x => x.id === action.connectionId);
       if (index === -1) {
         return state;
       } else {

@@ -1,27 +1,27 @@
-export function addConnection({ ws, id, username }) {
+export function addConnection(connection) {
   return {
     type: "ADD_CONNECTION",
-    connection: { ws, id, username }
+    connection
   };
 }
 
-export function removeConnection({ ws, id, username }) {
+export function removeConnection(connectionId) {
   return {
     type: "REMOVE_CONNECTION",
-    connection: { ws, id, username }
+    connectionId
   };
 }
 
-export function asyncAddConnection({ ws, id, username }) {
+export function asyncAddConnection(connection) {
   return {
     type: "ASYNC_ADD_CONNECTION",
-    connection: { ws, id, username }
+    connection
   };
 }
 
-export function asyncRemoveConnection({ ws, id, username }) {
+export function asyncRemoveConnection(connectionId) {
   return {
     type: "ASYNC_REMOVE_CONNECTION",
-    connection: { ws, id, username }
+    connectionId
   };
 }

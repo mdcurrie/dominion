@@ -102,6 +102,11 @@ export default function gameRandomizer({ connections }) {
     supply: supplyRandomizer(numberOfPlayers),
     trash: [],
     players: createPlayers(connections),
-    currentPlayerId: sample(connections.map(c => c.id))
+    currentPlayer: {
+      id: sample(connections.map(c => c.id)),
+      actions: 0,
+      buys: 0,
+      gold: 0
+    }
   };
 }

@@ -34,10 +34,10 @@ app.ws("/dominion", function(ws, req) {
     );
   });
 
-  const id = uuid.v4();
+  const connectionId = uuid.v4();
   const url = new URL(req.url, `ws://${req.headers.host}`);
   const username = url.searchParams.get("username");
-  store.dispatch(asyncAddConnection({ ws, id, username }));
+  store.dispatch(asyncAddConnection({ ws, id: connectionId, username }));
 
   ws.on("message", function(msg) {
     store.dispatch(JSON.parse(msg));
@@ -45,7 +45,7 @@ app.ws("/dominion", function(ws, req) {
 
   ws.on("close", function() {
     unsubscribe();
-    store.dispatch(asyncRemoveConnection({ ws, id, username }));
+    store.dispatch(asyncRemoveConnection(connectionId));
   });
 });
 

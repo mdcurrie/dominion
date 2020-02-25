@@ -2,7 +2,12 @@ const initialState = {
   supply: [],
   trash: [],
   players: [],
-  currentPlayerId: null
+  currentPlayer: {
+    id: null,
+    actions: 0,
+    buys: 0,
+    gold: 0
+  }
 };
 
 const game = (state = initialState, action) => {

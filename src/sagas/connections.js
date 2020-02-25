@@ -3,15 +3,15 @@ import { addConnection, removeConnection } from "../actions/connections";
 import { updateStatus } from "../actions/status";
 import { numberOfPlayersSelector } from "../selectors";
 
-export function* asyncAddConnection(data) {
+export function* asyncAddConnection({ connection }) {
   const numberOfPlayers = yield select(numberOfPlayersSelector);
   if (numberOfPlayers < 4) {
-    yield put(addConnection(data.connection));
+    yield put(addConnection(connection));
   }
 }
 
-export function* asyncRemoveConnection(data) {
-  yield put(removeConnection(data.connection));
+export function* asyncRemoveConnection({ connectionId }) {
+  yield put(removeConnection(connectionId));
   const numberOfPlayers = yield select(numberOfPlayersSelector);
   if (numberOfPlayers === 0) {
     yield put(updateStatus("NOT_IN_PROGRESS"));

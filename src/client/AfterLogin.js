@@ -7,7 +7,18 @@ const socket = {};
 const AfterLogin = ({ username }) => {
   const [gameState, setGameState] = useState({
     status: "NOT_IN_PROGRESS",
-    connections: []
+    connections: [],
+    game: {
+      supply: [],
+      trash: [],
+      players: [],
+      currentPlayer: {
+        id: null,
+        actions: 0,
+        buys: 0,
+        gold: 0
+      }
+    }
   });
   useEffect(() => {
     socket.ws = new WebSocket(
@@ -15,6 +26,7 @@ const AfterLogin = ({ username }) => {
     );
 
     socket.ws.onmessage = function(event) {
+      console.log(JSON.parse(event.data));
       setGameState(JSON.parse(event.data));
     };
   }, []);
@@ -22,7 +34,13 @@ const AfterLogin = ({ username }) => {
   if (gameState.status === "NOT_IN_PROGRESS") {
     return <Waiting connections={gameState.connections} ws={socket.ws} />;
   } else if (gameState.status === "IN_PROGRESS") {
-    return <Game />;
+    return (
+      <Game
+        status={gameState.status}
+        connections={gameState.connections}
+        game={gameState.game}
+      />
+    );
   }
 };
 
