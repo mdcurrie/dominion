@@ -10,3 +10,15 @@ export function startTurn() {
     type: "START_TURN"
   };
 }
+
+export function endTurn() {
+  return {
+    type: "END_TURN"
+  };
+}
+
+export function moveToNextPlayer() {
+  return {
+    type: "MOVE_TO_NEXT_PLAYER"
+  };
+}

@@ -1,3 +1,3 @@
-export { asyncAddConnection, asyncRemoveConnection } from "./connections";
-export { updateStatus } from "./status";
-export { startGame } from "./game";
+export * from "./connections";
+export * from "./status";
+export * from "./game";

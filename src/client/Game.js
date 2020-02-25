@@ -27,7 +27,11 @@ const Game = ({ connections, status, game, ws }) => {
       <div>
         <div>Log</div>
       </div>
-      <button>End Turn</button>
+      <button
+        onClick={() => ws.send(JSON.stringify({ type: "ASYNC_END_TURN" }))}
+      >
+        End Turn
+      </button>
     </div>
   );
   return <div>Hello!</div>;
