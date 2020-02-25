@@ -22,12 +22,10 @@ export function* asyncEndTurn() {
   yield put(startTurn());
 }
 
-export function* asyncBuyCard({ id, name }) {
-  //console.log("1111", id, name);
-}
+export function* asyncPlayCard() {}
 
 export const gameSagas = [
   takeEvery("ASYNC_START_GAME", asyncStartGame),
-  takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
-  takeEvery("ASYNC_END_TURN", asyncEndTurn)
+  takeEvery("ASYNC_END_TURN", asyncEndTurn),
+  takeEvery("ASYNC_PLAY_CARD", asyncPlayCard)
 ];

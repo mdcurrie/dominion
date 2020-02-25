@@ -23,18 +23,19 @@ const app = express(),
 
 expressWs(app);
 app.ws("/dominion", function(ws, req) {
+  const connectionId = uuid.v4();
   const unsubscribe = store.subscribe(() => {
     const state = store.getState();
     ws.send(
       JSON.stringify({
         status: state.status,
         connections: state.connections.map(c => c.username),
-        game: state.game
+        game: state.game,
+        id: connectionId
       })
     );
   });
 
-  const connectionId = uuid.v4();
   const url = new URL(req.url, `ws://${req.headers.host}`);
   const username = url.searchParams.get("username");
   store.dispatch(asyncAddConnection({ ws, id: connectionId, username }));

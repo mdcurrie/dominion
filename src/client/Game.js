@@ -1,6 +1,7 @@
 import React from "react";
 
-const Game = ({ connections, status, game, ws }) => {
+const Game = ({ connections, status, game, ws, playerId }) => {
+  const playerIndex = game.players.findIndex(player => player.id === playerId);
   return (
     <div>
       <div>
@@ -17,6 +18,15 @@ const Game = ({ connections, status, game, ws }) => {
       </div>
       <div>
         <div>Hand</div>
+        {game.players[playerIndex].cards.hand.map(name => (
+          <div
+            onClick={() =>
+              ws.send(JSON.stringify({ type: "ASYNC_PLAY_CARD", name }))
+            }
+          >
+            {name}
+          </div>
+        ))}
       </div>
       <div>
         <div>Details</div>
@@ -34,7 +44,6 @@ const Game = ({ connections, status, game, ws }) => {
       </button>
     </div>
   );
-  return <div>Hello!</div>;
 };
 
 export default Game;
