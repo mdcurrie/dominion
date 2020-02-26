@@ -36,6 +36,9 @@ const Game = ({ connections, status, game, ws, playerId }) => {
       </div>
       <div>
         <div>Log</div>
+        {game.log.map(l => (
+          <div>{l}</div>
+        ))}
       </div>
       <button
         onClick={() => ws.send(JSON.stringify({ type: "ASYNC_END_TURN" }))}

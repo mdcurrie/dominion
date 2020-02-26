@@ -108,6 +108,7 @@ export default function gameRandomizer({ connections }) {
       actions: 0,
       buys: 0,
       gold: 0
-    }
+    },
+    log: ["-- The game has started --"]
   };
 }

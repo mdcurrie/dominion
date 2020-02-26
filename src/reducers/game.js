@@ -42,7 +42,11 @@ const game = (state = initialState, action) => {
           { ...player, cards: { hand, deck, discard, inplay } },
           ...state.players.slice(playerIndex + 1)
         ],
-        currentPlayer: { ...state.currentPlayer, actions: 1, buys: 1, gold: 0 }
+        currentPlayer: { ...state.currentPlayer, actions: 1, buys: 1, gold: 0 },
+        log: [
+          ...state.log,
+          `-- ${state.players[playerIndex].username}'s turn --`
+        ]
       };
     case "END_TURN":
       playerIndex = state.players.findIndex(
@@ -126,7 +130,11 @@ const game = (state = initialState, action) => {
         currentPlayer: {
           ...state.currentPlayer,
           buys: state.currentPlayer.buys - 1
-        }
+        },
+        log: [
+          ...state.log,
+          `${state.players[playerIndex].username} bought a ${action.name}.`
+        ]
       };
     default:
       return state;

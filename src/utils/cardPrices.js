@@ -4,7 +4,7 @@ const cardPrices = {
   Gold: 6,
   Estate: 2,
   Duchy: 5,
-  Provice: 8,
+  Province: 8,
   Cellar: 2,
   Chapel: 2,
   Moat: 2,
