@@ -1,4 +1,5 @@
 import shuffle from "lodash/shuffle";
+import cardPrices from "../utils/cardPrices";
 
 const initialState = {
   supply: [],
@@ -87,7 +88,11 @@ const game = (state = initialState, action) => {
       }
 
       cardIndex = state.supply.findIndex(card => card.name === action.name);
-      if (state.supply[cardIndex].count <= 0 || state.currentPlayer.buys <= 0) {
+      if (
+        state.supply[cardIndex].count <= 0 ||
+        state.currentPlayer.buys <= 0 ||
+        state.currentPlayer.gold < cardPrices[action.name]
+      ) {
         return state;
       }
       playerIndex = state.players.findIndex(
@@ -117,7 +122,11 @@ const game = (state = initialState, action) => {
             }
           },
           ...state.players.slice(playerIndex + 1)
-        ]
+        ],
+        currentPlayer: {
+          ...state.currentPlayer,
+          buys: state.currentPlayer.buys - 1
+        }
       };
     default:
       return state;
