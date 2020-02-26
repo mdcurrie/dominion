@@ -12,13 +12,6 @@ export function removeConnection(connectionId) {
   };
 }
 
-export function asyncAddConnection(connection) {
-  return {
-    type: "ASYNC_ADD_CONNECTION",
-    connection
-  };
-}
-
 export function asyncRemoveConnection(connectionId) {
   return {
     type: "ASYNC_REMOVE_CONNECTION",

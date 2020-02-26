@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Game from "./Game";
-import Waiting from "./Waiting";
+import Game from "../Game";
+import Waiting from "../Waiting";
 
 const socket = {};
 
-const AfterLogin = ({ username }) => {
+const LoggedIn = ({ username }) => {
   const [gameState, setGameState] = useState({
     status: "NOT_IN_PROGRESS",
     connections: [],
@@ -48,4 +48,4 @@ const AfterLogin = ({ username }) => {
   }
 };
 
-export default AfterLogin;
+export default LoggedIn;

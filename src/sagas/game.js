@@ -1,11 +1,11 @@
 import { put, takeEvery, select } from "redux-saga/effects";
-import { updateStatus } from "../actions/status";
 import {
+  updateStatus,
   startGame,
   startTurn,
   endTurn,
   moveToNextPlayer
-} from "../actions/game";
+} from "../actions";
 import gameRandomizer from "../utils/randomizer";
 import { connectionsSelector } from "../selectors";
 
@@ -24,8 +24,10 @@ export function* asyncEndTurn() {
 
 export function* asyncPlayCard() {}
 
-export const gameSagas = [
+const gameSagas = [
   takeEvery("ASYNC_START_GAME", asyncStartGame),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),
   takeEvery("ASYNC_PLAY_CARD", asyncPlayCard)
 ];
+
+export default gameSagas;

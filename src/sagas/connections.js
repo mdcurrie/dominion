@@ -1,14 +1,6 @@
 import { put, takeEvery, select } from "redux-saga/effects";
-import { addConnection, removeConnection } from "../actions/connections";
-import { updateStatus } from "../actions/status";
+import { removeConnection, updateStatus } from "../actions";
 import { numberOfPlayersSelector } from "../selectors";
-
-export function* asyncAddConnection({ connection }) {
-  const numberOfPlayers = yield select(numberOfPlayersSelector);
-  if (numberOfPlayers < 4) {
-    yield put(addConnection(connection));
-  }
-}
 
 export function* asyncRemoveConnection({ connectionId }) {
   yield put(removeConnection(connectionId));
@@ -18,7 +10,8 @@ export function* asyncRemoveConnection({ connectionId }) {
   }
 }
 
-export const connectionSagas = [
-  takeEvery("ASYNC_ADD_CONNECTION", asyncAddConnection),
+const connectionSagas = [
   takeEvery("ASYNC_REMOVE_CONNECTION", asyncRemoveConnection)
 ];
+
+export default connectionSagas;

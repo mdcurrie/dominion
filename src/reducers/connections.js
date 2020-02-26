@@ -2,7 +2,11 @@ const connections = (state = [], action) => {
   let index = -1;
   switch (action.type) {
     case "ADD_CONNECTION":
-      return [...state, action.connection];
+      if (state.length >= 4) {
+        return state;
+      } else {
+        return [...state, action.connection];
+      }
     case "REMOVE_CONNECTION":
       index = state.findIndex(x => x.id === action.connectionId);
       if (index === -1) {
