@@ -62,7 +62,7 @@ app.use(
     publicPath: config.output.publicPath
   })
 );
-
+app.use(express.static("./public"));
 app.use(webpackHotMiddleware(compiler));
 
 app.get("/", (req, res, next) => {

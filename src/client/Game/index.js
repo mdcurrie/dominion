@@ -1,18 +1,20 @@
 import React from "react";
+import styles from "./styles.css";
 
 const Game = ({ connections, status, game, ws, playerId }) => {
   const playerIndex = game.players.findIndex(player => player.id === playerId);
   return (
     <div>
-      <div>
-        <div>Supply</div>
+      <div className="gameSupply">
         {game.supply.map(c => (
           <div
+            className="gameSupplyCard"
             onClick={() =>
               ws.send(JSON.stringify({ type: "ASYNC_BUY_CARD", name: c.name }))
             }
           >
-            {`${c.name} --- ${c.count}`}
+            <img className="gameSupplyCardImg" src={`./${c.name}.jpg`} />
+            {c.count}
           </div>
         ))}
       </div>
