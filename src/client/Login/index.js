@@ -4,9 +4,11 @@ import styles from "./styles.css";
 const Login = ({ username, setLoggedIn, setUsername }) => {
   return (
     <div className="login">
+      <div className="loginHeader">Welcome to Dominion</div>
       <input
-        type="text"
-        value={username}
+        autoComplete="off"
+        autoFocus={true}
+        className="loginInput"
         onChange={event => setUsername(event.target.value)}
         onKeyPress={event => {
           if (event.key === "Enter") {
@@ -14,8 +16,12 @@ const Login = ({ username, setLoggedIn, setUsername }) => {
           }
         }}
         placeholder="Enter a username"
+        type="text"
+        value={username}
       />
-      <button onClick={() => setLoggedIn(true)}>Connect!</button>
+      <button className="loginButton" onClick={() => setLoggedIn(true)}>
+        Connect!
+      </button>
     </div>
   );
 };
