@@ -1,3 +1,4 @@
+import find from "lodash/find";
 import sample from "lodash/sample";
 import shuffle from "lodash/shuffle";
 import kingdomCards from "./kingdomCards";
@@ -84,31 +85,49 @@ function supplyRandomizer(numberOfPlayers) {
   ];
 }
 
-function createPlayers(connections) {
-  return connections.map(c => ({
-    id: c.id,
-    username: c.username,
-    cards: {
-      hand: [],
-      discard: [],
-      inplay: [],
-      deck: shuffle([...Array(3).fill("Estate"), ...Array(7).fill("Copper")])
-    }
-  }));
+function playerRandomizer(connections) {
+  return shuffle(
+    connections.map(c => {
+      const shuffledCards = shuffle([
+        ...Array(3).fill("Estate"),
+        ...Array(7).fill("Copper")
+      ]);
+
+      return {
+        id: c.id,
+        username: c.username,
+        cards: {
+          hand: shuffledCards.slice(0, 5),
+          discard: [],
+          inplay: [],
+          deck: shuffledCards.slice(5)
+        }
+      };
+    })
+  );
 }
 
 export default function gameRandomizer({ connections }) {
   const numberOfPlayers = connections.length;
+  const startingPlayerId = sample(connections.map(c => c.id));
+  const startingPlayerUsername = find(
+    connections,
+    c => c.id === startingPlayerId
+  ).username;
+
   return {
     supply: supplyRandomizer(numberOfPlayers),
     trash: [],
-    players: createPlayers(connections),
+    players: playerRandomizer(connections),
     currentPlayer: {
-      id: sample(connections.map(c => c.id)),
-      actions: 0,
-      buys: 0,
+      id: startingPlayerId,
+      actions: 1,
+      buys: 1,
       gold: 0
     },
-    log: ["-- The game has started --"]
+    log: [
+      "-- The game has started --",
+      `-- ${startingPlayerUsername}'s turn --`
+    ]
   };
 }

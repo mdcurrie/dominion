@@ -8,9 +8,7 @@ const Waiting = ({ connections, ws }) => (
         <div>{c}</div>
       ))}
     </div>
-    <button
-      onClick={() => ws.send(JSON.stringify({ type: "ASYNC_START_GAME" }))}
-    >
+    <button onClick={() => ws.send(JSON.stringify({ type: "START_GAME" }))}>
       Play Now!
     </button>
   </div>

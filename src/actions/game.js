@@ -1,32 +1,24 @@
 export function startGame(game) {
   return {
     type: "START_GAME",
-    game
+    ...game
   };
 }
 
-export function startTurn() {
+export function endTurn({ currentPlayerId, nextPlayerId, nextPlayerUsername }) {
   return {
-    type: "START_TURN"
+    type: "END_TURN",
+    currentPlayerId,
+    nextPlayerId,
+    nextPlayerUsername
   };
 }
 
-export function endTurn() {
-  return {
-    type: "END_TURN"
-  };
-}
-
-export function moveToNextPlayer() {
-  return {
-    type: "MOVE_TO_NEXT_PLAYER"
-  };
-}
-
-export function buyCard({ name, id }) {
+export function buyCard({ cardName, id, username }) {
   return {
     type: "BUY_CARD",
-    name,
-    id
+    cardName,
+    id,
+    username
   };
 }

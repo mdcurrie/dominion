@@ -1,31 +1,54 @@
 import { put, takeEvery, select } from "redux-saga/effects";
 import {
-  updateStatus,
-  startGame,
-  startTurn,
-  endTurn,
-  moveToNextPlayer
-} from "../actions";
-import gameRandomizer from "../utils/randomizer";
-import { connectionsSelector } from "../selectors";
+  currentPlayerIdSelector,
+  currentPlayerSelector,
+  gameSupplySelector,
+  gamePlayersSelector
+} from "../selectors";
+import { buyCard, endTurn } from "../actions";
+import cardPrices from "../utils/cardPrices";
 
-export function* asyncStartGame() {
-  const connections = yield select(connectionsSelector);
-  yield put(startGame(gameRandomizer({ connections })));
-  yield put(updateStatus("IN_PROGRESS"));
-  yield put(startTurn());
+export function* asyncBuyCard({ id, name: cardName }) {
+  const currentPlayer = yield select(currentPlayerSelector);
+  const supply = yield select(gameSupplySelector);
+  const players = yield select(gamePlayersSelector);
+  const currentPlayerUsername = players.find(p => p.id === id).username;
+  const cardCount = supply.find(c => c.name === cardName).count;
+  if (
+    currentPlayer.id !== id ||
+    currentPlayer.buys <= 0 ||
+    cardCount <= 0 ||
+    currentPlayer.gold < cardPrices[cardName]
+  ) {
+    return;
+  }
+
+  yield put(buyCard({ id, cardName, username: currentPlayerUsername }));
 }
 
-export function* asyncEndTurn() {
-  yield put(endTurn());
-  yield put(moveToNextPlayer());
-  yield put(startTurn());
+export function* asyncEndTurn({ id }) {
+  const currentPlayerId = yield select(currentPlayerIdSelector);
+  if (currentPlayerId !== id) {
+    return;
+  }
+
+  const players = yield select(gamePlayersSelector);
+  const currentPlayerIndex = players.findIndex(p => p.id === currentPlayerId);
+  const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+  const nextPlayer = players[nextPlayerIndex];
+  yield put(
+    endTurn({
+      currentPlayerId,
+      nextPlayerId: nextPlayer.id,
+      nextPlayerUsername: nextPlayer.username
+    })
+  );
 }
 
 export function* asyncPlayCard() {}
 
 const gameSagas = [
-  takeEvery("ASYNC_START_GAME", asyncStartGame),
+  takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),
   takeEvery("ASYNC_PLAY_CARD", asyncPlayCard)
 ];

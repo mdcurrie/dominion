@@ -9,7 +9,7 @@ const Game = ({ connections, status, game, ws, playerId }) => {
         {game.supply.map(c => (
           <div
             onClick={() =>
-              ws.send(JSON.stringify({ type: "BUY_CARD", name: c.name }))
+              ws.send(JSON.stringify({ type: "ASYNC_BUY_CARD", name: c.name }))
             }
           >
             {`${c.name} --- ${c.count}`}
