@@ -1,14 +1,23 @@
 import React from "react";
+import styles from "./styles.css";
 
 const Waiting = ({ connections, ws }) => (
-  <div>
-    <div>Waiting for players...</div>
+  <div className="waiting">
+    <div className="waitingSpinner">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div className="waitingHeader">Waiting for players...</div>
     <div>
       {connections.map(c => (
-        <div>{c}</div>
+        <div className="waitingPlayerUsername">{c}</div>
       ))}
     </div>
-    <button onClick={() => ws.send(JSON.stringify({ type: "START_GAME" }))}>
+    <button
+      className="waitingButton"
+      onClick={() => ws.send(JSON.stringify({ type: "START_GAME" }))}
+    >
       Play Now!
     </button>
   </div>
