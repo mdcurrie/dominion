@@ -14,7 +14,7 @@ const Game = ({ connections, status, game, ws, playerId }) => {
             }
           >
             <img className="gameSupplyCardImg" src={`./${c.name}.jpg`} />
-            {c.count}
+            <div className="gameSupplyCardCount">{c.count}</div>
           </div>
         ))}
       </div>
