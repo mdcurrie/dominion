@@ -3,7 +3,7 @@ const log = (state = [], action) => {
     case "START_GAME":
       return action.log;
     case "END_TURN":
-      return [...state, `-- ${action.nextPlayerUsername}'s turn --`];
+      return [...state, " ", `-- ${action.nextPlayerUsername}'s turn --`];
     case "BUY_CARD":
       return [...state, `${action.username} bought a ${action.cardName}`];
     case "ADD_TO_LOG":

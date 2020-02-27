@@ -27,29 +27,29 @@ const Game = ({ connections, status, game, ws, playerId }) => {
           ))}
         </div>
       </div>
-      <div>
-        <div>Hand</div>
-        {game.players[playerIndex].cards.hand.map(name => (
-          <div
-            onClick={() =>
-              ws.send(JSON.stringify({ type: "ASYNC_PLAY_CARD", name }))
-            }
-          >
-            {name}
-          </div>
-        ))}
+      <div className="bottomRow">
+        <div>
+          {game.players[playerIndex].cards.hand.map(name => (
+            <img
+              onClick={() =>
+                ws.send(JSON.stringify({ type: "ASYNC_PLAY_CARD", name }))
+              }
+              src={`./${name}.jpg`}
+            />
+          ))}
+        </div>
+        <div>
+          <div>Details</div>
+          <div>{`Actions --- ${game.currentPlayer.actions}`}</div>
+          <div>{`Gold --- ${game.currentPlayer.gold}`}</div>
+          <div>{`Buys --- ${game.currentPlayer.buys}`}</div>
+        </div>
+        <button
+          onClick={() => ws.send(JSON.stringify({ type: "ASYNC_END_TURN" }))}
+        >
+          End Turn
+        </button>
       </div>
-      <div>
-        <div>Details</div>
-        <div>{`Actions --- ${game.currentPlayer.actions}`}</div>
-        <div>{`Gold --- ${game.currentPlayer.gold}`}</div>
-        <div>{`Buys --- ${game.currentPlayer.buys}`}</div>
-      </div>
-      <button
-        onClick={() => ws.send(JSON.stringify({ type: "ASYNC_END_TURN" }))}
-      >
-        End Turn
-      </button>
     </div>
   );
 };
