@@ -23,14 +23,15 @@ const Game = ({ connections, status, game, ws, playerId }) => {
         </div>
         <div className="gameLog">
           {game.log.map(l => (
-            <div>{l}</div>
+            <div className="gameLogMessage">{l}</div>
           ))}
         </div>
       </div>
       <div className="bottomRow">
-        <div>
+        <div className="gamePlayerHand">
           {game.players[playerIndex].cards.hand.map(name => (
             <img
+              className="gamePlayerHandCardImg"
               onClick={() =>
                 ws.send(JSON.stringify({ type: "ASYNC_PLAY_CARD", name }))
               }
@@ -38,17 +39,23 @@ const Game = ({ connections, status, game, ws, playerId }) => {
             />
           ))}
         </div>
-        <div>
-          <div>Details</div>
-          <div>{`Actions --- ${game.currentPlayer.actions}`}</div>
-          <div>{`Gold --- ${game.currentPlayer.gold}`}</div>
-          <div>{`Buys --- ${game.currentPlayer.buys}`}</div>
+        <div className="gameExtras">
+          <div className="gameExtraDetailsGroup">
+            <div className="gameExtraDetails">
+              <div>{`Actions: ${game.currentPlayer.actions}`}</div>
+              <div>{`Gold: ${game.currentPlayer.gold}`}</div>
+              <div>{`Buys: ${game.currentPlayer.buys}`}</div>
+            </div>
+            <button className="gamePlayAllTreasuresButton">
+              Play All Treasures
+            </button>
+          </div>
+          <button className="gameEndTurnButton"
+            onClick={() => ws.send(JSON.stringify({ type: "ASYNC_END_TURN" }))}
+          >
+            End Turn
+          </button>
         </div>
-        <button
-          onClick={() => ws.send(JSON.stringify({ type: "ASYNC_END_TURN" }))}
-        >
-          End Turn
-        </button>
       </div>
     </div>
   );
