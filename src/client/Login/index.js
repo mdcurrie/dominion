@@ -1,7 +1,8 @@
 import React from "react";
-import styles from "./styles.css";
+import PropTypes from "prop-types";
+import "./styles.css";
 
-const Login = ({ username, setLoggedIn, setUsername }) => {
+const Login = ({ setLoggedIn, setUsername, username }) => {
   return (
     <div className="login">
       <div className="loginHeader">Welcome to Dominion</div>
@@ -24,6 +25,12 @@ const Login = ({ username, setLoggedIn, setUsername }) => {
       </button>
     </div>
   );
+};
+
+Login.propTypes = {
+  setLoggedIn: PropTypes.func.isRequired,
+  setUsername: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired
 };
 
 export default Login;

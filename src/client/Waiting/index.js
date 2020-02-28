@@ -1,7 +1,8 @@
 import React from "react";
-import styles from "./styles.css";
+import PropTypes from "prop-types";
+import "./styles.css";
 
-const Waiting = ({ connections, ws }) => (
+const Waiting = ({ usernames, socket }) => (
   <div className="waiting">
     <div className="waitingSpinner">
       <div></div>
@@ -10,17 +11,24 @@ const Waiting = ({ connections, ws }) => (
     </div>
     <div className="waitingHeader">Waiting for players...</div>
     <div>
-      {connections.map(c => (
-        <div className="waitingPlayerUsername">{c}</div>
+      {usernames.map((username, index) => (
+        <div key={index} className="waitingPlayerUsername">
+          {username}
+        </div>
       ))}
     </div>
     <button
       className="waitingButton"
-      onClick={() => ws.send(JSON.stringify({ type: "START_GAME" }))}
+      onClick={() => socket.send(JSON.stringify({ type: "START_GAME" }))}
     >
       Play Now!
     </button>
   </div>
 );
+
+Waiting.propTypes = {
+  socket: PropTypes.object,
+  usernames: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default Waiting;

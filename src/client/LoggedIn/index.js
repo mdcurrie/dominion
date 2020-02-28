@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import Game from "../Game";
 import Waiting from "../Waiting";
 
@@ -7,7 +8,7 @@ const socket = {};
 const LoggedIn = ({ username }) => {
   const [gameState, setGameState] = useState({
     status: "NOT_IN_PROGRESS",
-    connections: [],
+    usernames: [],
     game: {
       supply: [],
       trash: [],
@@ -34,18 +35,16 @@ const LoggedIn = ({ username }) => {
   }, []);
 
   if (gameState.status === "NOT_IN_PROGRESS") {
-    return <Waiting connections={gameState.connections} ws={socket.ws} />;
+    return <Waiting usernames={gameState.usernames} socket={socket.ws} />;
   } else if (gameState.status === "IN_PROGRESS") {
     return (
-      <Game
-        status={gameState.status}
-        connections={gameState.connections}
-        game={gameState.game}
-        playerId={gameState.id}
-        ws={socket.ws}
-      />
+      <Game game={gameState.game} playerId={gameState.id} socket={socket.ws} />
     );
   }
+};
+
+LoggedIn.propTypes = {
+  username: PropTypes.string.isRequired
 };
 
 export default LoggedIn;

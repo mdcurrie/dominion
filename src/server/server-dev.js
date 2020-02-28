@@ -30,7 +30,7 @@ app.ws("/dominion", function(ws, req) {
     ws.send(
       JSON.stringify({
         status: state.status,
-        connections: state.connections.map(c => c.username),
+        usernames: state.connections.map(c => c.username),
         game: state.game,
         id: connectionId
       })
