@@ -1,0 +1,18 @@
+.gamePlayerHand {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+  width: 85%;
+}
+
+.gamePlayerHandCardImg {
+  display: block;
+  margin: 5px;
+  object-fit: cover;
+  width: 8%;
+}

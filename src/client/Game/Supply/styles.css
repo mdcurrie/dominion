@@ -1,0 +1,26 @@
+.gameSupply {
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+  width: 64%;
+}
+
+.gameSupplyCard {
+  text-align: center;
+  margin: 5px;
+  width: 10%;
+}
+
+.gameSupplyCardImg {
+  display: block;
+  margin-bottom: 3px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.gameSupplyCardCount {
+  font-family: sans-serif;
+}
