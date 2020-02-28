@@ -3,6 +3,7 @@ import {
   currentPlayerIdSelector,
   currentPlayerSelector,
   gameSupplySelector,
+  gamePlayerSelector,
   gamePlayersSelector
 } from "../selectors";
 import { buyCard, endTurn, playTreasure } from "../actions";
@@ -62,7 +63,44 @@ export function* asyncPlayCard({ id, name: cardName }) {
   }
 }
 
-export function* asyncPlayAllTreasures({ id }) {}
+export function* asyncPlayAllTreasures({ id }) {
+  const currentPlayerId = yield select(currentPlayerIdSelector);
+  const players = yield select(gamePlayersSelector);
+  const currentPlayerUsername = players.find(p => p.id === id).username;
+  if (currentPlayerId !== id) {
+    return;
+  }
+
+  while ((yield select(gamePlayerSelector)).cards.hand.includes("Gold")) {
+    yield put(
+      playTreasure({
+        cardName: "Gold",
+        id: currentPlayerId,
+        username: currentPlayerUsername
+      })
+    );
+  }
+
+  while ((yield select(gamePlayerSelector)).cards.hand.includes("Silver")) {
+    yield put(
+      playTreasure({
+        cardName: "Silver",
+        id: currentPlayerId,
+        username: currentPlayerUsername
+      })
+    );
+  }
+
+  while ((yield select(gamePlayerSelector)).cards.hand.includes("Copper")) {
+    yield put(
+      playTreasure({
+        cardName: "Copper",
+        id: currentPlayerId,
+        username: currentPlayerUsername
+      })
+    );
+  }
+}
 
 const gameSagas = [
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),

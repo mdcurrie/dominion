@@ -1,3 +1,5 @@
+import cardPrices from "../../utils/cardPrices";
+
 const currentPlayer = (
   state = {
     id: null,
@@ -12,7 +14,11 @@ const currentPlayer = (
     case "START_GAME":
       return action.currentPlayer;
     case "BUY_CARD":
-      return { ...state, buys: state.buys - 1 };
+      return {
+        ...state,
+        buys: state.buys - 1,
+        gold: state.gold - cardPrices[action.cardName]
+      };
     case "END_TURN":
       return { id: action.nextPlayerId, actions: 1, buys: 1, gold: 0 };
     case "PLAY_TREASURE":
