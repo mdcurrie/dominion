@@ -10,7 +10,14 @@ const Misc = ({ currentPlayer, socket }) => (
         <div>{`Gold: ${currentPlayer.gold}`}</div>
         <div>{`Buys: ${currentPlayer.buys}`}</div>
       </div>
-      <button className="gamePlayAllTreasuresButton">Play All Treasures</button>
+      <button
+        onClick={() =>
+          socket.send(JSON.stringify({ type: "ASYNC_PLAY_ALL_TREASURES" }))
+        }
+        className="gamePlayAllTreasuresButton"
+      >
+        Play All Treasures
+      </button>
     </div>
     <button
       className="gameEndTurnButton"

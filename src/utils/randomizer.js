@@ -127,6 +127,7 @@ export default function gameRandomizer({ connections }) {
     },
     log: [
       "-- The game has started --",
+      "",
       `-- ${startingPlayerUsername}'s turn --`
     ]
   };

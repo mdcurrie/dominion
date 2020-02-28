@@ -62,10 +62,13 @@ export function* asyncPlayCard({ id, name: cardName }) {
   }
 }
 
+export function* asyncPlayAllTreasures({ id }) {}
+
 const gameSagas = [
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),
-  takeEvery("ASYNC_PLAY_CARD", asyncPlayCard)
+  takeEvery("ASYNC_PLAY_CARD", asyncPlayCard),
+  takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures)
 ];
 
 export default gameSagas;
