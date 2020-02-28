@@ -1,7 +1,7 @@
 import shuffle from "lodash/shuffle";
 
 const players = (state = [], action) => {
-  let player, playerIndex, hand, deck, discard, inplay;
+  let player, playerIndex, hand, deck, discard, inplay, cardIndex;
   switch (action.type) {
     case "START_GAME":
       return action.players;
@@ -41,6 +41,26 @@ const players = (state = [], action) => {
       return [
         ...state.slice(0, playerIndex),
         { ...player, cards: { hand, deck, discard, inplay } },
+        ...state.slice(playerIndex + 1)
+      ];
+    case "PLAY_TREASURE":
+      playerIndex = state.findIndex(p => p.id === action.id);
+      player = state[playerIndex];
+      cardIndex = player.cards.hand.findIndex(c => c === action.cardName);
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            hand: [
+              ...player.cards.hand.slice(0, cardIndex),
+              ...player.cards.hand.slice(cardIndex + 1)
+            ],
+            inplay: [...player.cards.inplay, action.cardName]
+          }
+        },
         ...state.slice(playerIndex + 1)
       ];
     default:

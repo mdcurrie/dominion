@@ -7,6 +7,7 @@ const currentPlayer = (
   },
   action
 ) => {
+  const treasuresToValue = { Copper: 1, Silver: 2, Gold: 3 };
   switch (action.type) {
     case "START_GAME":
       return action.currentPlayer;
@@ -14,6 +15,8 @@ const currentPlayer = (
       return { ...state, buys: state.buys - 1 };
     case "END_TURN":
       return { id: action.nextPlayerId, actions: 1, buys: 1, gold: 0 };
+    case "PLAY_TREASURE":
+      return { ...state, gold: state.gold + treasuresToValue[action.cardName] };
     default:
       return state;
   }

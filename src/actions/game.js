@@ -22,3 +22,12 @@ export function buyCard({ cardName, id, username }) {
     username
   };
 }
+
+export function playTreasure({ cardName, id, username }) {
+  return {
+    type: "PLAY_TREASURE",
+    cardName,
+    id,
+    username
+  };
+}
