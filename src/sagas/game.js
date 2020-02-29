@@ -12,7 +12,7 @@ import cardPrices from "../utils/cardPrices";
 import cardActions from "../utils/cardActions";
 
 export function* asyncBuyCard({ id, name: cardName }) {
-  const currentPlayer = yield select(currentPlayerSelector);
+  let currentPlayer = yield select(currentPlayerSelector);
   const cardCount = yield select(gameSupplyCardCountSelector, cardName);
   if (
     currentPlayer.id !== id ||
@@ -25,6 +25,18 @@ export function* asyncBuyCard({ id, name: cardName }) {
 
   const player = yield select(gamePlayerSelector);
   yield put(buyCard({ id, cardName, username: player.username }));
+
+  currentPlayer = yield select(currentPlayerSelector);
+  if (currentPlayer.buys === 0) {
+    const nextPlayer = yield select(gameNextPlayerSelector, id);
+    yield put(
+      endTurn({
+        id,
+        nextId: nextPlayer.id,
+        nextUsername: nextPlayer.username
+      })
+    );
+  }
 }
 
 export function* asyncEndTurn({ id }) {
@@ -50,7 +62,7 @@ export function* asyncPlayCard({ id, name: cardName }) {
     return;
   }
 
-  if (["Estate", "Duchy", "Province", "Gardens"].includes(cardName)) {
+  if (["Estate", "Duchy", "Province", "Gardens", "Curse"].includes(cardName)) {
     return;
   }
 
