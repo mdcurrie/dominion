@@ -16,8 +16,15 @@ export const gamePlayersSelector = state => state.game.players;
 export const gamePlayerSelector = state =>
   state.game.players.find(player => player.id === state.game.currentPlayer.id);
 
-export const gameNextPlayerSelector = (state, id) => {
-  const playerIndex = state.game.players.findIndex(player => player.id === id);
+export const gameNextPlayerSelector = state => {
+  const playerIndex = state.game.players.findIndex(
+    player => player.id === state.game.currentPlayer.id
+  );
   const nextPlayerIndex = (playerIndex + 1) % state.game.players.length;
   return state.game.players[nextPlayerIndex];
 };
+
+export const gameOtherPlayersIdsSelector = state =>
+  state.game.players
+    .filter(player => player.id !== state.game.currentPlayer.id)
+    .map(player => player.id);

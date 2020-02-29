@@ -40,3 +40,11 @@ export function playAction({ cardName, id, username }) {
     username
   };
 }
+
+export function drawCards({ drawAmount, id }) {
+  return {
+    type: "DRAW_CARDS",
+    drawAmount,
+    id
+  };
+}

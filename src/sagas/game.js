@@ -4,10 +4,17 @@ import {
   currentPlayerSelector,
   gameSupplyCardCountSelector,
   gameNextPlayerSelector,
+  gameOtherPlayersIdsSelector,
   gamePlayerSelector,
   gamePlayersSelector
 } from "../selectors";
-import { buyCard, endTurn, playAction, playTreasure } from "../actions";
+import {
+  buyCard,
+  drawCards,
+  endTurn,
+  playAction,
+  playTreasure
+} from "../actions";
 import cardPrices from "../utils/cardPrices";
 import cardActions from "../utils/cardActions";
 
@@ -28,7 +35,7 @@ export function* asyncBuyCard({ id, name: cardName }) {
 
   currentPlayer = yield select(currentPlayerSelector);
   if (currentPlayer.buys === 0) {
-    const nextPlayer = yield select(gameNextPlayerSelector, id);
+    const nextPlayer = yield select(gameNextPlayerSelector);
     yield put(
       endTurn({
         id,
@@ -45,7 +52,7 @@ export function* asyncEndTurn({ id }) {
     return;
   }
 
-  const nextPlayer = yield select(gameNextPlayerSelector, id);
+  const nextPlayer = yield select(gameNextPlayerSelector);
   yield put(
     endTurn({
       id,
@@ -126,10 +133,18 @@ export function* asyncPlayAllTreasures({ id }) {
   }
 }
 
+export function* asyncOtherPlayersDrawCards({ drawAmount }) {
+  const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
+  for (let id of otherPlayersIds) {
+    yield put(drawCards({ drawAmount, id }));
+  }
+}
+
 const gameSagas = [
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),
   takeEvery("ASYNC_PLAY_CARD", asyncPlayCard),
+  takeEvery("ASYNC_OTHER_PLAYERS_DRAW_CARDS", asyncOtherPlayersDrawCards),
   takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures)
 ];
 

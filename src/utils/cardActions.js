@@ -1,10 +1,16 @@
 const cardActions = {
-  Cellar: [],
+  Cellar: [{ type: "GAIN_ACTIONS", data: { actionAmount: 2 } }],
   Chapel: [],
   Moat: [{ type: "DRAW_CARDS", data: { drawAmount: 2 } }],
-  Harbinger: [],
-  Merchant: [],
-  Vassal: [],
+  Harbinger: [
+    { type: "DRAW_CARDS", data: { drawAmount: 1 } },
+    { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
+  ],
+  Merchant: [
+    { type: "DRAW_CARDS", data: { drawAmount: 1 } },
+    { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
+  ],
+  Vassal: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
   Village: [
     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
     { type: "GAIN_ACTIONS", data: { actionAmount: 2 } }
@@ -12,14 +18,22 @@ const cardActions = {
   Workshop: [],
   Bureaucrat: [],
   Gardens: [],
-  Militia: [],
+  Militia: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
   Moneylender: [],
-  Poacher: [],
+  Poacher: [
+    { type: "DRAW_CARDS", data: { drawAmount: 1 } },
+    { type: "GAIN_ACTIONS", data: { actionAmount: 1 } },
+    { type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 1 } }
+  ],
   Remodel: [],
   Smithy: [{ type: "DRAW_CARDS", data: { drawAmount: 3 } }],
   "Throne Room": [],
   Bandit: [],
-  "Council Room": [],
+  "Council Room": [
+    { type: "DRAW_CARDS", data: { drawAmount: 4 } },
+    { type: "GAIN_BUYS", data: { buyAmount: 1 } },
+    { type: "ASYNC_OTHER_PLAYERS_DRAW_CARDS", data: { drawAmount: 1 } }
+  ],
   Festival: [
     { type: "GAIN_ACTIONS", data: { actionAmount: 2 } },
     { type: "GAIN_BUYS", data: { buyAmount: 1 } },
@@ -37,8 +51,11 @@ const cardActions = {
     { type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 1 } }
   ],
   Mine: [],
-  Sentry: [],
-  Witch: [],
+  Sentry: [
+    { type: "DRAW_CARDS", data: { drawAmount: 1 } },
+    { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
+  ],
+  Witch: [{ type: "DRAW_CARDS", data: { drawAmount: 2 } }],
   Artisan: []
 };
 
