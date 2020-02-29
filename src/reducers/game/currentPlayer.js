@@ -13,11 +13,6 @@ const currentPlayer = (
   switch (action.type) {
     case "START_GAME":
       return action.currentPlayer;
-    case "PLAY_ACTION":
-      return {
-        ...state,
-        actions: state.actions - 1
-      };
     case "BUY_CARD":
       return {
         ...state,
@@ -26,6 +21,26 @@ const currentPlayer = (
       };
     case "END_TURN":
       return { id: action.nextPlayerId, actions: 1, buys: 1, gold: 0 };
+    case "GAIN_ACTIONS":
+      return {
+        ...state,
+        actions: state.actions + action.actionAmount
+      };
+    case "GAIN_BUYS":
+      return {
+        ...state,
+        buys: state.buys + action.buyAmount
+      };
+    case "GAIN_FLOATING_GOLD":
+      return {
+        ...state,
+        gold: state.gold + action.floatingGoldAmount
+      };
+    case "PLAY_ACTION":
+      return {
+        ...state,
+        actions: state.actions - 1
+      };
     case "PLAY_TREASURE":
       return { ...state, gold: state.gold + treasuresToValue[action.cardName] };
     default:

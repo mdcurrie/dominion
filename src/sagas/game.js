@@ -60,6 +60,7 @@ export function* asyncPlayCard({ id, name: cardName }) {
 
   if (["Copper", "Silver", "Gold"].includes(cardName)) {
     yield put(playTreasure({ cardName, id, username: player.username }));
+    return;
   }
 
   if (
@@ -70,9 +71,9 @@ export function* asyncPlayCard({ id, name: cardName }) {
   }
 
   let i = 0;
+  yield put(playAction({ cardName, id, username: player.username }));
   while (i < cardActions[cardName].length) {
     let { type, data } = cardActions[cardName][i];
-    yield put(playAction({ cardName, id, username: player.username }));
     yield put({ type, id, ...data });
     i++;
   }
