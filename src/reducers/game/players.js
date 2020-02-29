@@ -43,6 +43,7 @@ const players = (state = [], action) => {
         { ...player, cards: { hand, deck, discard, inplay } },
         ...state.slice(playerIndex + 1)
       ];
+    case "PLAY_ACTION":
     case "PLAY_TREASURE":
       playerIndex = state.findIndex(p => p.id === action.id);
       player = state[playerIndex];
@@ -61,6 +62,24 @@ const players = (state = [], action) => {
             inplay: [...player.cards.inplay, action.cardName]
           }
         },
+        ...state.slice(playerIndex + 1)
+      ];
+    case "DRAW_CARDS":
+      playerIndex = state.findIndex(p => p.id === action.id);
+      player = state[playerIndex];
+
+      hand = [...player.cards.hand];
+      deck = [...player.cards.deck];
+      discard = [...player.cards.discard];
+      if (deck.length < action.drawAmount) {
+        deck = [...deck, ...shuffle(discard)];
+        discard = [];
+      }
+      hand.push(...deck.splice(0, action.drawAmount));
+
+      return [
+        ...state.slice(0, playerIndex),
+        { ...player, cards: { ...player.cards, hand, deck, discard } },
         ...state.slice(playerIndex + 1)
       ];
     default:

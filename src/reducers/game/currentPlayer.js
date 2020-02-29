@@ -13,6 +13,11 @@ const currentPlayer = (
   switch (action.type) {
     case "START_GAME":
       return action.currentPlayer;
+    case "PLAY_ACTION":
+      return {
+        ...state,
+        actions: state.actions - 1
+      };
     case "BUY_CARD":
       return {
         ...state,

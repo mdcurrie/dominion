@@ -8,6 +8,7 @@ const log = (state = [], action) => {
       return [...state, `${action.username} bought a ${action.cardName}`];
     case "ADD_TO_LOG":
       return [...state, action.entry];
+    case "PLAY_ACTION":
     case "PLAY_TREASURE":
       return [...state, `${action.username} played a ${action.cardName}`];
     default:

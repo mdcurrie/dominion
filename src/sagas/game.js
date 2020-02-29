@@ -6,8 +6,9 @@ import {
   gamePlayerSelector,
   gamePlayersSelector
 } from "../selectors";
-import { buyCard, endTurn, playTreasure } from "../actions";
+import { buyCard, endTurn, playAction, playTreasure } from "../actions";
 import cardPrices from "../utils/cardPrices";
+import cardActions from "../utils/cardActions";
 
 export function* asyncBuyCard({ id, name: cardName }) {
   const currentPlayer = yield select(currentPlayerSelector);
@@ -47,10 +48,9 @@ export function* asyncEndTurn({ id }) {
 }
 
 export function* asyncPlayCard({ id, name: cardName }) {
-  const currentPlayerId = yield select(currentPlayerIdSelector);
-  const players = yield select(gamePlayersSelector);
-  const currentPlayerUsername = players.find(p => p.id === id).username;
-  if (currentPlayerId !== id) {
+  const currentPlayer = yield select(currentPlayerSelector);
+  const player = yield select(gamePlayerSelector);
+  if (player.id !== id) {
     return;
   }
 
@@ -59,7 +59,22 @@ export function* asyncPlayCard({ id, name: cardName }) {
   }
 
   if (["Copper", "Silver", "Gold"].includes(cardName)) {
-    yield put(playTreasure({ cardName, id, username: currentPlayerUsername }));
+    yield put(playTreasure({ cardName, id, username: player.username }));
+  }
+
+  if (
+    ["Copper", "Silver", "Gold"].some(c => player.cards.inplay.includes(c)) ||
+    currentPlayer.actions <= 0
+  ) {
+    return;
+  }
+
+  let i = 0;
+  while (i < cardActions[cardName].length) {
+    let { type, data } = cardActions[cardName][i];
+    yield put(playAction({ cardName, id, username: player.username }));
+    yield put({ type, id, ...data });
+    i++;
   }
 }
 

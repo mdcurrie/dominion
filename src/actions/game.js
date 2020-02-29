@@ -31,3 +31,12 @@ export function playTreasure({ cardName, id, username }) {
     username
   };
 }
+
+export function playAction({ cardName, id, username }) {
+  return {
+    type: "PLAY_ACTION",
+    cardName,
+    id,
+    username
+  };
+}
