@@ -20,7 +20,7 @@ const players = (state = [], action) => {
         ...state.slice(playerIndex + 1)
       ];
     case "END_TURN":
-      playerIndex = state.findIndex(p => p.id === action.currentPlayerId);
+      playerIndex = state.findIndex(player => player.id === action.id);
       player = state[playerIndex];
 
       hand = [...player.cards.deck].slice(0, 5);
@@ -45,7 +45,7 @@ const players = (state = [], action) => {
       ];
     case "PLAY_ACTION":
     case "PLAY_TREASURE":
-      playerIndex = state.findIndex(p => p.id === action.id);
+      playerIndex = state.findIndex(player => player.id === action.id);
       player = state[playerIndex];
       cardIndex = player.cards.hand.findIndex(c => c === action.cardName);
 
@@ -65,7 +65,7 @@ const players = (state = [], action) => {
         ...state.slice(playerIndex + 1)
       ];
     case "DRAW_CARDS":
-      playerIndex = state.findIndex(p => p.id === action.id);
+      playerIndex = state.findIndex(player => player.id === action.id);
       player = state[playerIndex];
 
       hand = [...player.cards.hand];

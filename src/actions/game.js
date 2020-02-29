@@ -5,12 +5,12 @@ export function startGame(game) {
   };
 }
 
-export function endTurn({ currentPlayerId, nextPlayerId, nextPlayerUsername }) {
+export function endTurn({ id, nextId, nextUsername }) {
   return {
     type: "END_TURN",
-    currentPlayerId,
-    nextPlayerId,
-    nextPlayerUsername
+    id,
+    nextId,
+    nextUsername
   };
 }
 

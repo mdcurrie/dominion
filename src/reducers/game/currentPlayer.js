@@ -20,7 +20,7 @@ const currentPlayer = (
         gold: state.gold - cardPrices[action.cardName]
       };
     case "END_TURN":
-      return { id: action.nextPlayerId, actions: 1, buys: 1, gold: 0 };
+      return { id: action.nextId, actions: 1, buys: 1, gold: 0 };
     case "GAIN_ACTIONS":
       return {
         ...state,

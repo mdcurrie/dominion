@@ -2,7 +2,8 @@ import { put, takeEvery, select } from "redux-saga/effects";
 import {
   currentPlayerIdSelector,
   currentPlayerSelector,
-  gameSupplySelector,
+  gameSupplyCardCountSelector,
+  gameNextPlayerSelector,
   gamePlayerSelector,
   gamePlayersSelector
 } from "../selectors";
@@ -12,10 +13,7 @@ import cardActions from "../utils/cardActions";
 
 export function* asyncBuyCard({ id, name: cardName }) {
   const currentPlayer = yield select(currentPlayerSelector);
-  const supply = yield select(gameSupplySelector);
-  const players = yield select(gamePlayersSelector);
-  const currentPlayerUsername = players.find(p => p.id === id).username;
-  const cardCount = supply.find(c => c.name === cardName).count;
+  const cardCount = yield select(gameSupplyCardCountSelector, cardName);
   if (
     currentPlayer.id !== id ||
     currentPlayer.buys <= 0 ||
@@ -25,7 +23,8 @@ export function* asyncBuyCard({ id, name: cardName }) {
     return;
   }
 
-  yield put(buyCard({ id, cardName, username: currentPlayerUsername }));
+  const player = yield select(gamePlayerSelector);
+  yield put(buyCard({ id, cardName, username: player.username }));
 }
 
 export function* asyncEndTurn({ id }) {
@@ -34,15 +33,12 @@ export function* asyncEndTurn({ id }) {
     return;
   }
 
-  const players = yield select(gamePlayersSelector);
-  const currentPlayerIndex = players.findIndex(p => p.id === currentPlayerId);
-  const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
-  const nextPlayer = players[nextPlayerIndex];
+  const nextPlayer = yield select(gameNextPlayerSelector, id);
   yield put(
     endTurn({
-      currentPlayerId,
-      nextPlayerId: nextPlayer.id,
-      nextPlayerUsername: nextPlayer.username
+      id,
+      nextId: nextPlayer.id,
+      nextUsername: nextPlayer.username
     })
   );
 }
