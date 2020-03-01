@@ -57,3 +57,10 @@ export function gainCards({ cardName, gainAmount, id }) {
     id
   };
 }
+
+export function gainFloatingGold({ floatingGoldAmount }) {
+  return {
+    type: "GAIN_FLOATING_GOLD",
+    floatingGoldAmount
+  };
+}

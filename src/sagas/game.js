@@ -13,6 +13,7 @@ import {
   drawCards,
   endTurn,
   gainCards,
+  gainFloatingGold,
   playAction,
   playTreasure
 } from "../actions";
@@ -75,6 +76,13 @@ export function* asyncPlayCard({ id, name: cardName }) {
   }
 
   if (["Copper", "Silver", "Gold"].includes(cardName)) {
+    if (
+      player.cards.inplay.includes("Merchant") &&
+      !player.cards.inplay.includes("Silver") &&
+      cardName === "Silver"
+    ) {
+      yield put(gainFloatingGold({ floatingGoldAmount: 1 }));
+    }
     yield put(playTreasure({ cardName, id, username: player.username }));
     return;
   }
@@ -86,12 +94,10 @@ export function* asyncPlayCard({ id, name: cardName }) {
     return;
   }
 
-  let i = 0;
   yield put(playAction({ cardName, id, username: player.username }));
-  while (i < cardActions[cardName].length) {
-    let { type, data } = cardActions[cardName][i];
+  for (let cardAction of cardActions[cardName]) {
+    let { type, data } = cardAction;
     yield put({ type, id, ...data });
-    i++;
   }
 }
 
