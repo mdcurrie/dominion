@@ -1,7 +1,7 @@
 import shuffle from "lodash/shuffle";
 
 const players = (state = [], action) => {
-  let player, playerIndex, hand, deck, discard, inplay, cardIndex;
+  let player, playerIndex, hand, deck, discard, inplay, cardIndex, count;
   switch (action.type) {
     case "START_GAME":
       return action.players;
@@ -100,7 +100,36 @@ const players = (state = [], action) => {
         },
         ...state.slice(playerIndex + 1)
       ];
+    case "TRASH_CARDS":
+      playerIndex = state.findIndex(player => player.id === action.id);
+      player = state[playerIndex];
+      hand = [];
 
+      count = 0;
+      for (let card of player.cards.hand) {
+        if (card === action.cardName) {
+          count++;
+        }
+        if (card !== action.cardName) {
+          hand.push(card);
+        }
+
+        if (card === action.cardName && count > action.trashAmount) {
+          hand.push(card);
+        }
+      }
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            hand
+          }
+        },
+        ...state.slice(playerIndex + 1)
+      ];
     default:
       return state;
   }

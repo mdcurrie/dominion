@@ -1,34 +1,48 @@
 const cardActions = {
-  Cellar: [{ type: "GAIN_ACTIONS", data: { actionAmount: 2 } }],
-  Chapel: [],
+  //   Cellar: [{ type: "GAIN_ACTIONS", data: { actionAmount: 2 } }],
+  //   Chapel: [],
   Moat: [{ type: "DRAW_CARDS", data: { drawAmount: 2 } }],
-  Harbinger: [
-    { type: "DRAW_CARDS", data: { drawAmount: 1 } },
-    { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
-  ],
+  //   Harbinger: [
+  //     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
+  //     { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
+  //   ],
   Merchant: [
     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
     { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
   ],
-  Vassal: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
+  //   Vassal: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
   Village: [
     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
     { type: "GAIN_ACTIONS", data: { actionAmount: 2 } }
   ],
-  Workshop: [],
-  Bureaucrat: [],
-  Gardens: [],
-  Militia: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
-  Moneylender: [],
-  Poacher: [
-    { type: "DRAW_CARDS", data: { drawAmount: 1 } },
-    { type: "GAIN_ACTIONS", data: { actionAmount: 1 } },
-    { type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 1 } }
+  //   Workshop: [],
+  Bureaucrat: [
+    {
+      type: "GAIN_CARDS",
+      data: { cardName: "Silver", gainAmount: 1 }
+    }
   ],
-  Remodel: [],
+  Gardens: [],
+  //   Militia: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
+  Moneylender: [
+    {
+      type: "ASYNC_TRASH_CARDS",
+      data: {
+        cardName: "Copper",
+        trashAmount: 1,
+        onTrash: { type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 3 } }
+      }
+    }
+  ],
+  //   Poacher: [
+  //     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
+  //     { type: "GAIN_ACTIONS", data: { actionAmount: 1 } },
+  //     { type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 1 } }
+  //   ],
+  //   Remodel: [],
   Smithy: [{ type: "DRAW_CARDS", data: { drawAmount: 3 } }],
   "Throne Room": [],
-  Bandit: [],
+  //   Bandit: [],
   "Council Room": [
     { type: "DRAW_CARDS", data: { drawAmount: 4 } },
     { type: "GAIN_BUYS", data: { buyAmount: 1 } },
@@ -43,26 +57,26 @@ const cardActions = {
     { type: "DRAW_CARDS", data: { drawAmount: 2 } },
     { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
   ],
-  Library: [],
+  //   Library: [],
   Market: [
     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
     { type: "GAIN_ACTIONS", data: { actionAmount: 1 } },
     { type: "GAIN_BUYS", data: { buyAmount: 1 } },
     { type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 1 } }
   ],
-  Mine: [],
-  Sentry: [
-    { type: "DRAW_CARDS", data: { drawAmount: 1 } },
-    { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
-  ],
+  //   Mine: [],
+  //   Sentry: [
+  //     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
+  //     { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
+  //   ],
   Witch: [
     { type: "DRAW_CARDS", data: { drawAmount: 2 } },
     {
       type: "ASYNC_OTHER_PLAYERS_GAIN_CARDS",
       data: { cardName: "Curse", gainAmount: 1, blockable: true }
     }
-  ],
-  Artisan: []
+  ]
+  //   Artisan: []
 };
 
 export default cardActions;

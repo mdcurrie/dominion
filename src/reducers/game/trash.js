@@ -2,8 +2,8 @@ const trash = (state = [], action) => {
   switch (action.type) {
     case "START_GAME":
       return action.trash;
-    case "ADD_TO_TRASH":
-      return [...state, action.card];
+    case "TRASH_CARDS":
+      return [...state, ...Array(action.trashAmount).fill(action.cardName)];
     default:
       return state;
   }

@@ -17,7 +17,8 @@ import {
   gainCards,
   gainFloatingGold,
   playAction,
-  playTreasure
+  playTreasure,
+  trashCards
 } from "../actions";
 import cardPrices from "../utils/cardPrices";
 import cardActions from "../utils/cardActions";
@@ -169,13 +170,32 @@ export function* asyncOtherPlayersGainCards({
   }
 }
 
+export function* asyncTrashCards({ cardName, id, onTrash, trashAmount }) {
+  const player = yield select(gamePlayerSelector);
+  const inHandAmount = player.cards.hand.filter(c => c === cardName).length;
+
+  yield put(
+    trashCards({
+      cardName,
+      id,
+      trashAmount: Math.min(trashAmount, inHandAmount)
+    })
+  );
+
+  if (inHandAmount >= trashAmount) {
+    const { type, data } = onTrash;
+    yield put({ type, ...data });
+  }
+}
+
 const gameSagas = [
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),
   takeEvery("ASYNC_PLAY_CARD", asyncPlayCard),
   takeEvery("ASYNC_OTHER_PLAYERS_DRAW_CARDS", asyncOtherPlayersDrawCards),
   takeEvery("ASYNC_OTHER_PLAYERS_GAIN_CARDS", asyncOtherPlayersGainCards),
-  takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures)
+  takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures),
+  takeEvery("ASYNC_TRASH_CARDS", asyncTrashCards)
 ];
 
 export default gameSagas;

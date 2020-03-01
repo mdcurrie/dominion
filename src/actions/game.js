@@ -71,3 +71,12 @@ export function blockAttack({ username }) {
     username
   };
 }
+
+export function trashCards({ cardName, id, trashAmount }) {
+  return {
+    type: "TRASH_CARDS",
+    cardName,
+    id,
+    trashAmount
+  };
+}
