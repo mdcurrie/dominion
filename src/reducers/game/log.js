@@ -11,6 +11,8 @@ const log = (state = [], action) => {
     case "PLAY_ACTION":
     case "PLAY_TREASURE":
       return [...state, `${action.username} played a ${action.cardName}`];
+    case "BLOCK_ATTACK":
+      return [...state, `${action.username} blocked the attack`];
     default:
       return state;
   }

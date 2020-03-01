@@ -64,3 +64,10 @@ export function gainFloatingGold({ floatingGoldAmount }) {
     floatingGoldAmount
   };
 }
+
+export function blockAttack({ username }) {
+  return {
+    type: "BLOCK_ATTACK",
+    username
+  };
+}

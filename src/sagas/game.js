@@ -5,10 +5,12 @@ import {
   gameSupplyCardCountSelector,
   gameNextPlayerSelector,
   gameOtherPlayersIdsSelector,
+  gamePlayerFromIdSelector,
   gamePlayerSelector,
   gamePlayersSelector
 } from "../selectors";
 import {
+  blockAttack,
   buyCard,
   drawCards,
   endTurn,
@@ -147,9 +149,19 @@ export function* asyncOtherPlayersDrawCards({ drawAmount }) {
   }
 }
 
-export function* asyncOtherPlayersGainCards({ cardName, gainAmount }) {
+export function* asyncOtherPlayersGainCards({
+  cardName,
+  gainAmount,
+  blockable
+}) {
   const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
   for (let id of otherPlayersIds) {
+    let otherPlayer = yield select(gamePlayerFromIdSelector, id);
+    if (blockable && otherPlayer.cards.hand.includes("Moat")) {
+      yield put(blockAttack({ username: otherPlayer.username }));
+      continue;
+    }
+
     let cardCount = yield select(gameSupplyCardCountSelector, cardName);
     yield put(
       gainCards({ cardName, gainAmount: Math.min(gainAmount, cardCount), id })

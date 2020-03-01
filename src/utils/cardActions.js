@@ -59,7 +59,7 @@ const cardActions = {
     { type: "DRAW_CARDS", data: { drawAmount: 2 } },
     {
       type: "ASYNC_OTHER_PLAYERS_GAIN_CARDS",
-      data: { cardName: "Curse", gainAmount: 1 }
+      data: { cardName: "Curse", gainAmount: 1, blockable: true }
     }
   ],
   Artisan: []
