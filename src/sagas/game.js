@@ -12,6 +12,7 @@ import {
   buyCard,
   drawCards,
   endTurn,
+  gainCards,
   playAction,
   playTreasure
 } from "../actions";
@@ -140,11 +141,22 @@ export function* asyncOtherPlayersDrawCards({ drawAmount }) {
   }
 }
 
+export function* asyncOtherPlayersGainCards({ cardName, gainAmount }) {
+  const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
+  for (let id of otherPlayersIds) {
+    let cardCount = yield select(gameSupplyCardCountSelector, cardName);
+    yield put(
+      gainCards({ cardName, gainAmount: Math.min(gainAmount, cardCount), id })
+    );
+  }
+}
+
 const gameSagas = [
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),
   takeEvery("ASYNC_PLAY_CARD", asyncPlayCard),
   takeEvery("ASYNC_OTHER_PLAYERS_DRAW_CARDS", asyncOtherPlayersDrawCards),
+  takeEvery("ASYNC_OTHER_PLAYERS_GAIN_CARDS", asyncOtherPlayersGainCards),
   takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures)
 ];
 

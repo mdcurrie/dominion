@@ -48,3 +48,12 @@ export function drawCards({ drawAmount, id }) {
     id
   };
 }
+
+export function gainCards({ cardName, gainAmount, id }) {
+  return {
+    type: "GAIN_CARDS",
+    cardName,
+    gainAmount,
+    id
+  };
+}

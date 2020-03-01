@@ -55,7 +55,13 @@ const cardActions = {
     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
     { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
   ],
-  Witch: [{ type: "DRAW_CARDS", data: { drawAmount: 2 } }],
+  Witch: [
+    { type: "DRAW_CARDS", data: { drawAmount: 2 } },
+    {
+      type: "ASYNC_OTHER_PLAYERS_GAIN_CARDS",
+      data: { cardName: "Curse", gainAmount: 1 }
+    }
+  ],
   Artisan: []
 };
 
