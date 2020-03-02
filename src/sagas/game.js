@@ -151,9 +151,10 @@ export function* asyncOtherPlayersDrawCards({ drawAmount }) {
 }
 
 export function* asyncOtherPlayersGainCards({
+  blockable,
   cardName,
   gainAmount,
-  blockable
+  location
 }) {
   const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
   for (let id of otherPlayersIds) {
@@ -165,7 +166,12 @@ export function* asyncOtherPlayersGainCards({
 
     let cardCount = yield select(gameSupplyCardCountSelector, cardName);
     yield put(
-      gainCards({ cardName, gainAmount: Math.min(gainAmount, cardCount), id })
+      gainCards({
+        cardName,
+        gainAmount: Math.min(gainAmount, cardCount),
+        id,
+        location
+      })
     );
   }
 }
@@ -188,8 +194,21 @@ export function* asyncTrashCards({ cardName, id, onTrash, trashAmount }) {
   }
 }
 
+export function* asyncGainCards({ cardName, gainAmount, id, location }) {
+  const cardCount = yield select(gameSupplyCardCountSelector, cardName);
+  yield put(
+    gainCards({
+      cardName,
+      gainAmount: Math.min(gainAmount, cardCount),
+      id,
+      location
+    })
+  );
+}
+
 const gameSagas = [
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
+  takeEvery("ASYNC_GAIN_CARDS", asyncGainCards),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),
   takeEvery("ASYNC_PLAY_CARD", asyncPlayCard),
   takeEvery("ASYNC_OTHER_PLAYERS_DRAW_CARDS", asyncOtherPlayersDrawCards),

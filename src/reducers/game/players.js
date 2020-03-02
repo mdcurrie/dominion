@@ -85,6 +85,14 @@ const players = (state = [], action) => {
     case "GAIN_CARDS":
       playerIndex = state.findIndex(player => player.id === action.id);
       player = state[playerIndex];
+      deck = [...player.cards.deck];
+      discard = [...player.cards.discard];
+
+      if (action.location === "DISCARD") {
+        discard.push(...Array(action.gainAmount).fill(action.cardName));
+      } else if (action.location === "DECK") {
+        deck = [...Array(action.gainAmount).fill(action.cardName), ...deck];
+      }
 
       return [
         ...state.slice(0, playerIndex),
@@ -92,10 +100,8 @@ const players = (state = [], action) => {
           ...player,
           cards: {
             ...player.cards,
-            discard: [
-              ...player.cards.discard,
-              ...Array(action.gainAmount).fill(action.cardName)
-            ]
+            deck,
+            discard
           }
         },
         ...state.slice(playerIndex + 1)

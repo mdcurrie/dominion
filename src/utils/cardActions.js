@@ -18,8 +18,8 @@ const cardActions = {
   //   Workshop: [],
   Bureaucrat: [
     {
-      type: "GAIN_CARDS",
-      data: { cardName: "Silver", gainAmount: 1 }
+      type: "ASYNC_GAIN_CARDS",
+      data: { cardName: "Silver", gainAmount: 1, location: "DECK" }
     }
   ],
   Gardens: [],
@@ -73,7 +73,12 @@ const cardActions = {
     { type: "DRAW_CARDS", data: { drawAmount: 2 } },
     {
       type: "ASYNC_OTHER_PLAYERS_GAIN_CARDS",
-      data: { cardName: "Curse", gainAmount: 1, blockable: true }
+      data: {
+        blockable: true,
+        cardName: "Curse",
+        gainAmount: 1,
+        location: "DISCARD"
+      }
     }
   ]
   //   Artisan: []
