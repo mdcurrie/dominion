@@ -12,7 +12,11 @@ const Game = ({ game, socket, playerId }) => {
     <div className="game">
       <div className="topRow">
         <Supply supply={game.supply} socket={socket} />
-        <Log log={game.log} />
+        <Log
+          log={game.log}
+          socket={socket}
+          username={game.players[playerIndex].username}
+        />
       </div>
       <div className="bottomRow">
         <Hand hand={game.players[playerIndex].cards.hand} socket={socket} />
