@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import noop from "lodash/noop";
 import "./styles.css";
 
 const Supply = ({ supply, socket }) => (
@@ -9,10 +10,17 @@ const Supply = ({ supply, socket }) => (
         key={index}
         className="gameSupplyCard"
         onClick={() =>
-          socket.send(JSON.stringify({ type: "ASYNC_BUY_CARD", name: c.name }))
+          c.count === 0
+            ? noop()
+            : socket.send(
+                JSON.stringify({ type: "ASYNC_BUY_CARD", name: c.name })
+              )
         }
       >
-        <img className="gameSupplyCardImg" src={`./${c.name}.jpg`} />
+        <img
+          className="gameSupplyCardImg"
+          src={c.count === 0 ? "./Blank.jpg" : `./${c.name}.jpg`}
+        />
         <div className="gameSupplyCardCount">{c.count}</div>
       </div>
     ))}
