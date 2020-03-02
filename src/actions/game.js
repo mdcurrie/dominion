@@ -81,3 +81,21 @@ export function trashCards({ cardName, id, trashAmount }) {
     trashAmount
   };
 }
+
+export function revealCards({ cards, username }) {
+  return {
+    type: "REVEAL_CARDS",
+    cards,
+    username
+  };
+}
+
+export function placeInDeck({ cardIndex, cardName, id, username }) {
+  return {
+    type: "PLACE_IN_DECK",
+    cardIndex,
+    cardName,
+    id,
+    username
+  };
+}

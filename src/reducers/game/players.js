@@ -136,6 +136,25 @@ const players = (state = [], action) => {
         },
         ...state.slice(playerIndex + 1)
       ];
+    case "PLACE_IN_DECK":
+      playerIndex = state.findIndex(player => player.id === action.id);
+      player = state[playerIndex];
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            deck: [action.cardName, ...player.cards.deck],
+            hand: [
+              ...player.cards.hand.slice(0, action.cardIndex),
+              ...player.cards.hand.slice(action.cardIndex + 1)
+            ]
+          }
+        },
+        ...state.slice(playerIndex + 1)
+      ];
     default:
       return state;
   }

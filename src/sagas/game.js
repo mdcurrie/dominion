@@ -16,8 +16,10 @@ import {
   endTurn,
   gainCards,
   gainFloatingGold,
+  placeInDeck,
   playAction,
   playTreasure,
+  revealCards,
   trashCards
 } from "../actions";
 import cardPrices from "../utils/cardPrices";
@@ -206,6 +208,40 @@ export function* asyncGainCards({ cardName, gainAmount, id, location }) {
   );
 }
 
+export function* asyncOtherPlayersRevealVictory({ blockable, onReveal }) {
+  const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
+  for (let id of otherPlayersIds) {
+    let otherPlayer = yield select(gamePlayerFromIdSelector, id);
+    if (blockable && otherPlayer.cards.hand.includes("Moat")) {
+      yield put(blockAttack({ username: otherPlayer.username }));
+      continue;
+    }
+
+    const cardIndex = otherPlayer.cards.hand.findIndex(c =>
+      ["Estate", "Duchy", "Province", "Gardens"].includes(c)
+    );
+    if (cardIndex === -1) {
+      yield put(
+        revealCards({
+          cards: otherPlayer.cards.hand,
+          username: otherPlayer.username
+        })
+      );
+    } else {
+      if (onReveal && onReveal.type === "PLACE_IN_DECK") {
+        yield put(
+          placeInDeck({
+            cardIndex,
+            cardName: otherPlayer.cards.hand[cardIndex],
+            id: otherPlayer.id,
+            username: otherPlayer.username
+          })
+        );
+      }
+    }
+  }
+}
+
 const gameSagas = [
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_GAIN_CARDS", asyncGainCards),
@@ -213,6 +249,10 @@ const gameSagas = [
   takeEvery("ASYNC_PLAY_CARD", asyncPlayCard),
   takeEvery("ASYNC_OTHER_PLAYERS_DRAW_CARDS", asyncOtherPlayersDrawCards),
   takeEvery("ASYNC_OTHER_PLAYERS_GAIN_CARDS", asyncOtherPlayersGainCards),
+  takeEvery(
+    "ASYNC_OTHER_PLAYERS_REVEAL_VICTORY",
+    asyncOtherPlayersRevealVictory
+  ),
   takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures),
   takeEvery("ASYNC_TRASH_CARDS", asyncTrashCards)
 ];

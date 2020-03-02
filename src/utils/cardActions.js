@@ -20,6 +20,15 @@ const cardActions = {
     {
       type: "ASYNC_GAIN_CARDS",
       data: { cardName: "Silver", gainAmount: 1, location: "DECK" }
+    },
+    {
+      type: "ASYNC_OTHER_PLAYERS_REVEAL_VICTORY",
+      data: {
+        blockable: true,
+        onReveal: {
+          type: "PLACE_IN_DECK"
+        }
+      }
     }
   ],
   Gardens: [],
