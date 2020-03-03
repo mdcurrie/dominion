@@ -14,6 +14,11 @@
   padding: 10px;
 }
 
+.gameExtrasDeckAndDiscard {
+  display: flex;
+  justify-content: space-between;
+}
+
 .gamePlayAllTreasuresButton {
   background-color: #5d5d5d;
   border: none;

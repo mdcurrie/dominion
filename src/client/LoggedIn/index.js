@@ -25,7 +25,9 @@ const LoggedIn = ({ username }) => {
   });
   useEffect(() => {
     socket.ws = new WebSocket(
-      `ws://localhost:8080/dominion?username=${encodeURIComponent(username)}`
+      `ws://marcusdominion2.herokuapp.com/dominion?username=${encodeURIComponent(
+        username
+      )}`
     );
 
     socket.ws.onmessage = function(event) {

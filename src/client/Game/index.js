@@ -20,7 +20,12 @@ const Game = ({ game, socket, playerId }) => {
       </div>
       <div className="bottomRow">
         <Hand hand={game.players[playerIndex].cards.hand} socket={socket} />
-        <Misc currentPlayer={game.currentPlayer} socket={socket} />
+        <Misc
+          currentPlayer={game.currentPlayer}
+          deck={game.players[playerIndex].cards.deck}
+          discard={game.players[playerIndex].cards.discard}
+          socket={socket}
+        />
       </div>
     </div>
   );

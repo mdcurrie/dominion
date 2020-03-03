@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 
-const Misc = ({ currentPlayer, socket }) => (
+const Misc = ({ currentPlayer, deck, discard, socket }) => (
   <div className="gameExtras">
     <div className="gameExtraDetailsGroup">
       <div className="gameExtraDetails">
@@ -18,6 +18,16 @@ const Misc = ({ currentPlayer, socket }) => (
       >
         Play All Treasures
       </button>
+      {/*<div className="gameExtrasDeckAndDiscard">
+        <div>
+          <img src="./Cellar.jpg" />
+          <div>{discard.length}</div>
+        </div>
+        <div>
+          <img src="./Chapel.jpg" />
+          <div>{deck.length}</div>
+        </div>
+      </div>*/}
     </div>
     <button
       className="gameEndTurnButton"
@@ -35,6 +45,8 @@ Misc.propTypes = {
     buys: PropTypes.number.isRequired,
     gold: PropTypes.number.isRequired
   }).isRequired,
+  deck: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  discard: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   socket: PropTypes.object
 };
 

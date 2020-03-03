@@ -2,16 +2,19 @@
   "name": "dominion",
   "version": "1.0.0",
   "description": "A React/Express implementation of Dominion",
-  "main": "src/server/index.js",
+  "main": "src/server/server-dev.js",
   "scripts": {
     "build-dev": "webpack --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js",
     "build-prod": "rm -rf dist && webpack --mode production --config webpack.server.config.js && webpack --mode production --config webpack.prod.config.js",
     "format": "prettier \"src/**/*.{js,html}\" --write",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
-    "start": "node ./dist/server.js"
+    "start": "npm install --dev && npm run build-dev && node ./dist/server.js"
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "13.x"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
