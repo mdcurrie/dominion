@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import Game from "../Game";
 import Waiting from "../Waiting";
@@ -23,16 +23,16 @@ const LoggedIn = ({ username }) => {
     },
     id: null
   });
+  const logEndRef = useRef(null);
   useEffect(() => {
     socket.ws = new WebSocket(
-      `ws://marcusdominion2.herokuapp.com/dominion?username=${encodeURIComponent(
-        username
-      )}`
+      `ws://localhost:8080/dominion?username=${encodeURIComponent(username)}`
     );
 
     socket.ws.onmessage = function(event) {
       console.log(JSON.parse(event.data));
       setGameState(JSON.parse(event.data));
+      logEndRef.current.scrollIntoView({ behavior: "smooth" });
     };
   }, []);
 
@@ -40,7 +40,12 @@ const LoggedIn = ({ username }) => {
     return <Waiting usernames={gameState.usernames} socket={socket.ws} />;
   } else if (gameState.status === "IN_PROGRESS") {
     return (
-      <Game game={gameState.game} playerId={gameState.id} socket={socket.ws} />
+      <Game
+        game={gameState.game}
+        playerId={gameState.id}
+        logEndRef={logEndRef}
+        socket={socket.ws}
+      />
     );
   }
 };

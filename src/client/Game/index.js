@@ -6,7 +6,7 @@ import Supply from "./Supply";
 import PropTypes from "prop-types";
 import "./styles.css";
 
-const Game = ({ game, socket, playerId }) => {
+const Game = ({ game, logEndRef, playerId, socket }) => {
   const playerIndex = game.players.findIndex(player => player.id === playerId);
   return (
     <div className="game">
@@ -14,6 +14,7 @@ const Game = ({ game, socket, playerId }) => {
         <Supply supply={game.supply} socket={socket} />
         <Log
           log={game.log}
+          logEndRef={logEndRef}
           socket={socket}
           username={game.players[playerIndex].username}
         />

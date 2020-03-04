@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 
-const Log = ({ log, socket, username }) => {
+const Log = ({ log, logEndRef, socket, username }) => {
   const [message, setMessage] = useState("");
   return (
     <div className="gameLogContainer">
@@ -12,6 +12,7 @@ const Log = ({ log, socket, username }) => {
             {entry}
           </div>
         ))}
+        <div ref={logEndRef} />
       </div>
       <input
         type="text"
