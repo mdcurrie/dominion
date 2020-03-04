@@ -14,9 +14,21 @@
   padding: 10px;
 }
 
-.gameExtrasDeckAndDiscard {
+.gameExtrasDeckAndDiscardContainer {
   display: flex;
+  font-family: sans-serif;
   justify-content: space-between;
+  text-align: center;
+}
+
+.gameExtrasDeckAndDiscard {
+  width: 37%;
+}
+
+.gameExtrasDeckAndDiscardImg {
+  max-height: 100px;
+  object-fit: contain;
+  width: 100%;
 }
 
 .gamePlayAllTreasuresButton {
@@ -27,6 +39,7 @@
   cursor: pointer;
   font-size: 14px;
   line-height: 1.1875;
+  margin-bottom: 8px;
   outline: none;
   padding: 10px 0;
   width: 100%;

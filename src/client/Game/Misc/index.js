@@ -18,16 +18,26 @@ const Misc = ({ currentPlayer, deck, discard, socket }) => (
       >
         Play All Treasures
       </button>
-      {/*<div className="gameExtrasDeckAndDiscard">
-        <div>
-          <img src="./Cellar.jpg" />
+      <div className="gameExtrasDeckAndDiscardContainer">
+        <div className="gameExtrasDeckAndDiscard">
+          <img
+            className="gameExtrasDeckAndDiscardImg"
+            src={
+              discard.length === 0
+                ? "./Blank.jpg"
+                : `./${discard[discard.length - 1]}.jpg`
+            }
+          />
           <div>{discard.length}</div>
         </div>
-        <div>
-          <img src="./Chapel.jpg" />
+        <div className="gameExtrasDeckAndDiscard">
+          <img
+            className="gameExtrasDeckAndDiscardImg"
+            src={deck.length === 0 ? "./Blank.jpg" : "./Back.jpg"}
+          />
           <div>{deck.length}</div>
         </div>
-      </div>*/}
+      </div>
     </div>
     <button
       className="gameEndTurnButton"
