@@ -2,6 +2,7 @@ import { put, takeEvery, select } from "redux-saga/effects";
 import {
   currentPlayerIdSelector,
   currentPlayerSelector,
+  gameIsOverSelector,
   gameSupplyCardCountSelector,
   gameNextPlayerSelector,
   gameOtherPlayersIdsSelector,
@@ -20,7 +21,8 @@ import {
   playAction,
   playTreasure,
   revealCards,
-  trashCards
+  trashCards,
+  updateScore
 } from "../actions";
 import cardPrices from "../utils/cardPrices";
 import cardActions from "../utils/cardActions";
@@ -42,20 +44,18 @@ export function* asyncBuyCard({ id, name: cardName }) {
 
   currentPlayer = yield select(currentPlayerSelector);
   if (currentPlayer.buys === 0) {
-    const nextPlayer = yield select(gameNextPlayerSelector);
-    yield put(
-      endTurn({
-        id,
-        nextId: nextPlayer.id,
-        nextUsername: nextPlayer.username
-      })
-    );
+    yield asyncEndTurn({ id });
   }
 }
 
 export function* asyncEndTurn({ id }) {
   const currentPlayerId = yield select(currentPlayerIdSelector);
   if (currentPlayerId !== id) {
+    return;
+  }
+
+  if (yield select(gameIsOverSelector)) {
+    yield put(updateScore({ players: yield select(gamePlayersSelector) }));
     return;
   }
 

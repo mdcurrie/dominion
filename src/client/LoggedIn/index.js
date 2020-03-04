@@ -19,7 +19,8 @@ const LoggedIn = ({ username }) => {
         buys: 0,
         gold: 0
       },
-      log: []
+      log: [],
+      score: null
     },
     id: null
   });

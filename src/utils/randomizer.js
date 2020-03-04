@@ -129,6 +129,7 @@ export default function gameRandomizer({ connections }) {
       "-- The game has started --",
       "",
       `-- ${startingPlayerUsername}'s turn --`
-    ]
+    ],
+    score: null
   };
 }

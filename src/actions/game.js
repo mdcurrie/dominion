@@ -99,3 +99,10 @@ export function placeInDeck({ cardIndex, cardName, id, username }) {
     username
   };
 }
+
+export function updateScore({ players }) {
+  return {
+    type: "UPDATE_SCORE",
+    players
+  };
+}
