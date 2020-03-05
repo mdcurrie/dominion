@@ -13,15 +13,15 @@ function createTreasures(numberOfPlayers) {
   return [
     {
       name: "Copper",
-      count: copperCount
+      count: 1
     },
     {
       name: "Silver",
-      count: 40
+      count: 1
     },
     {
       name: "Gold",
-      count: 30
+      count: 1
     }
   ];
 }

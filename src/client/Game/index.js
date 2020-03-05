@@ -2,6 +2,7 @@ import React from "react";
 import Hand from "./Hand";
 import Log from "./Log";
 import Misc from "./Misc";
+import Score from "./Score";
 import Supply from "./Supply";
 import PropTypes from "prop-types";
 import "./styles.css";
@@ -28,6 +29,7 @@ const Game = ({ game, logEndRef, playerId, socket }) => {
           socket={socket}
         />
       </div>
+      <Score score={game.score} socket={socket} />
     </div>
   );
 };
@@ -50,6 +52,7 @@ Game.propTypes = {
     }),
     log: PropTypes.arrayOf(PropTypes.string.isRequired)
   }).isRequired,
+  logEndRef: PropTypes.object.isRequired,
   playerId: PropTypes.string.isRequired,
   socket: PropTypes.object
 };

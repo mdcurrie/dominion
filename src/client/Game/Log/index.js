@@ -38,6 +38,7 @@ const Log = ({ log, logEndRef, socket, username }) => {
 
 Log.propTypes = {
   log: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  logEndRef: PropTypes.object.isRequired,
   socket: PropTypes.object,
   username: PropTypes.string.isRequired
 };

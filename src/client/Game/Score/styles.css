@@ -1,0 +1,56 @@
+.gameScoreContainer {
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+}
+
+.gameScoreModal {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+  left: 50%;
+  min-width: 300px;
+  padding: 30px;
+  position: absolute;
+  top: 45%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.gameScoreModalScore {
+  background-color: #eee;
+  border-radius: 8px;
+  display: flex;
+  margin: 8px 0;
+  padding: 6px;
+}
+
+.gameScoreModalScore > div:first-of-type {
+  margin-right: 5px;
+  width: 140px;
+}
+
+.gameScoreModalButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gameScoreModalButton {
+  background-color: #5d5d5d;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.1875;
+  outline: none;
+  padding: 10px 0;
+  width: 45%;
+}
+
+.gameScoreModalButton:hover {
+  background-color: #3f3f3f;
+}

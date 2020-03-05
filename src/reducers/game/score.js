@@ -19,17 +19,22 @@ const score = (state = null, action) => {
           .length;
         const gardensCount = allPlayerCards.filter(card => card === "Gardens")
           .length;
+        const curseCount = allPlayerCards.filter(card => card === "Curse")
+          .length;
         return {
+          username: player.username,
           estateCount,
           duchyCount,
           provinceCount,
           gardensCount,
+          curseCount,
           cardCount: allPlayerCards.length,
           finalScore:
-            estateCount * 1 +
+            estateCount +
             duchyCount * 3 +
             provinceCount * 6 +
-            gardensCount * Math.floor(allPlayerCards.length / 10)
+            gardensCount * Math.floor(allPlayerCards.length / 10) -
+            curseCount
         };
       });
     default:
