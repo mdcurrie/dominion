@@ -15,7 +15,12 @@ const cardActions = {
     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
     { type: "GAIN_ACTIONS", data: { actionAmount: 2 } }
   ],
-  //   Workshop: [],
+  Workshop: [
+    {
+      type: "CHOICE_GAIN_CARDS",
+      data: { gainAmount: 1, maxCost: 4 }
+    }
+  ],
   Bureaucrat: [
     {
       type: "ASYNC_GAIN_CARDS",

@@ -12,7 +12,11 @@ const Game = ({ game, logEndRef, playerId, socket }) => {
   return (
     <div className="game">
       <div className="topRow">
-        <Supply supply={game.supply} socket={socket} />
+        <Supply
+          playerRequest={game.playerRequest}
+          supply={game.supply}
+          socket={socket}
+        />
         <Log
           log={game.log}
           logEndRef={logEndRef}

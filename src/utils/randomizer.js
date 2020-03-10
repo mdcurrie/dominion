@@ -130,6 +130,7 @@ export default function gameRandomizer({ connections }) {
       "",
       `-- ${startingPlayerUsername}'s turn --`
     ],
-    score: null
+    score: null,
+    playerRequest: null
   };
 }

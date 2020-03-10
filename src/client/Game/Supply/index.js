@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import noop from "lodash/noop";
 import "./styles.css";
 
-const Supply = ({ supply, socket }) => (
+const Supply = ({ playerRequest, supply, socket }) => (
   <div className="gameSupply">
     {supply.map((c, index) => (
       <div
@@ -28,6 +28,7 @@ const Supply = ({ supply, socket }) => (
 );
 
 Supply.propTypes = {
+  playerRequest: PropTypes.object,
   supply: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,

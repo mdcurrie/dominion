@@ -20,7 +20,8 @@ const LoggedIn = ({ username }) => {
         gold: 0
       },
       log: [],
-      score: null
+      score: null,
+      playerRequest: null
     },
     id: null
   });
