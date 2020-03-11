@@ -3,6 +3,7 @@ const supply = (state = [], action) => {
   switch (action.type) {
     case "START_GAME":
       return action.supply;
+    case "COMPLETE_CHOICE_GAIN_CARDS":
     case "BUY_CARD":
       cardIndex = state.findIndex(c => c.name === action.cardName);
       return [

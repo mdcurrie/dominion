@@ -5,6 +5,7 @@ const players = (state = [], action) => {
   switch (action.type) {
     case "START_GAME":
       return action.players;
+    case "COMPLETE_CHOICE_GAIN_CARDS":
     case "BUY_CARD":
       playerIndex = state.findIndex(p => p.id === action.id);
       player = state[playerIndex];

@@ -35,3 +35,5 @@ export const gameOtherPlayersIdsSelector = state =>
 export const gameIsOverSelector = state =>
   state.game.supply.find(s => s.name === "Province").count === 0 ||
   state.game.supply.filter(s => s.count === 0).length >= 3;
+
+export const gamePlayerRequestSelector = state => state.game.playerRequest;

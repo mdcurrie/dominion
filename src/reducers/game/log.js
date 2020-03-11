@@ -23,6 +23,8 @@ const log = (state = [], action) => {
         ...state,
         `${action.username} placed ${action.cardName} on top of their deck.`
       ];
+    case "COMPLETE_CHOICE_GAIN_CARDS":
+      return [...state, `${action.username} gained a ${action.cardName}.`];
     default:
       return state;
   }

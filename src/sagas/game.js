@@ -7,12 +7,14 @@ import {
   gameNextPlayerSelector,
   gameOtherPlayersIdsSelector,
   gamePlayerFromIdSelector,
+  gamePlayerRequestSelector,
   gamePlayerSelector,
   gamePlayersSelector
 } from "../selectors";
 import {
   blockAttack,
   buyCard,
+  completeChoiceGainCards,
   drawCards,
   endTurn,
   gainCards,
@@ -30,11 +32,13 @@ import cardActions from "../utils/cardActions";
 export function* asyncBuyCard({ id, name: cardName }) {
   let currentPlayer = yield select(currentPlayerSelector);
   const cardCount = yield select(gameSupplyCardCountSelector, cardName);
+  const playerRequest = yield select(gamePlayerRequestSelector);
   if (
     currentPlayer.id !== id ||
     currentPlayer.buys <= 0 ||
     cardCount <= 0 ||
-    currentPlayer.gold < cardPrices[cardName]
+    currentPlayer.gold < cardPrices[cardName] ||
+    playerRequest
   ) {
     return;
   }
@@ -72,7 +76,8 @@ export function* asyncEndTurn({ id }) {
 export function* asyncPlayCard({ id, name: cardName }) {
   const currentPlayer = yield select(currentPlayerSelector);
   const player = yield select(gamePlayerSelector);
-  if (player.id !== id) {
+  const playerRequest = yield select(gamePlayerRequestSelector);
+  if (player.id !== id || playerRequest) {
     return;
   }
 
@@ -110,7 +115,8 @@ export function* asyncPlayAllTreasures({ id }) {
   const currentPlayerId = yield select(currentPlayerIdSelector);
   const players = yield select(gamePlayersSelector);
   const currentPlayerUsername = players.find(p => p.id === id).username;
-  if (currentPlayerId !== id) {
+  const playerRequest = yield select(gamePlayerRequestSelector);
+  if (currentPlayerId !== id || playerRequest) {
     return;
   }
 
@@ -242,6 +248,26 @@ export function* asyncOtherPlayersRevealVictory({ blockable, onReveal }) {
   }
 }
 
+export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
+  const cardCount = yield select(gameSupplyCardCountSelector, cardName);
+  const playerRequest = yield select(gamePlayerRequestSelector);
+  const player = yield select(gamePlayerSelector);
+  if (
+    cardCount <= 0 ||
+    playerRequest == null ||
+    playerRequest.id !== id ||
+    playerRequest.type !== "CHOICE_GAIN_CARDS" ||
+    playerRequest.gainAmount <= 0 ||
+    playerRequest.maxCost < cardPrices[cardName]
+  ) {
+    return;
+  }
+
+  yield put(
+    completeChoiceGainCards({ id, cardName, username: player.username })
+  );
+}
+
 const gameSagas = [
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_GAIN_CARDS", asyncGainCards),
@@ -254,7 +280,8 @@ const gameSagas = [
     asyncOtherPlayersRevealVictory
   ),
   takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures),
-  takeEvery("ASYNC_TRASH_CARDS", asyncTrashCards)
+  takeEvery("ASYNC_TRASH_CARDS", asyncTrashCards),
+  takeEvery("ASYNC_COMPLETE_CHOICE_GAIN_CARDS", asyncCompleteChoiceGainCards)
 ];
 
 export default gameSagas;

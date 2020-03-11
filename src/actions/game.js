@@ -106,3 +106,12 @@ export function updateScore({ players }) {
     players
   };
 }
+
+export function completeChoiceGainCards({ id, cardName, username }) {
+  return {
+    type: "COMPLETE_CHOICE_GAIN_CARDS",
+    cardName,
+    id,
+    username
+  };
+}
