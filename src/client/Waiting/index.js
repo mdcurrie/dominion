@@ -19,7 +19,7 @@ const Waiting = ({ usernames, socket }) => (
     </div>
     <button
       className="waitingButton"
-      onClick={() => socket.send(JSON.stringify({ type: "START_GAME" }))}
+      onClick={() => socket.send(JSON.stringify({ type: "ASYNC_START_GAME" }))}
     >
       Play Now!
     </button>

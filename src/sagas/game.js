@@ -1,5 +1,6 @@
 import { put, takeEvery, select } from "redux-saga/effects";
 import {
+  connectionsSelector,
   currentPlayerIdSelector,
   currentPlayerSelector,
   gameIsOverSelector,
@@ -7,6 +8,7 @@ import {
   gameNextPlayerSelector,
   gameOtherPlayersIdsSelector,
   gamePlayerFromIdSelector,
+  gamePlayerIdsSelector,
   gamePlayerRequestSelector,
   gamePlayerSelector,
   gamePlayersSelector
@@ -23,11 +25,19 @@ import {
   playAction,
   playTreasure,
   revealCards,
+  sendMessage,
+  startGame,
   trashCards,
   updateScore
 } from "../actions";
 import cardPrices from "../utils/cardPrices";
 import cardActions from "../utils/cardActions";
+import gameRandomizer from "../utils/randomizer";
+
+export function* asyncStartGame() {
+  const connections = yield select(connectionsSelector);
+  yield put(startGame(gameRandomizer({ connections })));
+}
 
 export function* asyncBuyCard({ id, name: cardName }) {
   let currentPlayer = yield select(currentPlayerSelector);
@@ -44,7 +54,10 @@ export function* asyncBuyCard({ id, name: cardName }) {
   }
 
   const player = yield select(gamePlayerSelector);
-  yield put(buyCard({ id, cardName, username: player.username }));
+  const playerIds = yield select(gamePlayerIdsSelector);
+  yield put(
+    buyCard({ cardName, id, logIds: playerIds, username: player.username })
+  );
 
   currentPlayer = yield select(currentPlayerSelector);
   if (currentPlayer.buys === 0) {
@@ -64,9 +77,11 @@ export function* asyncEndTurn({ id }) {
   }
 
   const nextPlayer = yield select(gameNextPlayerSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
   yield put(
     endTurn({
       id,
+      logIds: playerIds,
       nextId: nextPlayer.id,
       nextUsername: nextPlayer.username
     })
@@ -77,6 +92,7 @@ export function* asyncPlayCard({ id, name: cardName }) {
   const currentPlayer = yield select(currentPlayerSelector);
   const player = yield select(gamePlayerSelector);
   const playerRequest = yield select(gamePlayerRequestSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
   if (player.id !== id || playerRequest) {
     return;
   }
@@ -93,7 +109,14 @@ export function* asyncPlayCard({ id, name: cardName }) {
     ) {
       yield put(gainFloatingGold({ floatingGoldAmount: 1 }));
     }
-    yield put(playTreasure({ cardName, id, username: player.username }));
+    yield put(
+      playTreasure({
+        cardName,
+        id,
+        logIds: playerIds,
+        username: player.username
+      })
+    );
     return;
   }
 
@@ -104,7 +127,9 @@ export function* asyncPlayCard({ id, name: cardName }) {
     return;
   }
 
-  yield put(playAction({ cardName, id, username: player.username }));
+  yield put(
+    playAction({ cardName, id, logIds: playerIds, username: player.username })
+  );
   for (let cardAction of cardActions[cardName]) {
     let { type, data } = cardAction;
     yield put({ type, id, ...data });
@@ -116,6 +141,7 @@ export function* asyncPlayAllTreasures({ id }) {
   const players = yield select(gamePlayersSelector);
   const currentPlayerUsername = players.find(p => p.id === id).username;
   const playerRequest = yield select(gamePlayerRequestSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
   if (currentPlayerId !== id || playerRequest) {
     return;
   }
@@ -125,6 +151,7 @@ export function* asyncPlayAllTreasures({ id }) {
       playTreasure({
         cardName: "Gold",
         id: currentPlayerId,
+        logIds: playerIds,
         username: currentPlayerUsername
       })
     );
@@ -135,6 +162,7 @@ export function* asyncPlayAllTreasures({ id }) {
       playTreasure({
         cardName: "Silver",
         id: currentPlayerId,
+        logIds: playerIds,
         username: currentPlayerUsername
       })
     );
@@ -145,6 +173,7 @@ export function* asyncPlayAllTreasures({ id }) {
       playTreasure({
         cardName: "Copper",
         id: currentPlayerId,
+        logIds: playerIds,
         username: currentPlayerUsername
       })
     );
@@ -268,7 +297,13 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
   );
 }
 
+export function* asyncSendMessage({ entry }) {
+  const playerIds = yield select(gamePlayerIdsSelector);
+  yield put(sendMessage({ entry, logIds: playerIds }));
+}
+
 const gameSagas = [
+  takeEvery("ASYNC_START_GAME", asyncStartGame),
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_GAIN_CARDS", asyncGainCards),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),
@@ -281,7 +316,8 @@ const gameSagas = [
   ),
   takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures),
   takeEvery("ASYNC_TRASH_CARDS", asyncTrashCards),
-  takeEvery("ASYNC_COMPLETE_CHOICE_GAIN_CARDS", asyncCompleteChoiceGainCards)
+  takeEvery("ASYNC_COMPLETE_CHOICE_GAIN_CARDS", asyncCompleteChoiceGainCards),
+  takeEvery("ASYNC_SEND_MESSAGE", asyncSendMessage)
 ];
 
 export default gameSagas;

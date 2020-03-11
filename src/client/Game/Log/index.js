@@ -2,16 +2,22 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 
-const Log = ({ log, logEndRef, socket, username }) => {
+const Log = ({ log, logEndRef, playerId, socket, username }) => {
   const [message, setMessage] = useState("");
   return (
     <div className="gameLogContainer">
       <div className="gameLog">
-        {log.map((entry, index) => (
-          <div key={index} className="gameLogMessage">
-            {entry}
-          </div>
-        ))}
+        {log.map((entry, index) => {
+          if (!entry.ids.includes(playerId)) {
+            return null;
+          }
+
+          return (
+            <div key={index} className="gameLogMessage">
+              {entry.text}
+            </div>
+          );
+        })}
         <div ref={logEndRef} />
       </div>
       <input
@@ -22,7 +28,7 @@ const Log = ({ log, logEndRef, socket, username }) => {
           if (event.key === "Enter") {
             socket.send(
               JSON.stringify({
-                type: "ADD_TO_LOG",
+                type: "ASYNC_SEND_MESSAGE",
                 entry: `(${username}) ${message}`
               })
             );
@@ -37,8 +43,15 @@ const Log = ({ log, logEndRef, socket, username }) => {
 };
 
 Log.propTypes = {
-  log: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  log: PropTypes.arrayOf(
+    PropTypes.shape({
+      ids: PropTypes.string,
+      text: PropTypes.string,
+      type: PropTypes.string
+    })
+  ),
   logEndRef: PropTypes.object.isRequired,
+  playerId: PropTypes.string.isRequired,
   socket: PropTypes.object,
   username: PropTypes.string.isRequired
 };

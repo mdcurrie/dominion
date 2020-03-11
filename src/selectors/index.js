@@ -16,6 +16,8 @@ export const gamePlayersSelector = state => state.game.players;
 export const gamePlayerSelector = state =>
   state.game.players.find(player => player.id === state.game.currentPlayer.id);
 
+export const gamePlayerIdsSelector = state => state.connections.map(c => c.id);
+
 export const gamePlayerFromIdSelector = (state, id) =>
   state.game.players.find(player => player.id === id);
 

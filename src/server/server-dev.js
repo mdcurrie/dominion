@@ -10,8 +10,7 @@ import webpackHotMiddleware from "webpack-hot-middleware";
 import rootReducer from "../reducers";
 import rootSaga from "../sagas";
 import config from "../../webpack.dev.config.js";
-import gameRandomizer from "../utils/randomizer";
-import { startGame, addConnection, asyncRemoveConnection } from "../actions";
+import { addConnection, asyncRemoveConnection } from "../actions";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -42,13 +41,7 @@ app.ws("/dominion", function(ws, req) {
   store.dispatch(addConnection({ ws, id: connectionId, username }));
 
   ws.on("message", function(msg) {
-    if (JSON.parse(msg).type === "START_GAME") {
-      store.dispatch(
-        startGame(gameRandomizer({ connections: store.getState().connections }))
-      );
-    } else {
-      store.dispatch({ ...JSON.parse(msg), id: connectionId });
-    }
+    store.dispatch({ ...JSON.parse(msg), id: connectionId });
   });
 
   ws.on("close", function() {

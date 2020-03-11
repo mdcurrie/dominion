@@ -20,6 +20,7 @@ const Game = ({ game, logEndRef, playerId, socket }) => {
         <Log
           log={game.log}
           logEndRef={logEndRef}
+          playerId={playerId}
           socket={socket}
           username={game.players[playerIndex].username}
         />
@@ -54,7 +55,13 @@ Game.propTypes = {
       buys: PropTypes.number.isRequired,
       gold: PropTypes.number.isRequired
     }),
-    log: PropTypes.arrayOf(PropTypes.string.isRequired)
+    log: PropTypes.arrayOf(
+      PropTypes.shape({
+        ids: PropTypes.string,
+        text: PropTypes.string,
+        type: PropTypes.string
+      })
+    )
   }).isRequired,
   logEndRef: PropTypes.object.isRequired,
   playerId: PropTypes.string.isRequired,

@@ -126,9 +126,21 @@ export default function gameRandomizer({ connections }) {
       gold: 0
     },
     log: [
-      "-- The game has started --",
-      "",
-      `-- ${startingPlayerUsername}'s turn --`
+      {
+        ids: connections.map(c => c.id),
+        text: "-- The game has started --",
+        type: "INFO"
+      },
+      {
+        ids: connections.map(c => c.id),
+        text: "",
+        type: "INFO"
+      },
+      {
+        ids: connections.map(c => c.id),
+        text: `-- ${startingPlayerUsername}'s turn --`,
+        type: "INFO"
+      }
     ],
     score: null,
     playerRequest: null

@@ -5,38 +5,42 @@ export function startGame(game) {
   };
 }
 
-export function endTurn({ id, nextId, nextUsername }) {
+export function endTurn({ id, logIds, nextId, nextUsername }) {
   return {
     type: "END_TURN",
     id,
+    logIds,
     nextId,
     nextUsername
   };
 }
 
-export function buyCard({ cardName, id, username }) {
+export function buyCard({ cardName, id, logIds, username }) {
   return {
     type: "BUY_CARD",
     cardName,
     id,
+    logIds,
     username
   };
 }
 
-export function playTreasure({ cardName, id, username }) {
+export function playTreasure({ cardName, id, logIds, username }) {
   return {
     type: "PLAY_TREASURE",
     cardName,
     id,
+    logIds,
     username
   };
 }
 
-export function playAction({ cardName, id, username }) {
+export function playAction({ cardName, id, logIds, username }) {
   return {
     type: "PLAY_ACTION",
     cardName,
     id,
+    logIds,
     username
   };
 }
@@ -56,6 +60,14 @@ export function gainCards({ cardName, gainAmount, id, location }) {
     gainAmount,
     id,
     location
+  };
+}
+
+export function sendMessage({ entry, logIds }) {
+  return {
+    type: "SEND_MESSAGE",
+    entry,
+    logIds
   };
 }
 
