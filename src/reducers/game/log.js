@@ -73,6 +73,15 @@ const log = (state = [], action) => {
           "INFO"
         )
       ];
+    case "CHOICE_GAIN_CARDS":
+      return [
+        ...state,
+        createLogEntry(
+          action.id,
+          `Please choose a card from the supply costing up to ${action.maxCost}.`,
+          "REQUEST"
+        )
+      ];
     default:
       return state;
   }

@@ -24,6 +24,10 @@
   color: blue;
 }
 
+.gameLogEntryRequest {
+  color: green;
+}
+
 .gameLogInput {
   background-color: #5d5d5d;
   border: none;
