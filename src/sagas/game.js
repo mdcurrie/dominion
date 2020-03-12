@@ -56,7 +56,13 @@ export function* asyncBuyCard({ id, name: cardName }) {
   const player = yield select(gamePlayerSelector);
   const playerIds = yield select(gamePlayerIdsSelector);
   yield put(
-    buyCard({ cardName, id, logIds: playerIds, username: player.username })
+    buyCard({
+      cardName,
+      id,
+      location: "DISCARD",
+      logIds: playerIds,
+      username: player.username
+    })
   );
 
   currentPlayer = yield select(currentPlayerSelector);
@@ -305,10 +311,15 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
     completeChoiceGainCards({
       cardName,
       id,
+      location: playerRequest.location,
       logIds: playerIds,
       username: player.username
     })
   );
+
+  if (playerRequest.onChoice) {
+    console.log('here');
+  }
 }
 
 export function* asyncSendMessage({ entry }) {

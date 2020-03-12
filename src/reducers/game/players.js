@@ -7,15 +7,25 @@ const players = (state = [], action) => {
       return action.players;
     case "COMPLETE_CHOICE_GAIN_CARDS":
     case "BUY_CARD":
-      playerIndex = state.findIndex(p => p.id === action.id);
+      playerIndex = state.findIndex(player => player.id === action.id);
       player = state[playerIndex];
+      discard = [...player.cards.discard];
+      hand = [...player.cards.hand];
+
+      if (action.location === "DISCARD") {
+        discard.push(action.cardName);
+      } else if (action.location === "HAND") {
+        hand.push(action.cardName);
+      }
+
       return [
         ...state.slice(0, playerIndex),
         {
           ...player,
           cards: {
             ...player.cards,
-            discard: [...player.cards.discard, action.cardName]
+            discard,
+            hand
           }
         },
         ...state.slice(playerIndex + 1)

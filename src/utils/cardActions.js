@@ -18,7 +18,7 @@ const cardActions = {
   Workshop: [
     {
       type: "CHOICE_GAIN_CARDS",
-      data: { gainAmount: 1, maxCost: 4 }
+      data: { gainAmount: 1, maxCost: 4, location: "DISCARD" }
     }
   ],
   Bureaucrat: [
@@ -94,8 +94,26 @@ const cardActions = {
         location: "DISCARD"
       }
     }
+  ],
+  Artisan: [
+    {
+      type: "CHOICE_GAIN_CARDS",
+      data: {
+        gainAmount: 1,
+        maxCost: 5,
+        location: "HAND",
+        onChoice: {
+          type: "SELECT_CARD_IN_HAND",
+          data: {
+            selectAmount: 1,
+            onReveal: {
+              type: "PLACE_IN_DECK"
+            }
+          }
+        }
+      }
+    }
   ]
-  //   Artisan: []
 };
 
 export default cardActions;

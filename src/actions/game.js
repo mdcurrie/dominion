@@ -15,11 +15,12 @@ export function endTurn({ id, logIds, nextId, nextUsername }) {
   };
 }
 
-export function buyCard({ cardName, id, logIds, username }) {
+export function buyCard({ cardName, id, location, logIds, username }) {
   return {
     type: "BUY_CARD",
     cardName,
     id,
+    location,
     logIds,
     username
   };
@@ -122,11 +123,18 @@ export function updateScore({ players }) {
   };
 }
 
-export function completeChoiceGainCards({ cardName, id, logIds, username }) {
+export function completeChoiceGainCards({
+  cardName,
+  id,
+  location,
+  logIds,
+  username
+}) {
   return {
     type: "COMPLETE_CHOICE_GAIN_CARDS",
     cardName,
     id,
+    location,
     logIds,
     username
   };
