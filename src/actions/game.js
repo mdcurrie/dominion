@@ -78,9 +78,10 @@ export function gainFloatingGold({ floatingGoldAmount }) {
   };
 }
 
-export function blockAttack({ username }) {
+export function blockAttack({ logIds, username }) {
   return {
     type: "BLOCK_ATTACK",
+    logIds,
     username
   };
 }
@@ -94,20 +95,22 @@ export function trashCards({ cardName, id, trashAmount }) {
   };
 }
 
-export function revealCards({ cards, username }) {
+export function revealCards({ cards, logIds, username }) {
   return {
     type: "REVEAL_CARDS",
     cards,
+    logIds,
     username
   };
 }
 
-export function placeInDeck({ cardIndex, cardName, id, username }) {
+export function placeInDeck({ cardIndex, cardName, id, logIds, username }) {
   return {
     type: "PLACE_IN_DECK",
     cardIndex,
     cardName,
     id,
+    logIds,
     username
   };
 }
@@ -119,11 +122,12 @@ export function updateScore({ players }) {
   };
 }
 
-export function completeChoiceGainCards({ id, cardName, username }) {
+export function completeChoiceGainCards({ cardName, id, logIds, username }) {
   return {
     type: "COMPLETE_CHOICE_GAIN_CARDS",
     cardName,
     id,
+    logIds,
     username
   };
 }

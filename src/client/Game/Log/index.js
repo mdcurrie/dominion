@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import "./styles.css";
 
 const Log = ({ log, logEndRef, playerId, socket, username }) => {
@@ -13,7 +14,12 @@ const Log = ({ log, logEndRef, playerId, socket, username }) => {
           }
 
           return (
-            <div key={index} className="gameLogMessage">
+            <div
+              key={index}
+              className={classNames("gameLogEntry", {
+                gameLogEntryMessage: entry.type === "MESSAGE"
+              })}
+            >
               {entry.text}
             </div>
           );

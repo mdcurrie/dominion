@@ -194,10 +194,13 @@ export function* asyncOtherPlayersGainCards({
   location
 }) {
   const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
   for (let id of otherPlayersIds) {
     let otherPlayer = yield select(gamePlayerFromIdSelector, id);
     if (blockable && otherPlayer.cards.hand.includes("Moat")) {
-      yield put(blockAttack({ username: otherPlayer.username }));
+      yield put(
+        blockAttack({ logIds: playerIds, username: otherPlayer.username })
+      );
       continue;
     }
 
@@ -245,10 +248,13 @@ export function* asyncGainCards({ cardName, gainAmount, id, location }) {
 
 export function* asyncOtherPlayersRevealVictory({ blockable, onReveal }) {
   const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
   for (let id of otherPlayersIds) {
     let otherPlayer = yield select(gamePlayerFromIdSelector, id);
     if (blockable && otherPlayer.cards.hand.includes("Moat")) {
-      yield put(blockAttack({ username: otherPlayer.username }));
+      yield put(
+        blockAttack({ logIds: playerIds, username: otherPlayer.username })
+      );
       continue;
     }
 
@@ -259,6 +265,7 @@ export function* asyncOtherPlayersRevealVictory({ blockable, onReveal }) {
       yield put(
         revealCards({
           cards: otherPlayer.cards.hand,
+          logIds: playerIds,
           username: otherPlayer.username
         })
       );
@@ -268,6 +275,7 @@ export function* asyncOtherPlayersRevealVictory({ blockable, onReveal }) {
           placeInDeck({
             cardIndex,
             cardName: otherPlayer.cards.hand[cardIndex],
+            logIds: playerIds,
             id: otherPlayer.id,
             username: otherPlayer.username
           })
@@ -281,6 +289,7 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
   const cardCount = yield select(gameSupplyCardCountSelector, cardName);
   const playerRequest = yield select(gamePlayerRequestSelector);
   const player = yield select(gamePlayerSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
   if (
     cardCount <= 0 ||
     playerRequest == null ||
@@ -293,7 +302,12 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
   }
 
   yield put(
-    completeChoiceGainCards({ id, cardName, username: player.username })
+    completeChoiceGainCards({
+      cardName,
+      id,
+      logIds: playerIds,
+      username: player.username
+    })
   );
 }
 

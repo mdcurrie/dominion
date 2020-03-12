@@ -38,19 +38,41 @@ const log = (state = [], action) => {
         )
       ];
     case "BLOCK_ATTACK":
-      return [...state, `${action.username} blocked the attack.`];
+      return [
+        ...state,
+        createLogEntry(
+          action.logIds,
+          `${action.username} blocked the attack.`,
+          "INFO"
+        )
+      ];
     case "REVEAL_CARDS":
       return [
         ...state,
-        `${action.username} revealed ${action.cards.join(", ")}.`
+        createLogEntry(
+          action.logIds,
+          `${action.username} revealed ${action.cards.join(", ")}.`,
+          "INFO"
+        )
       ];
     case "PLACE_IN_DECK":
       return [
         ...state,
-        `${action.username} placed ${action.cardName} on top of their deck.`
+        createLogEntry(
+          action.logIds,
+          `${action.username} placed ${action.cardName} on top of their deck.`,
+          "INFO"
+        )
       ];
     case "COMPLETE_CHOICE_GAIN_CARDS":
-      return [...state, `${action.username} gained a ${action.cardName}.`];
+      return [
+        ...state,
+        createLogEntry(
+          action.logIds,
+          `${action.username} gained a ${action.cardName}.`,
+          "INFO"
+        )
+      ];
     default:
       return state;
   }

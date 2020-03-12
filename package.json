@@ -16,6 +16,7 @@
     "node": "13.x"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
     "lodash": "^4.17.15",

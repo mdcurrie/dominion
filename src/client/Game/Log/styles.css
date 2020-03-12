@@ -15,9 +15,13 @@
   padding: 10px;
 }
 
-.gameLogMessage {
+.gameLogEntry {
   font-family: sans-serif;
   min-height: 1.1rem;
+}
+
+.gameLogEntryMessage {
+  color: blue;
 }
 
 .gameLogInput {
