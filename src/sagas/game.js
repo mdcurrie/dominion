@@ -337,7 +337,8 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
     playerRequest == null ||
     playerRequest.id !== id ||
     playerRequest.type !== "SELECT_CARDS_IN_HAND" ||
-    playerRequest.selectAmount !== cardIndexes.length
+    cardIndexes.length < playerRequest.minSelectAmount ||
+    cardIndexes.length > playerRequest.maxSelectAmount
   ) {
     return;
   }
@@ -348,6 +349,9 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
     yield put({
       type,
       cardIndexes,
+      cards: player.cards.hand.filter((cardName, index) =>
+        cardIndexes.includes(index)
+      ),
       id,
       logIds: playerIds,
       username: player.username,

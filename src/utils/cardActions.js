@@ -1,6 +1,18 @@
 const cardActions = {
-  //   Cellar: [{ type: "GAIN_ACTIONS", data: { actionAmount: 2 } }],
-  //   Chapel: [],
+  // Cellar: [],
+  Chapel: [
+    {
+      type: "SELECT_CARDS_IN_HAND",
+      data: {
+        minSelectAmount: 0,
+        maxSelectAmount: 4,
+        onSelect: {
+          type: "TRASH_SELECTED_CARDS",
+          data: {}
+        }
+      }
+    }
+  ],
   Moat: [{ type: "DRAW_CARDS", data: { drawAmount: 2 } }],
   //   Harbinger: [
   //     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
@@ -105,7 +117,8 @@ const cardActions = {
         onChoice: {
           type: "SELECT_CARDS_IN_HAND",
           data: {
-            selectAmount: 1,
+            minSelectAmount: 1,
+            maxSelectAmount: 1,
             onSelect: {
               type: "PLACE_SELECTED_CARDS_IN_DECK",
               data: {}

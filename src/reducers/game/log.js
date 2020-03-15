@@ -3,6 +3,7 @@ function createLogEntry(ids, text, type) {
 }
 
 const log = (state = [], action) => {
+  let selectText;
   switch (action.type) {
     case "START_GAME":
       return action.log;
@@ -83,15 +84,23 @@ const log = (state = [], action) => {
         )
       ];
     case "SELECT_CARDS_IN_HAND":
+      if (action.minSelectAmount == action.maxSelectAmount) {
+        selectText =
+          action.maxSelectAmount === 1
+            ? "1 card"
+            : `${action.maxSelectAmount} cards`;
+      } else {
+        selectText =
+          action.maxSelectAmount === 1
+            ? "up to 1 card"
+            : `up to ${action.maxSelectAmount} cards`;
+      }
+
       return [
         ...state,
         createLogEntry(
           action.id,
-          `Please choose ${
-            action.selectAmount === 1
-              ? "1 card"
-              : `${action.selectAmount} cards`
-          } from your hand.`,
+          `Please choose ${selectText} from your hand.`,
           "REQUEST"
         )
       ];
@@ -105,6 +114,15 @@ const log = (state = [], action) => {
               ? "1 card"
               : `${action.cardIndexes.length} cards`
           } on top of their deck.`,
+          "INFO"
+        )
+      ];
+    case "TRASH_SELECTED_CARDS":
+      return [
+        ...state,
+        createLogEntry(
+          action.logIds,
+          `${action.username} trashed ${action.cards.join(", ")}.`,
           "INFO"
         )
       ];

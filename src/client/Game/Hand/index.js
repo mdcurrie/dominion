@@ -22,13 +22,14 @@ const Hand = ({ hand, playerId, playerRequest, socket }) => {
       playerRequest.type === "SELECT_CARDS_IN_HAND"
     ) {
       if (selectedCardsCopy.includes(index)) {
+        let selectedIndex = selectedCardsCopy.indexOf(index);
         selectedCardsCopy = [
-          ...selectedCards.slice(0, index),
-          ...selectedCardsCopy.slice(index + 1)
+          ...selectedCardsCopy.slice(0, selectedIndex),
+          ...selectedCardsCopy.slice(selectedIndex + 1)
         ];
       } else {
         selectedCardsCopy.push(index);
-        if (selectedCardsCopy.length > playerRequest.selectAmount) {
+        if (selectedCardsCopy.length > playerRequest.maxSelectAmount) {
           selectedCardsCopy.shift();
         }
       }
