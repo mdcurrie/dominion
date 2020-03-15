@@ -17,6 +17,7 @@ import {
   blockAttack,
   buyCard,
   completeChoiceGainCards,
+  completeSelectCardsInHand,
   drawCards,
   endTurn,
   gainCards,
@@ -318,13 +319,41 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
   );
 
   if (playerRequest.onChoice) {
-    console.log('here');
+    const { type, data } = playerRequest.onChoice;
+    yield put({ type, id, ...data });
   }
 }
 
 export function* asyncSendMessage({ entry }) {
   const playerIds = yield select(gamePlayerIdsSelector);
   yield put(sendMessage({ entry, logIds: playerIds }));
+}
+
+export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
+  const player = yield select(gamePlayerSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
+  const playerRequest = yield select(gamePlayerRequestSelector);
+  if (
+    playerRequest == null ||
+    playerRequest.id !== id ||
+    playerRequest.type !== "SELECT_CARDS_IN_HAND" ||
+    playerRequest.selectAmount !== cardIndexes.length
+  ) {
+    return;
+  }
+
+  yield put(completeSelectCardsInHand());
+  if (playerRequest.onSelect) {
+    const { type, data } = playerRequest.onSelect;
+    yield put({
+      type,
+      cardIndexes,
+      id,
+      logIds: playerIds,
+      username: player.username,
+      ...data
+    });
+  }
 }
 
 const gameSagas = [
@@ -342,7 +371,11 @@ const gameSagas = [
   takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures),
   takeEvery("ASYNC_TRASH_CARDS", asyncTrashCards),
   takeEvery("ASYNC_COMPLETE_CHOICE_GAIN_CARDS", asyncCompleteChoiceGainCards),
-  takeEvery("ASYNC_SEND_MESSAGE", asyncSendMessage)
+  takeEvery("ASYNC_SEND_MESSAGE", asyncSendMessage),
+  takeEvery(
+    "ASYNC_COMPLETE_SELECT_CARDS_IN_HAND",
+    asyncCompleteSelectCardsInHand
+  )
 ];
 
 export default gameSagas;

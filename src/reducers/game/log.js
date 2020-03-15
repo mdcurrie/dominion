@@ -82,6 +82,32 @@ const log = (state = [], action) => {
           "REQUEST"
         )
       ];
+    case "SELECT_CARDS_IN_HAND":
+      return [
+        ...state,
+        createLogEntry(
+          action.id,
+          `Please choose ${
+            action.selectAmount === 1
+              ? "1 card"
+              : `${action.selectAmount} cards`
+          } from your hand.`,
+          "REQUEST"
+        )
+      ];
+    case "PLACE_SELECTED_CARDS_IN_DECK":
+      return [
+        ...state,
+        createLogEntry(
+          action.logIds,
+          `${action.username} placed ${
+            action.cardIndexes.length === 1
+              ? "1 card"
+              : `${action.cardIndexes.length} cards`
+          } on top of their deck.`,
+          "INFO"
+        )
+      ];
     default:
       return state;
   }

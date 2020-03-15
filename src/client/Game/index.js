@@ -13,6 +13,7 @@ const Game = ({ game, logEndRef, playerId, socket }) => {
     <div className="game">
       <div className="topRow">
         <Supply
+          playerId={playerId}
           playerRequest={game.playerRequest}
           supply={game.supply}
           socket={socket}
@@ -26,7 +27,12 @@ const Game = ({ game, logEndRef, playerId, socket }) => {
         />
       </div>
       <div className="bottomRow">
-        <Hand hand={game.players[playerIndex].cards.hand} socket={socket} />
+        <Hand
+          hand={game.players[playerIndex].cards.hand}
+          playerId={playerId}
+          playerRequest={game.playerRequest}
+          socket={socket}
+        />
         <Misc
           currentPlayer={game.currentPlayer}
           deck={game.players[playerIndex].cards.deck}
@@ -61,7 +67,9 @@ Game.propTypes = {
         text: PropTypes.string,
         type: PropTypes.string
       })
-    )
+    ),
+    playerRequest: PropTypes.object,
+    score: PropTypes.object
   }).isRequired,
   logEndRef: PropTypes.object.isRequired,
   playerId: PropTypes.string.isRequired,

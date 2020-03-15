@@ -139,3 +139,7 @@ export function completeChoiceGainCards({
     username
   };
 }
+
+export function completeSelectCardsInHand() {
+  return { type: "COMPLETE_SELECT_CARDS_IN_HAND" };
+}

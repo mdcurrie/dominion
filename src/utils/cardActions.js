@@ -103,11 +103,12 @@ const cardActions = {
         maxCost: 5,
         location: "HAND",
         onChoice: {
-          type: "SELECT_CARD_IN_HAND",
+          type: "SELECT_CARDS_IN_HAND",
           data: {
             selectAmount: 1,
-            onReveal: {
-              type: "PLACE_IN_DECK"
+            onSelect: {
+              type: "PLACE_SELECTED_CARDS_IN_DECK",
+              data: {}
             }
           }
         }

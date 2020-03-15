@@ -3,7 +3,7 @@ const playerRequest = (state = null, action) => {
   switch (action.type) {
     case "START_GAME":
       return action.playerRequest;
-    case "SELECT_CARD_IN_HAND":
+    case "SELECT_CARDS_IN_HAND":
     case "CHOICE_GAIN_CARDS":
       return action;
     case "COMPLETE_CHOICE_GAIN_CARDS":
@@ -13,6 +13,7 @@ const playerRequest = (state = null, action) => {
       } else {
         return { ...state, gainAmount };
       }
+    case "COMPLETE_SELECT_CARDS_IN_HAND":
     case "END_TURN":
       return null;
     default:

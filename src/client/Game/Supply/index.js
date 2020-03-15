@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 
-const Supply = ({ playerRequest, supply, socket }) => (
+const Supply = ({ playerId, playerRequest, supply, socket }) => (
   <div className="gameSupply">
     {supply.map((c, index) => (
       <div
@@ -13,7 +13,11 @@ const Supply = ({ playerRequest, supply, socket }) => (
             return;
           }
 
-          if (playerRequest && playerRequest.type === "CHOICE_GAIN_CARDS") {
+          if (
+            playerRequest &&
+            playerRequest.id === playerId &&
+            playerRequest.type === "CHOICE_GAIN_CARDS"
+          ) {
             socket.send(
               JSON.stringify({
                 type: "ASYNC_COMPLETE_CHOICE_GAIN_CARDS",
@@ -38,6 +42,7 @@ const Supply = ({ playerRequest, supply, socket }) => (
 );
 
 Supply.propTypes = {
+  playerId: PropTypes.string.isRequired,
   playerRequest: PropTypes.object,
   supply: PropTypes.arrayOf(
     PropTypes.shape({
