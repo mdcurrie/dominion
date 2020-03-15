@@ -360,6 +360,8 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
   }
 }
 
+export function* asyncDiscardSelectedCards() {}
+
 const gameSagas = [
   takeEvery("ASYNC_START_GAME", asyncStartGame),
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
@@ -379,7 +381,8 @@ const gameSagas = [
   takeEvery(
     "ASYNC_COMPLETE_SELECT_CARDS_IN_HAND",
     asyncCompleteSelectCardsInHand
-  )
+  ),
+  takeEvery("ASYNC_DISCARD_SELECTED_CARDS", asyncDiscardSelectedCards)
 ];
 
 export default gameSagas;

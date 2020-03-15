@@ -89,6 +89,8 @@ const log = (state = [], action) => {
           action.maxSelectAmount === 1
             ? "1 card"
             : `${action.maxSelectAmount} cards`;
+      } else if (action.maxSelectAmount == null) {
+        selectText = "any number of cards";
       } else {
         selectText =
           action.maxSelectAmount === 1

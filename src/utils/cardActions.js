@@ -1,5 +1,17 @@
 const cardActions = {
-  // Cellar: [],
+  Cellar: [
+    {
+      type: "SELECT_CARDS_IN_HAND",
+      data: {
+        minSelectAmount: 0,
+        maxSelectAmount: null,
+        onSelect: {
+          type: "ASYNC_DISCARD_SELECTED_CARDS",
+          data: {}
+        }
+      }
+    }
+  ],
   Chapel: [
     {
       type: "SELECT_CARDS_IN_HAND",

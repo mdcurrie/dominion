@@ -29,7 +29,10 @@ const Hand = ({ hand, playerId, playerRequest, socket }) => {
         ];
       } else {
         selectedCardsCopy.push(index);
-        if (selectedCardsCopy.length > playerRequest.maxSelectAmount) {
+        if (
+          playerRequest.maxSelectAmount != null &&
+          selectedCardsCopy.length > playerRequest.maxSelectAmount
+        ) {
           selectedCardsCopy.shift();
         }
       }
