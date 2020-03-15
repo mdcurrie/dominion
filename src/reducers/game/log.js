@@ -52,7 +52,9 @@ const log = (state = [], action) => {
         ...state,
         createLogEntry(
           action.logIds,
-          `${action.username} revealed ${action.cards.join(", ")}.`,
+          `${action.username} revealed ${
+            action.cards.length > 0 ? action.cards.join(", ") : "no cards"
+          }.`,
           "INFO"
         )
       ];
@@ -124,7 +126,20 @@ const log = (state = [], action) => {
         ...state,
         createLogEntry(
           action.logIds,
-          `${action.username} trashed ${action.cards.join(", ")}.`,
+          `${action.username} trashed ${
+            action.cards.length > 0 ? action.cards.join(", ") : "no cards"
+          }.`,
+          "INFO"
+        )
+      ];
+    case "DISCARD_CARDS":
+      return [
+        ...state,
+        createLogEntry(
+          action.logIds,
+          `${action.username} discarded ${
+            action.cards.length > 0 ? action.cards.join(", ") : "no cards"
+          }.`,
           "INFO"
         )
       ];

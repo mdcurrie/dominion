@@ -206,6 +206,29 @@ const players = (state = [], action) => {
         },
         ...state.slice(playerIndex + 1)
       ];
+    case "DISCARD_CARDS":
+      playerIndex = state.findIndex(player => player.id === action.id);
+      player = state[playerIndex];
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            hand: player.cards.hand.filter(
+              (card, index) => !action.cardIndexes.includes(index)
+            ),
+            discard: [
+              ...player.cards.discard,
+              ...player.cards.hand.filter((card, index) =>
+                action.cardIndexes.includes(index)
+              )
+            ]
+          }
+        },
+        ...state.slice(playerIndex + 1)
+      ];
     default:
       return state;
   }

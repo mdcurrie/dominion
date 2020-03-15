@@ -18,6 +18,7 @@ import {
   buyCard,
   completeChoiceGainCards,
   completeSelectCardsInHand,
+  discardCards,
   drawCards,
   endTurn,
   gainCards,
@@ -338,20 +339,22 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
     playerRequest.id !== id ||
     playerRequest.type !== "SELECT_CARDS_IN_HAND" ||
     cardIndexes.length < playerRequest.minSelectAmount ||
-    cardIndexes.length > playerRequest.maxSelectAmount
+    (playerRequest.maxSelectAmount != null &&
+      cardIndexes.length > playerRequest.maxSelectAmount)
   ) {
     return;
   }
 
   yield put(completeSelectCardsInHand());
+  const cards = player.cards.hand.filter((cardName, index) =>
+    cardIndexes.includes(index)
+  );
   if (playerRequest.onSelect) {
     const { type, data } = playerRequest.onSelect;
     yield put({
       type,
       cardIndexes,
-      cards: player.cards.hand.filter((cardName, index) =>
-        cardIndexes.includes(index)
-      ),
+      cards,
       id,
       logIds: playerIds,
       username: player.username,
@@ -360,7 +363,28 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
   }
 }
 
-export function* asyncDiscardSelectedCards() {}
+export function* asyncDiscardSelectedCards({ cardIndexes, id, onDiscard }) {
+  const player = yield select(gamePlayerSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
+  const cards = player.cards.hand.filter((cardName, index) =>
+    cardIndexes.includes(index)
+  );
+
+  yield put(
+    discardCards({
+      cards,
+      cardIndexes,
+      id,
+      logIds: playerIds,
+      username: player.username
+    })
+  );
+
+  if (onDiscard) {
+    const { type, data } = onDiscard;
+    yield put({ type, drawAmount: cardIndexes.length, id, ...data });
+  }
+}
 
 const gameSagas = [
   takeEvery("ASYNC_START_GAME", asyncStartGame),

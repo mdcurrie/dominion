@@ -143,3 +143,7 @@ export function completeChoiceGainCards({
 export function completeSelectCardsInHand() {
   return { type: "COMPLETE_SELECT_CARDS_IN_HAND" };
 }
+
+export function discardCards({ cards, cardIndexes, id, logIds, username }) {
+  return { type: "DISCARD_CARDS", cards, cardIndexes, id, logIds, username };
+}

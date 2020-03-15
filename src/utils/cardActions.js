@@ -7,7 +7,9 @@ const cardActions = {
         maxSelectAmount: null,
         onSelect: {
           type: "ASYNC_DISCARD_SELECTED_CARDS",
-          data: {}
+          data: {
+            onDiscard: { type: "DRAW_CARDS" }
+          }
         }
       }
     }
