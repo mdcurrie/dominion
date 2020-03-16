@@ -350,16 +350,19 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
     cardIndexes.includes(index)
   );
   if (playerRequest.onSelect) {
-    const { type, data } = playerRequest.onSelect;
-    yield put({
-      type,
-      cardIndexes,
-      cards,
-      id,
-      logIds: playerIds,
-      username: player.username,
-      ...data
-    });
+    for (let onSelectAction of playerRequest.onSelect) {
+      let { type, data } = onSelectAction;
+      yield put({
+        type,
+        cardIndexes,
+        cards,
+        id,
+        logIds: playerIds,
+        maxCost: cardPrices[cards[0]] + playerRequest.choiceGainAdditionalCost,
+        username: player.username,
+        ...data
+      });
+    }
   }
 }
 
