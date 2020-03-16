@@ -304,7 +304,9 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
     playerRequest.id !== id ||
     playerRequest.type !== "CHOICE_GAIN_CARDS" ||
     playerRequest.gainAmount <= 0 ||
-    playerRequest.maxCost < cardPrices[cardName]
+    playerRequest.maxCost < cardPrices[cardName] ||
+    (playerRequest.cardType === "TREASURE" &&
+      !["Copper", "Silver", "Gold"].includes(cardName))
   ) {
     return;
   }
@@ -334,21 +336,23 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
   const player = yield select(gamePlayerSelector);
   const playerIds = yield select(gamePlayerIdsSelector);
   const playerRequest = yield select(gamePlayerRequestSelector);
+  const cards = player.cards.hand.filter((cardName, index) =>
+    cardIndexes.includes(index)
+  );
   if (
     playerRequest == null ||
     playerRequest.id !== id ||
     playerRequest.type !== "SELECT_CARDS_IN_HAND" ||
     cardIndexes.length < playerRequest.minSelectAmount ||
     (playerRequest.maxSelectAmount != null &&
-      cardIndexes.length > playerRequest.maxSelectAmount)
+      cardIndexes.length > playerRequest.maxSelectAmount) ||
+    (playerRequest.cardType === "TREASURE" &&
+      !["Copper", "Silver", "Gold"].includes(cards[0]))
   ) {
     return;
   }
 
   yield put(completeSelectCardsInHand());
-  const cards = player.cards.hand.filter((cardName, index) =>
-    cardIndexes.includes(index)
-  );
   if (playerRequest.onSelect) {
     for (let onSelectAction of playerRequest.onSelect) {
       let { type, data } = onSelectAction;
