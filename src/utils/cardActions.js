@@ -101,7 +101,12 @@ const cardActions = {
   ],
   Smithy: [{ type: "DRAW_CARDS", data: { drawAmount: 3 } }],
   "Throne Room": [],
-  //   Bandit: [],
+  Bandit: [
+    {
+      type: "ASYNC_GAIN_CARDS",
+      data: { cardName: "Gold", gainAmount: 1, location: "DISCARD" }
+    }
+  ],
   "Council Room": [
     { type: "DRAW_CARDS", data: { drawAmount: 4 } },
     { type: "GAIN_BUYS", data: { buyAmount: 1 } },
