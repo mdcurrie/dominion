@@ -159,7 +159,7 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
     playerRequest.gainAmount <= 0 ||
     playerRequest.maxCost < CARD_COSTS[cardName] ||
     (playerRequest.cardType === "TREASURE" &&
-      !["Copper", "Silver", "Gold"].includes(cardName))
+      !TREASURE_CARDS.includes(cardName))
   ) {
     return;
   }
@@ -173,10 +173,8 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
       username: player.username
     })
   );
-
-  if (playerRequest.onChoice) {
-    const { type, data } = playerRequest.onChoice;
-    yield put({ type, id, ...data });
+  if (playerRequest.next) {
+    yield put(playerRequest.next);
   }
 }
 
@@ -187,7 +185,6 @@ export function* asyncSendMessage({ entry }) {
 
 export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
   const player = yield select(gamePlayerSelector);
-  const playerIds = yield select(gamePlayerIdsSelector);
   const playerRequest = yield select(gamePlayerRequestSelector);
   const cards = player.cards.hand.filter((cardName, index) =>
     cardIndexes.includes(index)
@@ -200,26 +197,14 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
     (playerRequest.maxSelectAmount != null &&
       cardIndexes.length > playerRequest.maxSelectAmount) ||
     (playerRequest.cardType === "TREASURE" &&
-      !["Copper", "Silver", "Gold"].includes(cards[0]))
+      !TREASURE_CARDS.includes(cards[0]))
   ) {
     return;
   }
 
   yield put(completeSelectCardsInHand());
-  if (playerRequest.onSelect) {
-    for (let onSelectAction of playerRequest.onSelect) {
-      let { type, data } = onSelectAction;
-      yield put({
-        type,
-        cardIndexes,
-        cards,
-        id,
-        logIds: playerIds,
-        maxCost: CARD_COSTS[cards[0]] + playerRequest.choiceGainAdditionalCost,
-        username: player.username,
-        ...data
-      });
-    }
+  if (playerRequest.next) {
+    yield put({ ...playerRequest.next, cards, cardIndexes });
   }
 }
 

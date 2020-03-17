@@ -104,6 +104,23 @@ export function trashCards({ cardName, id, trashAmount }) {
   };
 }
 
+export function trashSelectedCards({
+  cards,
+  cardIndexes,
+  id,
+  logIds,
+  username
+}) {
+  return {
+    type: "TRASH_SELECTED_CARDS",
+    cards,
+    cardIndexes,
+    id,
+    logIds,
+    username
+  };
+}
+
 export function revealCards({ cards, logIds, username }) {
   return {
     type: "REVEAL_CARDS",
@@ -121,6 +138,59 @@ export function placeInDeck({ cardIndex, cardName, id, logIds, username }) {
     id,
     logIds,
     username
+  };
+}
+
+export function placeSelectedCardsInDeck({
+  cardIndexes,
+  id,
+  logIds,
+  username
+}) {
+  return {
+    type: "PLACE_SELECTED_CARDS_IN_DECK",
+    cardIndexes,
+    id,
+    logIds,
+    username
+  };
+}
+
+export function choiceGainCards({
+  cardType,
+  gainAmount,
+  id,
+  location,
+  maxCost,
+  next
+}) {
+  return {
+    type: "CHOICE_GAIN_CARDS",
+    cardType,
+    gainAmount,
+    id,
+    location,
+    maxCost,
+    next
+  };
+}
+
+export function selectCardsInHand({
+  cardType,
+  id,
+  logIds,
+  maxSelectAmount,
+  minSelectAmount,
+  next
+}) {
+  return {
+    type: "SELECT_CARDS_IN_HAND",
+    cardType,
+    id,
+    logIds,
+    maxSelectAmount,
+    minSelectAmount,
+    next
   };
 }
 

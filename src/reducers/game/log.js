@@ -103,7 +103,7 @@ const log = (state = [], action) => {
       return [
         ...state,
         createLogEntry(
-          action.id,
+          action.logIds,
           `Please choose ${selectText} from your hand.`,
           "REQUEST"
         )

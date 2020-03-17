@@ -1,5 +1,5 @@
 import { put, takeEvery, select } from "redux-saga/effects";
-import { playAction } from "../../../actions";
+import { choiceGainCards, playAction } from "../../../actions";
 import { gamePlayerIdsSelector, gamePlayerSelector } from "../../../selectors";
 
 export function* asyncPlayWorkshop() {
@@ -12,6 +12,14 @@ export function* asyncPlayWorkshop() {
       id: player.id,
       logIds: playerIds,
       username: player.username
+    })
+  );
+  yield put(
+    choiceGainCards({
+      gainAmount: 1,
+      id: player.id,
+      location: "DISCARD",
+      maxCost: 4
     })
   );
 }
