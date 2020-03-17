@@ -7,27 +7,20 @@ import {
   gameIsOverSelector,
   gameSupplyCardCountSelector,
   gameNextPlayerSelector,
-  gameOtherPlayersIdsSelector,
-  gamePlayerFromIdSelector,
   gamePlayerIdsSelector,
   gamePlayerRequestSelector,
   gamePlayerSelector,
   gamePlayersSelector
 } from "../selectors";
 import {
-  blockAttack,
   buyCard,
   completeChoiceGainCards,
   completeSelectCardsInHand,
   discardCards,
-  drawCards,
   endTurn,
   gainCards,
-  placeInDeck,
-  revealCards,
   sendMessage,
   startGame,
-  trashCards,
   updateScore
 } from "../actions";
 import cardPrices from "../utils/cardPrices";
@@ -139,60 +132,6 @@ export function* asyncPlayAllTreasures({ id }) {
   }
 }
 
-export function* asyncOtherPlayersDrawCards({ drawAmount }) {
-  const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
-  for (let id of otherPlayersIds) {
-    yield put(drawCards({ drawAmount, id }));
-  }
-}
-
-export function* asyncOtherPlayersGainCards({
-  blockable,
-  cardName,
-  gainAmount,
-  location
-}) {
-  const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
-  const playerIds = yield select(gamePlayerIdsSelector);
-  for (let id of otherPlayersIds) {
-    let otherPlayer = yield select(gamePlayerFromIdSelector, id);
-    if (blockable && otherPlayer.cards.hand.includes("Moat")) {
-      yield put(
-        blockAttack({ logIds: playerIds, username: otherPlayer.username })
-      );
-      continue;
-    }
-
-    let cardCount = yield select(gameSupplyCardCountSelector, cardName);
-    yield put(
-      gainCards({
-        cardName,
-        gainAmount: Math.min(gainAmount, cardCount),
-        id,
-        location
-      })
-    );
-  }
-}
-
-export function* asyncTrashCards({ cardName, id, onTrash, trashAmount }) {
-  const player = yield select(gamePlayerSelector);
-  const inHandAmount = player.cards.hand.filter(c => c === cardName).length;
-
-  yield put(
-    trashCards({
-      cardName,
-      id,
-      trashAmount: Math.min(trashAmount, inHandAmount)
-    })
-  );
-
-  if (inHandAmount >= trashAmount) {
-    const { type, data } = onTrash;
-    yield put({ type, ...data });
-  }
-}
-
 export function* asyncGainCards({ cardName, gainAmount, id, location }) {
   const cardCount = yield select(gameSupplyCardCountSelector, cardName);
   yield put(
@@ -203,45 +142,6 @@ export function* asyncGainCards({ cardName, gainAmount, id, location }) {
       location
     })
   );
-}
-
-export function* asyncOtherPlayersRevealVictory({ blockable, onReveal }) {
-  const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
-  const playerIds = yield select(gamePlayerIdsSelector);
-  for (let id of otherPlayersIds) {
-    let otherPlayer = yield select(gamePlayerFromIdSelector, id);
-    if (blockable && otherPlayer.cards.hand.includes("Moat")) {
-      yield put(
-        blockAttack({ logIds: playerIds, username: otherPlayer.username })
-      );
-      continue;
-    }
-
-    const cardIndex = otherPlayer.cards.hand.findIndex(c =>
-      ["Estate", "Duchy", "Province", "Gardens"].includes(c)
-    );
-    if (cardIndex === -1) {
-      yield put(
-        revealCards({
-          cards: otherPlayer.cards.hand,
-          logIds: playerIds,
-          username: otherPlayer.username
-        })
-      );
-    } else {
-      if (onReveal && onReveal.type === "PLACE_IN_DECK") {
-        yield put(
-          placeInDeck({
-            cardIndex,
-            cardName: otherPlayer.cards.hand[cardIndex],
-            logIds: playerIds,
-            id: otherPlayer.id,
-            username: otherPlayer.username
-          })
-        );
-      }
-    }
-  }
 }
 
 export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
@@ -350,14 +250,7 @@ const gameSagas = [
   takeEvery("ASYNC_GAIN_CARDS", asyncGainCards),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),
   takeEvery("ASYNC_PLAY_CARD", asyncPlayCard),
-  takeEvery("ASYNC_OTHER_PLAYERS_DRAW_CARDS", asyncOtherPlayersDrawCards),
-  takeEvery("ASYNC_OTHER_PLAYERS_GAIN_CARDS", asyncOtherPlayersGainCards),
-  takeEvery(
-    "ASYNC_OTHER_PLAYERS_REVEAL_VICTORY",
-    asyncOtherPlayersRevealVictory
-  ),
   takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures),
-  takeEvery("ASYNC_TRASH_CARDS", asyncTrashCards),
   takeEvery("ASYNC_COMPLETE_CHOICE_GAIN_CARDS", asyncCompleteChoiceGainCards),
   takeEvery("ASYNC_SEND_MESSAGE", asyncSendMessage),
   takeEvery(

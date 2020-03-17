@@ -1,10 +1,17 @@
 import { put, takeEvery, select } from "redux-saga/effects";
-import { playTreasure } from "../../../actions";
+import { gainFloatingGold, playTreasure } from "../../../actions";
 import { gamePlayerIdsSelector, gamePlayerSelector } from "../../../selectors";
 
 export function* asyncPlaySilver() {
   const player = yield select(gamePlayerSelector);
   const playerIds = yield select(gamePlayerIdsSelector);
+
+  if (
+    player.cards.inplay.includes("Merchant") &&
+    !player.cards.inplay.includes("Silver")
+  ) {
+    yield put(gainFloatingGold({ floatingGoldAmount: 1 }));
+  }
 
   yield put(
     playTreasure({
