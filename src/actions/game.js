@@ -36,6 +36,10 @@ export function playTreasure({ cardName, id, logIds, username }) {
   };
 }
 
+export function gainActions({ actionAmount, id }) {
+  return { type: "GAIN_ACTIONS", actionAmount, id };
+}
+
 export function playAction({ cardName, id, logIds, username }) {
   return {
     type: "PLAY_ACTION",
@@ -62,6 +66,10 @@ export function gainCards({ cardName, gainAmount, id, location }) {
     id,
     location
   };
+}
+
+export function gainBuys({ buyAmount }) {
+  return { type: "GAIN_BUYS", buyAmount };
 }
 
 export function sendMessage({ entry, logIds }) {

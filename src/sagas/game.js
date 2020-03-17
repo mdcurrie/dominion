@@ -1,3 +1,4 @@
+import snakeCase from "lodash/snakeCase";
 import { put, takeEvery, select } from "redux-saga/effects";
 import {
   connectionsSelector,
@@ -22,10 +23,7 @@ import {
   drawCards,
   endTurn,
   gainCards,
-  gainFloatingGold,
   placeInDeck,
-  playAction,
-  playTreasure,
   revealCards,
   sendMessage,
   startGame,
@@ -33,7 +31,6 @@ import {
   updateScore
 } from "../actions";
 import cardPrices from "../utils/cardPrices";
-import cardActions from "../utils/cardActions";
 import gameRandomizer from "../utils/randomizer";
 
 export function* asyncStartGame() {
@@ -109,82 +106,36 @@ export function* asyncPlayCard({ id, name: cardName }) {
     return;
   }
 
-  if (["Copper", "Silver", "Gold"].includes(cardName)) {
-    if (
-      player.cards.inplay.includes("Merchant") &&
-      !player.cards.inplay.includes("Silver") &&
-      cardName === "Silver"
-    ) {
-      yield put(gainFloatingGold({ floatingGoldAmount: 1 }));
-    }
-    yield put(
-      playTreasure({
-        cardName,
-        id,
-        logIds: playerIds,
-        username: player.username
-      })
-    );
-    return;
-  }
-
-  if (
-    ["Copper", "Silver", "Gold"].some(c => player.cards.inplay.includes(c)) ||
-    currentPlayer.actions <= 0
-  ) {
-    return;
-  }
-
-  yield put(
-    playAction({ cardName, id, logIds: playerIds, username: player.username })
-  );
-  for (let cardAction of cardActions[cardName]) {
-    let { type, data } = cardAction;
-    yield put({ type, id, ...data });
-  }
+  yield put({ type: `ASYNC_PLAY_${snakeCase(cardName).toUpperCase()}` });
+  // if (
+  //   ["Copper", "Silver", "Gold"].some(c => player.cards.inplay.includes(c)) ||
+  //   currentPlayer.actions <= 0
+  // ) {
+  //   return;
+  // }
 }
 
 export function* asyncPlayAllTreasures({ id }) {
   const currentPlayerId = yield select(currentPlayerIdSelector);
-  const players = yield select(gamePlayersSelector);
-  const currentPlayerUsername = players.find(p => p.id === id).username;
   const playerRequest = yield select(gamePlayerRequestSelector);
-  const playerIds = yield select(gamePlayerIdsSelector);
+  const player = yield select(gamePlayerSelector);
   if (currentPlayerId !== id || playerRequest) {
     return;
   }
 
-  while ((yield select(gamePlayerSelector)).cards.hand.includes("Gold")) {
-    yield put(
-      playTreasure({
-        cardName: "Gold",
-        id: currentPlayerId,
-        logIds: playerIds,
-        username: currentPlayerUsername
-      })
-    );
+  const goldCount = player.cards.hand.filter(card => card === "Gold").length;
+  const silverCount = player.cards.hand.filter(card => card === "Silver")
+    .length;
+  const copperCount = player.cards.hand.filter(card => card === "Copper")
+    .length;
+  for (let i = 0; i < goldCount; i++) {
+    yield put({ type: "ASYNC_PLAY_GOLD" });
   }
-
-  while ((yield select(gamePlayerSelector)).cards.hand.includes("Silver")) {
-    yield put(
-      playTreasure({
-        cardName: "Silver",
-        id: currentPlayerId,
-        logIds: playerIds,
-        username: currentPlayerUsername
-      })
-    );
+  for (let i = 0; i < silverCount; i++) {
+    yield put({ type: "ASYNC_PLAY_SILVER" });
   }
-
-  while ((yield select(gamePlayerSelector)).cards.hand.includes("Copper")) {
-    yield put(
-      playTreasure({
-        cardName: "Copper",
-        id: currentPlayerId,
-        logIds: playerIds,
-        username: currentPlayerUsername
-      })
-    );
+  for (let i = 0; i < copperCount; i++) {
+    yield put({ type: "ASYNC_PLAY_COPPER" });
   }
 }
 
