@@ -1,4 +1,4 @@
-import cardPrices from "../../utils/cardPrices";
+import { CARD_COSTS, TREASURE_VALUES } from "../../utils/constants";
 
 const currentPlayer = (
   state = {
@@ -9,7 +9,6 @@ const currentPlayer = (
   },
   action
 ) => {
-  const treasuresToValue = { Copper: 1, Silver: 2, Gold: 3 };
   switch (action.type) {
     case "START_GAME":
       return action.currentPlayer;
@@ -17,7 +16,7 @@ const currentPlayer = (
       return {
         ...state,
         buys: state.buys - 1,
-        gold: state.gold - cardPrices[action.cardName]
+        gold: state.gold - CARD_COSTS[action.cardName]
       };
     case "END_TURN":
       return { id: action.nextId, actions: 1, buys: 1, gold: 0 };
@@ -42,7 +41,7 @@ const currentPlayer = (
         actions: state.actions - 1
       };
     case "PLAY_TREASURE":
-      return { ...state, gold: state.gold + treasuresToValue[action.cardName] };
+      return { ...state, gold: state.gold + TREASURE_VALUES[action.cardName] };
     default:
       return state;
   }

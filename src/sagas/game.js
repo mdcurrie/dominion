@@ -23,7 +23,12 @@ import {
   startGame,
   updateScore
 } from "../actions";
-import cardPrices from "../utils/cardPrices";
+import {
+  ACTION_CARDS,
+  CARD_COSTS,
+  TREASURE_CARDS,
+  VICTORY_CARDS
+} from "../utils/constants";
 import gameRandomizer from "../utils/randomizer";
 
 export function* asyncStartGame() {
@@ -39,7 +44,7 @@ export function* asyncBuyCard({ id, name: cardName }) {
     currentPlayer.id !== id ||
     currentPlayer.buys <= 0 ||
     cardCount <= 0 ||
-    currentPlayer.gold < cardPrices[cardName] ||
+    currentPlayer.gold < CARD_COSTS[cardName] ||
     playerRequest
   ) {
     return;
@@ -90,22 +95,19 @@ export function* asyncPlayCard({ id, name: cardName }) {
   const currentPlayer = yield select(currentPlayerSelector);
   const player = yield select(gamePlayerSelector);
   const playerRequest = yield select(gamePlayerRequestSelector);
-  const playerIds = yield select(gamePlayerIdsSelector);
-  if (player.id !== id || playerRequest) {
+  if (player.id !== id || playerRequest || VICTORY_CARDS.includes(cardName)) {
     return;
   }
 
-  if (["Estate", "Duchy", "Province", "Gardens", "Curse"].includes(cardName)) {
+  if (
+    ACTION_CARDS.includes(cardName) &&
+    (currentPlayer.actions <= 0 ||
+      TREASURE_CARDS.some(c => player.cards.inplay.includes(c)))
+  ) {
     return;
   }
 
   yield put({ type: `ASYNC_PLAY_${snakeCase(cardName).toUpperCase()}` });
-  // if (
-  //   ["Copper", "Silver", "Gold"].some(c => player.cards.inplay.includes(c)) ||
-  //   currentPlayer.actions <= 0
-  // ) {
-  //   return;
-  // }
 }
 
 export function* asyncPlayAllTreasures({ id }) {
@@ -155,7 +157,7 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
     playerRequest.id !== id ||
     playerRequest.type !== "CHOICE_GAIN_CARDS" ||
     playerRequest.gainAmount <= 0 ||
-    playerRequest.maxCost < cardPrices[cardName] ||
+    playerRequest.maxCost < CARD_COSTS[cardName] ||
     (playerRequest.cardType === "TREASURE" &&
       !["Copper", "Silver", "Gold"].includes(cardName))
   ) {
@@ -213,7 +215,7 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
         cards,
         id,
         logIds: playerIds,
-        maxCost: cardPrices[cards[0]] + playerRequest.choiceGainAdditionalCost,
+        maxCost: CARD_COSTS[cards[0]] + playerRequest.choiceGainAdditionalCost,
         username: player.username,
         ...data
       });

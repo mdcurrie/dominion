@@ -12,6 +12,7 @@ import silverSagas from "./silver";
 import smithySagas from "./smithy";
 import villageSagas from "./village";
 import witchSagas from "./witch";
+import workshopSagas from "./workshop";
 
 export default [
   ...bureaucratSagas,
@@ -27,5 +28,6 @@ export default [
   ...silverSagas,
   ...smithySagas,
   ...villageSagas,
-  ...witchSagas
+  ...witchSagas,
+  ...workshopSagas
 ];
