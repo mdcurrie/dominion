@@ -12,6 +12,7 @@ import merchantSagas from "./merchant";
 import mineSagas from "./mine";
 import moatSagas from "./moat";
 import moneylenderSagas from "./moneylender";
+import poacherSagas from "./poacher";
 import remodelSagas from "./remodel";
 import silverSagas from "./silver";
 import smithySagas from "./smithy";
@@ -34,6 +35,7 @@ export default [
   ...mineSagas,
   ...moatSagas,
   ...moneylenderSagas,
+  ...poacherSagas,
   ...remodelSagas,
   ...silverSagas,
   ...smithySagas,

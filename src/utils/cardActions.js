@@ -5,11 +5,6 @@ const cardActions = {
   //   ],
   //   Vassal: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
   //   Militia: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
-  //   Poacher: [
-  //     { type: "DRAW_CARDS", data: { drawAmount: 1 } },
-  //     { type: "GAIN_ACTIONS", data: { actionAmount: 1 } },
-  //     { type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 1 } }
-  //   ],
   "Throne Room": [],
   Bandit: [
     {
