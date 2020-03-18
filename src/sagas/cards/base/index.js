@@ -1,4 +1,5 @@
 import artisanSagas from "./artisan";
+import banditSagas from "./bandit";
 import bureaucratSagas from "./bureaucrat";
 import cellarSagas from "./cellar";
 import chapelSagas from "./chapel";
@@ -22,6 +23,7 @@ import workshopSagas from "./workshop";
 
 export default [
   ...artisanSagas,
+  ...banditSagas,
   ...bureaucratSagas,
   ...cellarSagas,
   ...chapelSagas,

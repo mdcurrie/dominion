@@ -27,7 +27,7 @@ import {
   ACTION_CARDS,
   CARD_COSTS,
   TREASURE_CARDS,
-  VICTORY_CARDS
+  VICTORY_AND_CURSE_CARDS
 } from "../utils/constants";
 import gameRandomizer from "../utils/randomizer";
 
@@ -95,7 +95,11 @@ export function* asyncPlayCard({ id, name: cardName }) {
   const currentPlayer = yield select(currentPlayerSelector);
   const player = yield select(gamePlayerSelector);
   const playerRequest = yield select(gamePlayerRequestSelector);
-  if (player.id !== id || playerRequest || VICTORY_CARDS.includes(cardName)) {
+  if (
+    player.id !== id ||
+    playerRequest ||
+    VICTORY_AND_CURSE_CARDS.includes(cardName)
+  ) {
     return;
   }
 

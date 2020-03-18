@@ -5,13 +5,7 @@ const cardActions = {
   //   ],
   //   Vassal: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
   //   Militia: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
-  "Throne Room": [],
-  Bandit: [
-    {
-      type: "ASYNC_GAIN_CARDS",
-      data: { cardName: "Gold", gainAmount: 1, location: "DISCARD" }
-    }
-  ]
+  "Throne Room": []
   //   Library: [],
   //   Sentry: [
   //     { type: "DRAW_CARDS", data: { drawAmount: 1 } },

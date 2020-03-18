@@ -33,13 +33,9 @@ export const CARD_COSTS = {
   Artisan: 6
 };
 
-export const VICTORY_CARDS = [
-  "Estate",
-  "Duchy",
-  "Province",
-  "Gardens",
-  "Curse"
-];
+export const VICTORY_CARDS = ["Estate", "Duchy", "Province", "Gardens"];
+
+export const VICTORY_AND_CURSE_CARDS = [...VICTORY_CARDS, "Curse"];
 
 export const TREASURE_CARDS = ["Copper", "Silver", "Gold"];
 
