@@ -18,6 +18,7 @@ import poacherSagas from "./poacher";
 import remodelSagas from "./remodel";
 import silverSagas from "./silver";
 import smithySagas from "./smithy";
+import vassalSagas from "./vassal";
 import villageSagas from "./village";
 import witchSagas from "./witch";
 import workshopSagas from "./workshop";
@@ -43,6 +44,7 @@ export default [
   ...remodelSagas,
   ...silverSagas,
   ...smithySagas,
+  ...vassalSagas,
   ...villageSagas,
   ...witchSagas,
   ...workshopSagas
