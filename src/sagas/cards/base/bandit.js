@@ -1,5 +1,12 @@
 import { put, takeEvery, select } from "redux-saga/effects";
-import { blockAttack, playAction } from "../../../actions";
+import {
+  blockAttack,
+  discardCards,
+  drawCards,
+  playAction,
+  revealCards,
+  trashSelectedCards
+} from "../../../actions";
 import { asyncGainCards } from "../../game";
 import {
   gameOtherPlayersIdsSelector,
@@ -40,6 +47,49 @@ export function* asyncPlayBanditReveal() {
       );
       continue;
     }
+
+    const handCount = otherPlayer.cards.hand.length;
+    yield put(drawCards({ drawAmount: 2, id: otherPlayer.id }));
+    otherPlayer = yield select(gamePlayerFromIdSelector, id);
+    let revealedCards = otherPlayer.cards.hand.slice(handCount);
+    yield put(
+      revealCards({
+        cards: revealedCards,
+        logIds: playerIds,
+        username: otherPlayer.username
+      })
+    );
+
+    let trashIndex = -1;
+    if (revealedCards.includes("Silver")) {
+      trashIndex = revealedCards.indexOf("Silver");
+    } else if (revealedCards.includes("Gold")) {
+      trashIndex = revealedCards.indexOf("Gold");
+    }
+
+    if (trashIndex !== -1) {
+      yield put(
+        trashSelectedCards({
+          cards: [otherPlayer.cards.hand[trashIndex + handCount]],
+          cardIndexes: [trashIndex + handCount],
+          id: otherPlayer.id,
+          logIds: playerIds,
+          username: otherPlayer.username
+        })
+      );
+      otherPlayer = yield select(gamePlayerFromIdSelector, id);
+      revealedCards = otherPlayer.cards.hand.slice(handCount);
+    }
+
+    yield put(
+      discardCards({
+        cards: revealedCards,
+        cardIndexes: revealedCards.map((c, i) => i + handCount),
+        id: otherPlayer.id,
+        logIds: playerIds,
+        username: otherPlayer.username
+      })
+    );
   }
 }
 
