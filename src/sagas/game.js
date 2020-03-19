@@ -7,6 +7,7 @@ import {
   gameIsOverSelector,
   gameSupplyCardCountSelector,
   gameNextPlayerSelector,
+  gamePlayerFromIdSelector,
   gamePlayerIdsSelector,
   gamePlayerRequestSelector,
   gamePlayerSelector,
@@ -188,7 +189,7 @@ export function* asyncSendMessage({ entry }) {
 }
 
 export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
-  const player = yield select(gamePlayerSelector);
+  const player = yield select(gamePlayerFromIdSelector, id);
   const playerRequest = yield select(gamePlayerRequestSelector);
   const cards = player.cards.hand.filter((cardName, index) =>
     cardIndexes.includes(index)
@@ -208,7 +209,7 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
 
   yield put(completeSelectCardsInHand());
   if (playerRequest.next) {
-    yield put({ ...playerRequest.next, cards, cardIndexes });
+    yield put({ ...playerRequest.next, cards, cardIndexes, id });
   }
 }
 

@@ -10,6 +10,7 @@ import goldSagas from "./gold";
 import laboratorySagas from "./laboratory";
 import marketSagas from "./market";
 import merchantSagas from "./merchant";
+import militiaSagas from "./militia";
 import mineSagas from "./mine";
 import moatSagas from "./moat";
 import moneylenderSagas from "./moneylender";
@@ -34,6 +35,7 @@ export default [
   ...laboratorySagas,
   ...marketSagas,
   ...merchantSagas,
+  ...militiaSagas,
   ...mineSagas,
   ...moatSagas,
   ...moneylenderSagas,

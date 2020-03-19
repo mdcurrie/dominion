@@ -4,7 +4,6 @@ const cardActions = {
   //     { type: "GAIN_ACTIONS", data: { actionAmount: 1 } }
   //   ],
   //   Vassal: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
-  //   Militia: [{ type: "GAIN_FLOATING_GOLD", data: { floatingGoldAmount: 2 } }],
   "Throne Room": []
   //   Library: [],
   //   Sentry: [
