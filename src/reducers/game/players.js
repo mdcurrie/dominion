@@ -247,6 +247,26 @@ const players = (state = [], action) => {
         },
         ...state.slice(playerIndex + 1)
       ];
+    case "MOVE_FROM_DISCARD_TO_DECK":
+      playerIndex = state.findIndex(player => player.id === action.id);
+      player = state[playerIndex];
+      cardIndex = player.cards.discard.indexOf(action.cardName);
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            deck: [action.cardName, ...player.cards.deck],
+            discard: [
+              ...player.cards.discard.slice(0, cardIndex),
+              ...player.cards.discard.slice(cardIndex + 1)
+            ]
+          }
+        },
+        ...state.slice(playerIndex + 1)
+      ];
     default:
       return state;
   }

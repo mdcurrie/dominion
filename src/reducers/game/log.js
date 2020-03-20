@@ -143,6 +143,15 @@ const log = (state = [], action) => {
           "INFO"
         )
       ];
+    case "MOVE_FROM_DISCARD_TO_DECK":
+      return [
+        ...state,
+        createLogEntry(
+          action.logIds,
+          `${action.username} placed ${action.cardName} on top of their deck.`,
+          "INFO"
+        )
+      ];
     default:
       return state;
   }

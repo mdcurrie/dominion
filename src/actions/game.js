@@ -237,3 +237,7 @@ export function discardCards({ cards, cardIndexes, id, logIds, username }) {
 export function drawFromDiscard({ id }) {
   return { type: "DRAW_FROM_DISCARD", id };
 }
+
+export function moveFromDiscardToDeck({ cardName, logIds, id, username }) {
+  return { type: "MOVE_FROM_DISCARD_TO_DECK", cardName, logIds, id, username };
+}
