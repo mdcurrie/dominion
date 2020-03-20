@@ -63,7 +63,7 @@ export function* asyncPlayVassalDiscardAndSelectOptions() {
             text: `Play ${cardName}`
           }
         ],
-        text: `You discarded a ${cardName}, Please choose an option.`
+        text: `You discarded a ${cardName}, please choose an option.`
       })
     );
   }
