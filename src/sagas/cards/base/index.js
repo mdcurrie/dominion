@@ -7,6 +7,7 @@ import copperSagas from "./copper";
 import councilRoomSagas from "./councilRoom";
 import festivalSagas from "./festival";
 import goldSagas from "./gold";
+import harbingerSagas from "./harbinger";
 import laboratorySagas from "./laboratory";
 import librarySagas from "./library";
 import marketSagas from "./market";
@@ -34,6 +35,7 @@ export default [
   ...councilRoomSagas,
   ...festivalSagas,
   ...goldSagas,
+  ...harbingerSagas,
   ...laboratorySagas,
   ...librarySagas,
   ...marketSagas,
