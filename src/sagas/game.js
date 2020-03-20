@@ -17,6 +17,7 @@ import {
   buyCard,
   completeChoiceGainCards,
   completeSelectCardsInHand,
+  completeSelectOptions,
   discardCards,
   endTurn,
   gainCards,
@@ -213,6 +214,24 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
   }
 }
 
+export function* asyncCompleteSelectOption({ id, next }) {
+  const player = yield select(gamePlayerFromIdSelector, id);
+  const playerRequest = yield select(gamePlayerRequestSelector);
+
+  if (
+    playerRequest == null ||
+    playerRequest.id !== id ||
+    playerRequest.type !== "SELECT_OPTIONS"
+  ) {
+    return;
+  }
+
+  yield put(completeSelectOptions());
+  if (next) {
+    yield put({ ...next });
+  }
+}
+
 export function* asyncDiscardSelectedCards({ cardIndexes, id, onDiscard }) {
   const player = yield select(gamePlayerSelector);
   const playerIds = yield select(gamePlayerIdsSelector);
@@ -249,6 +268,7 @@ const gameSagas = [
     "ASYNC_COMPLETE_SELECT_CARDS_IN_HAND",
     asyncCompleteSelectCardsInHand
   ),
+  takeEvery("ASYNC_COMPLETE_SELECT_OPTIONS", asyncCompleteSelectOption),
   takeEvery("ASYNC_DISCARD_SELECTED_CARDS", asyncDiscardSelectedCards)
 ];
 

@@ -229,6 +229,24 @@ const players = (state = [], action) => {
         },
         ...state.slice(playerIndex + 1)
       ];
+    case "DRAW_FROM_DISCARD":
+      playerIndex = state.findIndex(player => player.id === action.id);
+      player = state[playerIndex];
+      discard = [...player.cards.discard];
+      hand = [...player.cards.hand, discard.pop()];
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            hand,
+            discard
+          }
+        },
+        ...state.slice(playerIndex + 1)
+      ];
     default:
       return state;
   }

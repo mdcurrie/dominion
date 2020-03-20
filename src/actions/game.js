@@ -194,6 +194,10 @@ export function selectCardsInHand({
   };
 }
 
+export function selectOptions({ id, options, text }) {
+  return { type: "SELECT_OPTIONS", id, options, text };
+}
+
 export function updateScore({ players }) {
   return {
     type: "UPDATE_SCORE",
@@ -222,6 +226,14 @@ export function completeSelectCardsInHand() {
   return { type: "COMPLETE_SELECT_CARDS_IN_HAND" };
 }
 
+export function completeSelectOptions() {
+  return { type: "COMPLETE_SELECT_OPTIONS" };
+}
+
 export function discardCards({ cards, cardIndexes, id, logIds, username }) {
   return { type: "DISCARD_CARDS", cards, cardIndexes, id, logIds, username };
+}
+
+export function drawFromDiscard({ id }) {
+  return { type: "DRAW_FROM_DISCARD", id };
 }

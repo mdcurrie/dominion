@@ -3,6 +3,7 @@ import Hand from "./Hand";
 import Log from "./Log";
 import Misc from "./Misc";
 import Score from "./Score";
+import SelectOptions from "./SelectOptions";
 import Supply from "./Supply";
 import PropTypes from "prop-types";
 import "./styles.css";
@@ -41,6 +42,11 @@ const Game = ({ game, logEndRef, playerId, socket }) => {
         />
       </div>
       <Score score={game.score} socket={socket} />
+      <SelectOptions
+        playerId={playerId}
+        playerRequest={game.playerRequest}
+        socket={socket}
+      />
     </div>
   );
 };

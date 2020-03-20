@@ -1,0 +1,47 @@
+.gameSelectOptionsContainer {
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+}
+
+.gameSelectOptionsModal {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+  left: 50%;
+  min-width: 300px;
+  padding: 30px;
+  position: absolute;
+  top: 45%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.gameSelectOptionsText {
+  margin-bottom: 8px;
+}
+
+.gameSelectOptionsButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gameSelectOptionsButton {
+  background-color: #5d5d5d;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.1875;
+  outline: none;
+  padding: 10px 0;
+  width: 45%;
+}
+
+.gameSelectOptionsButton:hover {
+  background-color: #3f3f3f;
+}
