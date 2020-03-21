@@ -267,6 +267,93 @@ const players = (state = [], action) => {
         },
         ...state.slice(playerIndex + 1)
       ];
+    case "MOVE_FROM_DECK_TO_LIMBO":
+      playerIndex = state.findIndex(player => player.id === action.id);
+      player = state[playerIndex];
+      deck = [...player.cards.deck];
+      discard = [...player.cards.discard];
+
+      if (deck.length < action.drawAmount) {
+        deck = [...deck, ...shuffle(discard)];
+        discard = [];
+      }
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            deck: deck.slice(action.drawAmount),
+            discard,
+            limbo: deck.slice(0, action.drawAmount)
+          }
+        },
+        ...state.slice(playerIndex + 1)
+      ];
+    case "TRASH_CARDS_IN_LIMBO":
+      playerIndex = state.findIndex(player => player.id === action.id);
+      player = state[playerIndex];
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            limbo: player.cards.limbo.filter(
+              (card, index) => !action.cardIndexes.includes(index)
+            )
+          }
+        },
+        ...state.slice(playerIndex + 1)
+      ];
+    case "DISCARD_CARDS_IN_LIMBO":
+      playerIndex = state.findIndex(player => player.id === action.id);
+      player = state[playerIndex];
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            discard: [
+              ...player.cards.discard,
+              ...player.cards.limbo.filter((card, index) =>
+                action.cardIndexes.includes(index)
+              )
+            ],
+            limbo: player.cards.limbo.filter(
+              (card, index) => !action.cardIndexes.includes(index)
+            )
+          }
+        },
+        ...state.slice(playerIndex + 1)
+      ];
+    case "MOVE_FROM_LIMBO_TO_DECK":
+      playerIndex = state.findIndex(player => player.id === action.id);
+      player = state[playerIndex];
+
+      return [
+        ...state.slice(0, playerIndex),
+        {
+          ...player,
+          cards: {
+            ...player.cards,
+            deck: [
+              ...player.cards.limbo.filter((card, index) =>
+                action.cardIndexes.includes(index)
+              ),
+              ...player.cards.deck
+            ],
+            limbo: player.cards.limbo.filter(
+              (card, index) => !action.cardIndexes.includes(index)
+            )
+          }
+        },
+        ...state.slice(playerIndex + 1)
+      ];
     default:
       return state;
   }

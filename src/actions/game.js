@@ -234,10 +234,52 @@ export function discardCards({ cards, cardIndexes, id, logIds, username }) {
   return { type: "DISCARD_CARDS", cards, cardIndexes, id, logIds, username };
 }
 
+export function trashCardsInLimbo({
+  cards,
+  cardIndexes,
+  id,
+  logIds,
+  username
+}) {
+  return {
+    type: "TRASH_CARDS_IN_LIMBO",
+    cards,
+    cardIndexes,
+    id,
+    logIds,
+    username
+  };
+}
+
+export function discardCardsInLimbo({
+  cards,
+  cardIndexes,
+  id,
+  logIds,
+  username
+}) {
+  return {
+    type: "DISCARD_CARDS_IN_LIMBO",
+    cards,
+    cardIndexes,
+    id,
+    logIds,
+    username
+  };
+}
+
 export function drawFromDiscard({ id }) {
   return { type: "DRAW_FROM_DISCARD", id };
 }
 
 export function moveFromDiscardToDeck({ cardName, logIds, id, username }) {
   return { type: "MOVE_FROM_DISCARD_TO_DECK", cardName, logIds, id, username };
+}
+
+export function moveFromDeckToLimbo({ drawAmount, id }) {
+  return { type: "MOVE_FROM_DECK_TO_LIMBO", drawAmount, id };
+}
+
+export function moveFromLimboToDeck({ cardIndexes, id }) {
+  return { type: "MOVE_FROM_LIMBO_TO_DECK", cardIndexes, id };
 }

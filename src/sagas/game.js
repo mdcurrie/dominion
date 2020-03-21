@@ -215,9 +215,7 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
 }
 
 export function* asyncCompleteSelectOption({ id, next }) {
-  const player = yield select(gamePlayerFromIdSelector, id);
   const playerRequest = yield select(gamePlayerRequestSelector);
-
   if (
     playerRequest == null ||
     playerRequest.id !== id ||

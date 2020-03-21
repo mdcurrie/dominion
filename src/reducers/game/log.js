@@ -121,6 +121,7 @@ const log = (state = [], action) => {
           "INFO"
         )
       ];
+    case "TRASH_CARDS_IN_LIMBO":
     case "TRASH_SELECTED_CARDS":
       return [
         ...state,
@@ -132,6 +133,7 @@ const log = (state = [], action) => {
           "INFO"
         )
       ];
+    case "DISCARD_CARDS_IN_LIMBO":
     case "DISCARD_CARDS":
       return [
         ...state,

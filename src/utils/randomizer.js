@@ -100,7 +100,8 @@ function playerRandomizer(connections) {
           hand: shuffledCards.slice(0, 5),
           discard: [],
           inplay: [],
-          deck: shuffledCards.slice(5)
+          deck: shuffledCards.slice(5),
+          limbo: []
         }
       };
     })

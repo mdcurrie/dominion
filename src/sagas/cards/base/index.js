@@ -18,6 +18,7 @@ import moatSagas from "./moat";
 import moneylenderSagas from "./moneylender";
 import poacherSagas from "./poacher";
 import remodelSagas from "./remodel";
+import sentrySagas from "./sentry";
 import silverSagas from "./silver";
 import smithySagas from "./smithy";
 import vassalSagas from "./vassal";
@@ -46,6 +47,7 @@ export default [
   ...moneylenderSagas,
   ...poacherSagas,
   ...remodelSagas,
+  ...sentrySagas,
   ...silverSagas,
   ...smithySagas,
   ...vassalSagas,
