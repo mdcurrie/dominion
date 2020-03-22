@@ -27,12 +27,15 @@ const LoggedIn = ({ username }) => {
   });
   const logEndRef = useRef(null);
   useEffect(() => {
+    const url =
+      process.env.NODE_ENV === "development"
+        ? "ws://localhost:8080/dominion"
+        : "ws://marcusdominion2.herokuapp.com/dominion";
     socket.ws = new WebSocket(
-      `ws://localhost:8080/dominion?username=${encodeURIComponent(username)}`
+      `${url}?username=${encodeURIComponent(username)}`
     );
 
     socket.ws.onmessage = function(event) {
-      console.log(JSON.parse(event.data));
       setGameState(JSON.parse(event.data));
       logEndRef.current.scrollIntoView({ behavior: "smooth" });
     };
