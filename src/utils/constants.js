@@ -20,7 +20,6 @@ export const CARD_COSTS = {
   Poacher: 4,
   Remodel: 4,
   Smithy: 4,
-  "Throne Room": 4,
   Bandit: 5,
   "Council Room": 5,
   Festival: 5,
@@ -41,7 +40,7 @@ export const TREASURE_CARDS = ["Copper", "Silver", "Gold"];
 
 export const TREASURE_VALUES = { Copper: 1, Silver: 2, Gold: 3 };
 
-export const ACTION_CARDS = [
+export const KINGDOM_CARDS = [
   "Cellar",
   "Chapel",
   "Moat",
@@ -57,7 +56,33 @@ export const ACTION_CARDS = [
   "Poacher",
   "Remodel",
   "Smithy",
-  "Throne Room",
+  "Bandit",
+  "Council Room",
+  "Festival",
+  "Laboratory",
+  "Library",
+  "Market",
+  "Mine",
+  "Sentry",
+  "Witch",
+  "Artisan"
+];
+
+export const ACTION_CARDS = [
+  "Cellar",
+  "Chapel",
+  "Moat",
+  "Harbinger",
+  "Merchant",
+  "Vassal",
+  "Village",
+  "Workshop",
+  "Bureaucrat",
+  "Militia",
+  "Moneylender",
+  "Poacher",
+  "Remodel",
+  "Smithy",
   "Bandit",
   "Council Room",
   "Festival",

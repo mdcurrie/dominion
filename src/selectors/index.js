@@ -1,6 +1,8 @@
 export const connectionsSelector = state => state.connections;
 
-export const numberOfPlayersSelector = state => state.connections.length;
+export const statusSelector = state => state.status;
+
+export const numberOfConnectionsSelector = state => state.connections.length;
 
 export const currentPlayerSelector = state => state.game.currentPlayer;
 
@@ -16,7 +18,7 @@ export const gamePlayersSelector = state => state.game.players;
 export const gamePlayerSelector = state =>
   state.game.players.find(player => player.id === state.game.currentPlayer.id);
 
-export const gamePlayerIdsSelector = state => state.connections.map(c => c.id);
+export const gamePlayerIdsSelector = state => state.game.players.map(p => p.id);
 
 export const gamePlayerFromIdSelector = (state, id) =>
   state.game.players.find(player => player.id === id);

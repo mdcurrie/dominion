@@ -11,7 +11,9 @@ import {
   gamePlayerIdsSelector,
   gamePlayerRequestSelector,
   gamePlayerSelector,
-  gamePlayersSelector
+  gamePlayersSelector,
+  numberOfConnectionsSelector,
+  statusSelector
 } from "../selectors";
 import {
   buyCard,
@@ -21,9 +23,12 @@ import {
   discardCards,
   endTurn,
   gainCards,
+  playerDisconnect,
+  removeConnection,
   sendMessage,
   startGame,
-  updateScore
+  updateScore,
+  updateStatus
 } from "../actions";
 import {
   ACTION_CARDS,
@@ -35,7 +40,32 @@ import gameRandomizer from "../utils/randomizer";
 
 export function* asyncStartGame() {
   const connections = yield select(connectionsSelector);
-  yield put(startGame(gameRandomizer({ connections })));
+  if (connections.length > 1) {
+    yield put(startGame(gameRandomizer({ connections })));
+  }
+}
+
+export function* asyncRemoveConnection({ connectionId }) {
+  yield put(removeConnection(connectionId));
+  const numberOfConnections = yield select(numberOfConnectionsSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
+  const status = yield select(statusSelector);
+  if (numberOfConnections === 0) {
+    yield put(updateStatus("NOT_IN_PROGRESS"));
+    return;
+  }
+
+  if (status === "IN_PROGRESS" && playerIds.includes(connectionId)) {
+    const player = yield select(gamePlayerFromIdSelector, connectionId);
+    const players = yield select(gamePlayersSelector);
+    yield put(
+      playerDisconnect({
+        logIds: playerIds,
+        username: player.username
+      })
+    );
+    yield put(updateScore({ players }));
+  }
 }
 
 export function* asyncBuyCard({ id, name: cardName }) {
@@ -255,6 +285,7 @@ export function* asyncDiscardSelectedCards({ cardIndexes, id, onDiscard }) {
 
 const gameSagas = [
   takeEvery("ASYNC_START_GAME", asyncStartGame),
+  takeEvery("ASYNC_REMOVE_CONNECTION", asyncRemoveConnection),
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_GAIN_CARDS", asyncGainCards),
   takeEvery("ASYNC_END_TURN", asyncEndTurn),

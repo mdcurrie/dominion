@@ -283,3 +283,7 @@ export function moveFromDeckToLimbo({ drawAmount, id }) {
 export function moveFromLimboToDeck({ cardIndexes, id }) {
   return { type: "MOVE_FROM_LIMBO_TO_DECK", cardIndexes, id };
 }
+
+export function playerDisconnect({ logIds, username }) {
+  return { type: "PLAYER_DISCONNECT", logIds, username };
+}

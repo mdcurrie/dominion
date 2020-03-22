@@ -154,6 +154,15 @@ const log = (state = [], action) => {
           "INFO"
         )
       ];
+    case "PLAYER_DISCONNECT":
+      return [
+        ...state,
+        createLogEntry(
+          action.logIds,
+          `${action.username} disconnected from the game.`,
+          "ERROR"
+        )
+      ];
     default:
       return state;
   }

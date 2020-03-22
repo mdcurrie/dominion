@@ -29,7 +29,14 @@ const Score = ({ score, socket }) =>
         <div className="gameScoreModalButtons">
           <button
             className="gameScoreModalButton"
-            onClick={() => socket.send(JSON.stringify({ type: "START_GAME" }))}
+            onClick={() =>
+              socket.send(
+                JSON.stringify({
+                  type: "UPDATE_STATUS",
+                  status: "NOT_IN_PROGRESS"
+                })
+              )
+            }
           >
             Play Again
           </button>
