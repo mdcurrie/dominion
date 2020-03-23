@@ -17,6 +17,7 @@
 
 .gameLogEntry {
   font-family: sans-serif;
+  font-size: 12px;
   min-height: 1.1rem;
 }
 
@@ -38,7 +39,7 @@
   border-radius: 7px;
   box-sizing: border-box;
   color: white;
-  font-size: 14px;
+  font-size: 12px;
   height: 30px;
   outline: none;
   padding: 10px;
@@ -48,4 +49,14 @@
 .gameLogInput::placeholder {
   color: white;
   opacity: 0.6;
+}
+
+@media only screen and (min-width: 992px) {
+  .gameLogEntry {
+    font-size: 14px;
+  }
+
+  .gameLogInput {
+    font-size: 14px;
+  }
 }

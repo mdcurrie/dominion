@@ -28,14 +28,14 @@ const Misc = ({ currentPlayer, deck, discard, socket }) => (
                 : `./${discard[discard.length - 1]}.jpg`
             }
           />
-          <div>{discard.length}</div>
+          <div className="gameExtrasDeckAndDiscardCount">{discard.length}</div>
         </div>
         <div className="gameExtrasDeckAndDiscard">
           <img
             className="gameExtrasDeckAndDiscardImg"
             src={deck.length === 0 ? "./Blank.jpg" : "./Back.jpg"}
           />
-          <div>{deck.length}</div>
+          <div className="gameExtrasDeckAndDiscardCount">{deck.length}</div>
         </div>
       </div>
     </div>
