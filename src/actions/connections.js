@@ -12,6 +12,10 @@ export function removeConnection(connectionId) {
   };
 }
 
+export function asyncAddConnection({ id, username, ws }) {
+  return { type: "ASYNC_ADD_CONNECTION", id, username, ws };
+}
+
 export function asyncRemoveConnection(connectionId) {
   return {
     type: "ASYNC_REMOVE_CONNECTION",

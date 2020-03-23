@@ -50,6 +50,7 @@ const LoggedIn = ({ username }) => {
         playerId={gameState.id}
         logEndRef={logEndRef}
         socket={socket.ws}
+        username={username}
       />
     );
   }

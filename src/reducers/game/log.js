@@ -163,6 +163,15 @@ const log = (state = [], action) => {
           "ERROR"
         )
       ];
+    case "ADD_SPECTATOR":
+      return [
+        ...state,
+        createLogEntry(
+          action.logIds,
+          `${action.username} joined as a spectator!`,
+          "INFO"
+        )
+      ];
     default:
       return state;
   }

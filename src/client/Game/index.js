@@ -1,18 +1,20 @@
 import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 import Hand from "./Hand";
 import Log from "./Log";
 import Misc from "./Misc";
 import Score from "./Score";
 import SelectOptions from "./SelectOptions";
 import Supply from "./Supply";
-import PropTypes from "prop-types";
 import "./styles.css";
 
-const Game = ({ game, logEndRef, playerId, socket }) => {
+const Game = ({ game, logEndRef, playerId, socket, username }) => {
   const playerIndex = game.players.findIndex(player => player.id === playerId);
+  const isSpectator = playerIndex === -1;
   return (
     <div className="game">
-      <div className="topRow">
+      <div className={classNames("topRow", { topRowSpectator: isSpectator })}>
         <Supply
           playerId={playerId}
           playerRequest={game.playerRequest}
@@ -20,27 +22,30 @@ const Game = ({ game, logEndRef, playerId, socket }) => {
           socket={socket}
         />
         <Log
+          isSpectator={isSpectator}
           log={game.log}
           logEndRef={logEndRef}
           playerId={playerId}
           socket={socket}
-          username={game.players[playerIndex].username}
+          username={username}
         />
       </div>
-      <div className="bottomRow">
-        <Hand
-          hand={game.players[playerIndex].cards.hand}
-          playerId={playerId}
-          playerRequest={game.playerRequest}
-          socket={socket}
-        />
-        <Misc
-          currentPlayer={game.currentPlayer}
-          deck={game.players[playerIndex].cards.deck}
-          discard={game.players[playerIndex].cards.discard}
-          socket={socket}
-        />
-      </div>
+      {!isSpectator && (
+        <div className="bottomRow">
+          <Hand
+            hand={game.players[playerIndex].cards.hand}
+            playerId={playerId}
+            playerRequest={game.playerRequest}
+            socket={socket}
+          />
+          <Misc
+            currentPlayer={game.currentPlayer}
+            deck={game.players[playerIndex].cards.deck}
+            discard={game.players[playerIndex].cards.discard}
+            socket={socket}
+          />
+        </div>
+      )}
       <Score score={game.score} socket={socket} />
       <SelectOptions
         playerId={playerId}
@@ -79,7 +84,8 @@ Game.propTypes = {
   }).isRequired,
   logEndRef: PropTypes.object.isRequired,
   playerId: PropTypes.string.isRequired,
-  socket: PropTypes.object
+  socket: PropTypes.object,
+  username: PropTypes.string.isRequired
 };
 
 export default Game;

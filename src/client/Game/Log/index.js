@@ -3,13 +3,17 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import "./styles.css";
 
-const Log = ({ log, logEndRef, playerId, socket, username }) => {
+const Log = ({ isSpectator, log, logEndRef, playerId, socket, username }) => {
   const [message, setMessage] = useState("");
   return (
     <div className="gameLogContainer">
       <div className="gameLog">
         {log.map((entry, index) => {
-          if (!entry.ids.includes(playerId)) {
+          if (!isSpectator && !entry.ids.includes(playerId)) {
+            return null;
+          }
+
+          if (isSpectator && ["ERROR", "REQUEST"].includes(entry.type)) {
             return null;
           }
 
@@ -51,6 +55,7 @@ const Log = ({ log, logEndRef, playerId, socket, username }) => {
 };
 
 Log.propTypes = {
+  isSpectator: PropTypes.bool.isRequired,
   log: PropTypes.arrayOf(
     PropTypes.shape({
       ids: PropTypes.string,

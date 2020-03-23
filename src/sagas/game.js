@@ -16,6 +16,8 @@ import {
   statusSelector
 } from "../selectors";
 import {
+  addConnection,
+  addSpectator,
   buyCard,
   completeChoiceGainCards,
   completeSelectCardsInHand,
@@ -40,8 +42,18 @@ import gameRandomizer from "../utils/randomizer";
 
 export function* asyncStartGame() {
   const connections = yield select(connectionsSelector);
-  if (connections.length > 1) {
+  if (connections.length >= 2 && connections.length <= 4) {
     yield put(startGame(gameRandomizer({ connections })));
+  }
+}
+
+export function* asyncAddConnection({ id, username, ws }) {
+  yield put(addConnection({ id, username, ws }));
+
+  const status = yield select(statusSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
+  if (status === "IN_PROGRESS") {
+    yield put(addSpectator({ logIds: playerIds, username }));
   }
 }
 
@@ -285,6 +297,7 @@ export function* asyncDiscardSelectedCards({ cardIndexes, id, onDiscard }) {
 
 const gameSagas = [
   takeEvery("ASYNC_START_GAME", asyncStartGame),
+  takeEvery("ASYNC_ADD_CONNECTION", asyncAddConnection),
   takeEvery("ASYNC_REMOVE_CONNECTION", asyncRemoveConnection),
   takeEvery("ASYNC_BUY_CARD", asyncBuyCard),
   takeEvery("ASYNC_GAIN_CARDS", asyncGainCards),

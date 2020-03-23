@@ -10,7 +10,7 @@ import webpackHotMiddleware from "webpack-hot-middleware";
 import rootReducer from "../reducers";
 import rootSaga from "../sagas";
 import config from "../../webpack.dev.config.js";
-import { addConnection, asyncRemoveConnection } from "../actions";
+import { asyncAddConnection, asyncRemoveConnection } from "../actions";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -38,7 +38,7 @@ app.ws("/dominion", function(ws, req) {
 
   const url = new URL(req.url, `ws://${req.headers.host}`);
   const username = url.searchParams.get("username");
-  store.dispatch(addConnection({ ws, id: connectionId, username }));
+  store.dispatch(asyncAddConnection({ ws, id: connectionId, username }));
 
   ws.on("message", function(msg) {
     store.dispatch({ ...JSON.parse(msg), id: connectionId });

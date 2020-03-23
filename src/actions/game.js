@@ -287,3 +287,11 @@ export function moveFromLimboToDeck({ cardIndexes, id }) {
 export function playerDisconnect({ logIds, username }) {
   return { type: "PLAYER_DISCONNECT", logIds, username };
 }
+
+export function addSpectator({ logIds, username }) {
+  return {
+    type: "ADD_SPECTATOR",
+    logIds,
+    username
+  };
+}
