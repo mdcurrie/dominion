@@ -1,21 +1,21 @@
 .waiting {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.1);
-  left: 50%;
-  width: 260px;
-  padding: 120px 60px 120px 60px;
-  position: absolute;
-  top: 45%;
-  transform: translateX(-50%) translateY(-50%);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  padding: 120px 40px;
 }
 
 .waitingHeader {
   border-bottom: 1px solid #5d5d5d;
   color: #5d5d5d;
   font-family: sans-serif;
+  font-size: 24px;
   margin: 0 auto;
   margin-bottom: 30px;
+  max-width: 450px;
   padding-bottom: 30px;
   text-align: center;
   width: 80%;
@@ -24,7 +24,7 @@
 .waitingPlayerUsername {
   color: #5d5d5d;
   font-family: sans-serif;
-  font-size: 14px;
+  font-size: 21px;
   line-height: 1.1875;
   margin-bottom: 5px;
   text-align: center;
@@ -36,7 +36,7 @@
   border-radius: 7px;
   color: white;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 21px;
   line-height: 1.1875;
   margin-top: 15px;
   outline: none;
@@ -90,5 +90,33 @@
   100% {
     top: 24px;
     height: 32px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .waiting {
+    box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.1);
+    box-sizing: content-box;
+    height: initial;
+    left: 50%;
+    width: 260px;
+    padding: 120px 60px;
+    position: absolute;
+    top: 45%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  .waitingHeader {
+    font-size: 14px;
+    max-width: initial;
+    width: 80%;
+  }
+
+  .waitingPlayerUsername {
+    font-size: 14px;
+  }
+
+  .waitingButton {
+    font-size: 14px;
   }
 }
