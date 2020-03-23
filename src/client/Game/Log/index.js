@@ -17,6 +17,7 @@ const Log = ({ log, logEndRef, playerId, socket, username }) => {
             <div
               key={index}
               className={classNames("gameLogEntry", {
+                gameLogEntryError: entry.type === "ERROR",
                 gameLogEntryMessage: entry.type === "MESSAGE",
                 gameLogEntryRequest: entry.type === "REQUEST"
               })}

@@ -20,6 +20,10 @@
   min-height: 1.1rem;
 }
 
+.gameLogEntryError {
+  color: red;
+}
+
 .gameLogEntryMessage {
   color: blue;
 }
