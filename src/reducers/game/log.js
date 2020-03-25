@@ -169,7 +169,7 @@ const log = (state = [], action) => {
         createLogEntry(
           action.logIds,
           `${action.username} joined as a spectator!`,
-          "INFO"
+          "MESSAGE"
         )
       ];
     default:

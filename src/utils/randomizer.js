@@ -49,14 +49,19 @@ function createVictories(numberOfPlayers) {
   ];
 }
 
-function createKingdoms(numberOfPlayers) {
+function createKingdoms(numberOfPlayers, selectedCards) {
   const PLAYER_COUNT_TO_VICTORY_COUNT = { 2: 8, 3: 12, 4: 12 };
   let victoryCount = PLAYER_COUNT_TO_VICTORY_COUNT[numberOfPlayers];
   if (victoryCount == null) {
     victoryCount = 8;
   }
 
-  const kingdomCardNames = shuffle(KINGDOM_CARDS).slice(0, 10);
+  const kingdomCardNames = [
+    ...selectedCards,
+    ...shuffle(
+      KINGDOM_CARDS.filter(card => !selectedCards.includes(card))
+    ).slice(0, 10 - selectedCards.length)
+  ];
   return kingdomCardNames.map(function(name) {
     if (name == "Gardens") {
       return { name, count: victoryCount };
@@ -76,11 +81,11 @@ function createCurses(numberOfPlayers) {
   return [{ name: "Curse", count: curseCount }];
 }
 
-function supplyRandomizer(numberOfPlayers) {
+function supplyRandomizer(numberOfPlayers, selectedCards) {
   return [
     ...createTreasures(numberOfPlayers),
     ...createVictories(numberOfPlayers),
-    ...createKingdoms(numberOfPlayers),
+    ...createKingdoms(numberOfPlayers, selectedCards),
     ...createCurses(numberOfPlayers)
   ];
 }
@@ -108,7 +113,7 @@ function playerRandomizer(connections) {
   );
 }
 
-export default function gameRandomizer({ connections }) {
+export default function gameRandomizer({ connections, selectedCards }) {
   const numberOfPlayers = connections.length;
   const startingPlayerId = sample(connections.map(c => c.id));
   const startingPlayerUsername = find(
@@ -117,7 +122,7 @@ export default function gameRandomizer({ connections }) {
   ).username;
 
   return {
-    supply: supplyRandomizer(numberOfPlayers),
+    supply: supplyRandomizer(numberOfPlayers, selectedCards),
     trash: [],
     players: playerRandomizer(connections),
     currentPlayer: {

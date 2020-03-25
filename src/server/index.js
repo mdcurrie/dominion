@@ -28,10 +28,11 @@ app.ws("/dominion", function(ws, req) {
     const state = store.getState();
     ws.send(
       JSON.stringify({
-        status: state.status,
-        usernames: state.connections.map(c => c.username),
         game: state.game,
-        id: connectionId
+        id: connectionId,
+        usernames: state.connections.map(c => c.username),
+        selectedCards: state.cardSelection,
+        status: state.status
       })
     );
   });

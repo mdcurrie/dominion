@@ -17,14 +17,14 @@ const Waiting = ({ usernames, socket }) => (
         </div>
       ))}
     </div>
-    {usernames.length > 1 && (
+    {usernames.length >= 2 && (
       <button
         className="waitingButton"
         onClick={() =>
-          socket.send(JSON.stringify({ type: "ASYNC_START_GAME" }))
+          socket.send(JSON.stringify({ type: "ASYNC_START_CARD_SELECTION" }))
         }
       >
-        Play Now!
+        Start Card Selection
       </button>
     )}
   </div>

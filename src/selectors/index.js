@@ -2,6 +2,8 @@ export const connectionsSelector = state => state.connections;
 
 export const statusSelector = state => state.status;
 
+export const cardSelectionSelector = state => state.cardSelection;
+
 export const numberOfConnectionsSelector = state => state.connections.length;
 
 export const currentPlayerSelector = state => state.game.currentPlayer;

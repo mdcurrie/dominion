@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
+import CardSelection from "../CardSelection";
 import Game from "../Game";
 import Waiting from "../Waiting";
 
@@ -37,12 +38,21 @@ const LoggedIn = ({ username }) => {
 
     socket.ws.onmessage = function(event) {
       setGameState(JSON.parse(event.data));
-      logEndRef.current.scrollIntoView({ behavior: "smooth" });
+      if (logEndRef.current) {
+        logEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     };
   }, []);
 
   if (gameState.status === "NOT_IN_PROGRESS") {
     return <Waiting usernames={gameState.usernames} socket={socket.ws} />;
+  } else if (gameState.status === "CARD_SELECTION") {
+    return (
+      <CardSelection
+        selectedCards={gameState.selectedCards}
+        socket={socket.ws}
+      />
+    );
   } else if (gameState.status === "IN_PROGRESS") {
     return (
       <Game
