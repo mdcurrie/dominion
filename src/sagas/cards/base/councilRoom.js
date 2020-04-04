@@ -1,5 +1,5 @@
 import { put, takeEvery, select } from "redux-saga/effects";
-import { drawCards, playAction } from "../../../actions";
+import { drawCards, gainBuys, playAction } from "../../../actions";
 import {
   gameOtherPlayersIdsSelector,
   gamePlayerIdsSelector,
@@ -19,6 +19,7 @@ export function* asyncPlayCouncilRoom() {
     })
   );
   yield put(drawCards({ drawAmount: 4, id: player.id }));
+  yield put(gainBuys({ buyAmount: 1, id: player.id }));
   yield asyncPlayCouncilRoomOthersDraw();
 }
 
