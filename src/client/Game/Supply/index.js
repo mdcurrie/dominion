@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 
-const Supply = ({ playerId, playerRequest, supply, socket }) => (
+const Supply = ({ playerId, playerRequest, supply, trash, socket }) => (
   <div className="gameSupply">
     {supply.map((c, index) => (
       <div
@@ -38,6 +38,21 @@ const Supply = ({ playerId, playerRequest, supply, socket }) => (
         <div className="gameSupplyCardCount">{c.count}</div>
       </div>
     ))}
+      <div
+        className="gameSupplyCard"
+        onClick={() => {
+          socket.send(
+            JSON.stringify({
+              type: "ASYNC_SHOW_TRASH"
+            }));
+        }}
+      >
+        <img
+          className="gameSupplyCardImg"
+          src={"./Trash.jpg"}
+        />
+        <div className="gameSupplyCardCount">{`Trash (${trash.length})`}</div>
+      </div>
   </div>
 );
 

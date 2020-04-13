@@ -19,6 +19,7 @@ const Game = ({ game, logEndRef, playerId, socket, username }) => {
           playerId={playerId}
           playerRequest={game.playerRequest}
           supply={game.supply}
+          trash={game.trash}
           socket={socket}
         />
         <Log
