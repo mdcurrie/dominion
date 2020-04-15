@@ -133,6 +133,15 @@ const log = (state = [], action) => {
           "INFO"
         )
       ];
+    case "SHOW_TRASH":
+      return [
+        ...state,
+        createLogEntry(
+          action.logIds,
+          `Trash: ${action.trash.join(", ")}`,
+          "INFO"
+        )
+      ];
     case "DISCARD_CARDS_IN_LIMBO":
     case "DISCARD_CARDS":
       return [

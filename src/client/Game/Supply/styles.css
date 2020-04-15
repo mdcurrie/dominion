@@ -24,7 +24,7 @@
 }
 
 .gameSupplyCardImg:hover {
-  transform: scale(5.0);
+  transform: scale(1.5);
 }
 
 .gameSupplyCardCount {

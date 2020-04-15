@@ -43,7 +43,9 @@ const Supply = ({ playerId, playerRequest, supply, trash, socket }) => (
         onClick={() => {
           socket.send(
             JSON.stringify({
-              type: "ASYNC_SHOW_TRASH"
+              type: "SHOW_TRASH",
+			  trash,
+			  logIds: [playerId]
             }));
         }}
       >
