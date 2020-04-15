@@ -38,23 +38,21 @@ const Supply = ({ playerId, playerRequest, supply, trash, socket }) => (
         <div className="gameSupplyCardCount">{c.count}</div>
       </div>
     ))}
-      <div
-        className="gameSupplyCard"
-        onClick={() => {
-          socket.send(
-            JSON.stringify({
-              type: "SHOW_TRASH",
-			  trash,
-			  logIds: [playerId]
-            }));
-        }}
-      >
-        <img
-          className="gameSupplyCardImg"
-          src={"./Trash.jpg"}
-        />
-        <div className="gameSupplyCardCount">{`Trash (${trash.length})`}</div>
-      </div>
+    <div
+      className="gameSupplyCard"
+      onClick={() => {
+        socket.send(
+          JSON.stringify({
+            type: "SHOW_TRASH",
+            trash,
+            logIds: [playerId]
+          })
+        );
+      }}
+    >
+      <img className="gameSupplyCardImg" src={"./Trash.jpg"} />
+      <div className="gameSupplyCardCount">{`Trash (${trash.length})`}</div>
+    </div>
   </div>
 );
 
