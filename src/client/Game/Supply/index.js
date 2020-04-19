@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 
-const Supply = ({ playerId, playerRequest, supply, trash, socket }) => (
+const Supply = ({ playerId, playerRequest, supply, socket, trash }) => (
   <div className="gameSupply">
     {supply.map((c, index) => (
       <div
@@ -37,38 +37,38 @@ const Supply = ({ playerId, playerRequest, supply, trash, socket }) => (
         />
         <div className="gameSupplyCardCount">{c.count}</div>
       </div>
-      <div
-        className="gameSupplyCard"
-        onClick={() => {
+    ))}
+    <div
+      className="gameSupplyCard"
+      onClick={() => {
+        if (trash.length > 0) {
           socket.send(
             JSON.stringify({
               type: "SHOW_TRASH",
-        		  trash,
-        		  logIds: [playerId]
-            }));
-        }}
-      >
-        <img
-          className="gameSupplyCardImg"
-          src={"./Trash.jpg"}
-        />
-        <div className="gameSupplyCardCount">{`Trash (${trash.length})`}</div>
-      </div>
-    ))}
+              logIds: [playerId],
+              trash
+            })
+          );
+        }
+      }}
+    >
+      <img className="gameSupplyCardImg" src="./Trash.jpg" />
+      <div className="gameSupplyCardCount">{`Trash (${trash.length})`}</div>
+    </div>
   </div>
 );
 
 Supply.propTypes = {
   playerId: PropTypes.string.isRequired,
   playerRequest: PropTypes.object,
+  socket: PropTypes.object,
   supply: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       count: PropTypes.number.isRequired
     })
-  ),
-  trash: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  socket: PropTypes.object
+  ).isRequired,
+  trash: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };
 
 export default Supply;
