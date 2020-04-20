@@ -5,7 +5,7 @@ import {
   playAction,
   selectOptions
 } from "../../../actions";
-import { ACTION_CARDS } from "../../../utils/constants";
+import { isActionCard } from "../../../utils/cards";
 import { gamePlayerIdsSelector, gamePlayerSelector } from "../../../selectors";
 
 export function* asyncPlayLibrary() {
@@ -36,7 +36,7 @@ export function* asyncPlayLibraryDrawCards() {
   yield put(drawCards({ drawAmount: 1, id: player.id }));
   player = yield select(gamePlayerSelector);
   const cardName = player.cards.hand[handCount];
-  if (ACTION_CARDS.includes(cardName)) {
+  if (isActionCard(cardName)) {
     yield put(
       selectOptions({
         id: player.id,

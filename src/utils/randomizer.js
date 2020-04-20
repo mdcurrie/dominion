@@ -1,7 +1,7 @@
 import find from "lodash/find";
 import sample from "lodash/sample";
 import shuffle from "lodash/shuffle";
-import { KINGDOM_CARDS } from "./constants";
+import { KINGDOM_CARDS } from "./cards";
 
 function createTreasures(numberOfPlayers) {
   const PLAYER_COUNT_TO_COPPER_COUNT = { 2: 46, 3: 39, 4: 32 };
@@ -59,7 +59,7 @@ function createKingdoms(numberOfPlayers, selectedCards) {
   const kingdomCardNames = [
     ...selectedCards,
     ...shuffle(
-      KINGDOM_CARDS.filter(card => !selectedCards.includes(card))
+      KINGDOM_CARDS.filter(card => !selectedCards.includes(card.name))
     ).slice(0, 10 - selectedCards.length)
   ];
   return kingdomCardNames.map(function(name) {

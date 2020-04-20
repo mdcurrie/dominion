@@ -12,7 +12,7 @@ import {
   gamePlayerIdsSelector,
   gamePlayerSelector
 } from "../../../selectors";
-import { VICTORY_CARDS } from "../../../utils/constants";
+import { isVictoryCard } from "../../../utils/cards";
 
 export function* asyncPlayBureaucrat() {
   const player = yield select(gamePlayerSelector);
@@ -47,9 +47,7 @@ export function* asyncPlayBureaucratReveal() {
       continue;
     }
 
-    const cardIndex = otherPlayer.cards.hand.findIndex(c =>
-      VICTORY_CARDS.includes(c)
-    );
+    const cardIndex = otherPlayer.cards.hand.findIndex(c => isVictoryCard(c));
     if (cardIndex === -1) {
       yield put(
         revealCards({

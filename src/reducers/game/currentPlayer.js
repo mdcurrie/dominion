@@ -1,4 +1,4 @@
-import { CARD_COSTS, TREASURE_VALUES } from "../../utils/constants";
+import { CARDS } from "../../utils/cards";
 
 const currentPlayer = (
   state = {
@@ -16,7 +16,7 @@ const currentPlayer = (
       return {
         ...state,
         buys: state.buys - 1,
-        gold: state.gold - CARD_COSTS[action.cardName]
+        gold: state.gold - CARDS[action.cardName].cost
       };
     case "END_TURN":
       return { id: action.nextId, actions: 1, buys: 1, gold: 0 };
@@ -41,7 +41,7 @@ const currentPlayer = (
         actions: state.actions - 1
       };
     case "PLAY_TREASURE":
-      return { ...state, gold: state.gold + TREASURE_VALUES[action.cardName] };
+      return { ...state, gold: state.gold + CARDS[action.cardName].value };
     default:
       return state;
   }
