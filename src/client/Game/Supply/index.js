@@ -41,15 +41,13 @@ const Supply = ({ playerId, playerRequest, supply, socket, trash }) => (
     <div
       className="gameSupplyCard"
       onClick={() => {
-        if (trash.length > 0) {
-          socket.send(
-            JSON.stringify({
-              type: "SHOW_TRASH",
-              logIds: [playerId],
-              trash
-            })
-          );
-        }
+        socket.send(
+          JSON.stringify({
+            type: "SHOW_TRASH",
+            logIds: [playerId],
+            trash
+          })
+        );
       }}
     >
       <img className="gameSupplyCardImg" src="./Trash.jpg" />

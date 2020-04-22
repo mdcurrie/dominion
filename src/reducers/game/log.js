@@ -138,7 +138,9 @@ const log = (state = [], action) => {
         ...state,
         createLogEntry(
           action.logIds,
-          `Trash: ${action.trash.join(", ")}.`,
+          action.trash.length === 0
+            ? "The trash is empty."
+            : `Trash: ${action.trash.join(", ")}.`,
           "INFO"
         )
       ];
