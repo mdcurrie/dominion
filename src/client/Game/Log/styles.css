@@ -21,6 +21,10 @@
   min-height: 1.1rem;
 }
 
+.gameLogEntryImage {
+  max-width: 350px;
+}
+
 .gameLogEntryError {
   color: red;
 }

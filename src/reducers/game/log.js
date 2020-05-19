@@ -28,6 +28,12 @@ const log = (state = [], action) => {
       ];
     case "SEND_MESSAGE":
       return [...state, createLogEntry(action.logIds, action.entry, "MESSAGE")];
+    case "SEND_IMAGE_URL":
+      return [
+        ...state,
+        createLogEntry(action.logIds, `(${action.username})`, "MESSAGE"),
+        createLogEntry(action.logIds, action.url, "MESSAGE")
+      ];
     case "PLAY_ACTION":
     case "PLAY_TREASURE":
       return [

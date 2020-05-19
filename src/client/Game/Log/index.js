@@ -3,6 +3,15 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import "./styles.css";
 
+const isValidImageUrl = url => {
+  try {
+    new URL(url);
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  } catch {
+    return false;
+  }
+};
+
 const Log = ({ isSpectator, log, logEndRef, playerId, socket, username }) => {
   const [message, setMessage] = useState("");
   return (
@@ -26,7 +35,11 @@ const Log = ({ isSpectator, log, logEndRef, playerId, socket, username }) => {
                 gameLogEntryRequest: entry.type === "REQUEST"
               })}
             >
-              {entry.text}
+              {isValidImageUrl(entry.text) ? (
+                <img className="gameLogEntryImage" src={entry.text} />
+              ) : (
+                entry.text
+              )}
             </div>
           );
         })}
@@ -38,12 +51,22 @@ const Log = ({ isSpectator, log, logEndRef, playerId, socket, username }) => {
         onChange={event => setMessage(event.target.value)}
         onKeyPress={event => {
           if (event.key === "Enter") {
-            socket.send(
-              JSON.stringify({
-                type: "ASYNC_SEND_MESSAGE",
-                entry: `(${username}) ${message}`
-              })
-            );
+            if (isValidImageUrl(message)) {
+              socket.send(
+                JSON.stringify({
+                  type: "ASYNC_SEND_IMAGE_URL",
+                  url: message,
+                  username
+                })
+              );
+            } else {
+              socket.send(
+                JSON.stringify({
+                  type: "ASYNC_SEND_MESSAGE",
+                  entry: `(${username}) ${message}`
+                })
+              );
+            }
             setMessage("");
           }
         }}

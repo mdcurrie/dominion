@@ -80,6 +80,15 @@ export function sendMessage({ entry, logIds }) {
   };
 }
 
+export function sendImageUrl({ logIds, username, url }) {
+  return {
+    type: "SEND_IMAGE_URL",
+    logIds,
+    username,
+    url
+  };
+}
+
 export function gainFloatingGold({ floatingGoldAmount }) {
   return {
     type: "GAIN_FLOATING_GOLD",

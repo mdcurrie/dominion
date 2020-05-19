@@ -30,6 +30,7 @@ import {
   removeConnection,
   resetCardSelection,
   sendMessage,
+  sendImageUrl,
   startGame,
   updateScore,
   updateStatus
@@ -240,6 +241,11 @@ export function* asyncSendMessage({ entry }) {
   yield put(sendMessage({ entry, logIds: playerIds }));
 }
 
+export function* asyncSendImageUrl({ username, url }) {
+  const playerIds = yield select(gamePlayerIdsSelector);
+  yield put(sendImageUrl({ logIds: playerIds, username, url }));
+}
+
 export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
   const player = yield select(gamePlayerFromIdSelector, id);
   const playerRequest = yield select(gamePlayerRequestSelector);
@@ -316,6 +322,7 @@ const gameSagas = [
   takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures),
   takeEvery("ASYNC_COMPLETE_CHOICE_GAIN_CARDS", asyncCompleteChoiceGainCards),
   takeEvery("ASYNC_SEND_MESSAGE", asyncSendMessage),
+  takeEvery("ASYNC_SEND_IMAGE_URL", asyncSendImageUrl),
   takeEvery(
     "ASYNC_COMPLETE_SELECT_CARDS_IN_HAND",
     asyncCompleteSelectCardsInHand
