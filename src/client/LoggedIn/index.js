@@ -4,6 +4,7 @@ import CardSelection from "../CardSelection";
 import Game from "../Game";
 import Waiting from "../Waiting";
 
+const FIVE_SECONDS_IN_MS = 5000;
 const socket = {};
 
 const LoggedIn = ({ username }) => {
@@ -42,6 +43,10 @@ const LoggedIn = ({ username }) => {
         logEndRef.current.scrollIntoView({ behavior: "smooth" });
       }
     };
+
+    setInterval(() => {
+      socket.send(JSON.stringify({}));
+    }, FIVE_SECONDS_IN_MS);
   }, []);
 
   if (gameState.status === "NOT_IN_PROGRESS") {
