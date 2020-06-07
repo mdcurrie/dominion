@@ -5,7 +5,7 @@ import {
   selectCardsInHand,
   trashSelectedCards
 } from "../../../actions";
-import { CARD_COSTS } from "../../../utils/constants";
+import { CARDS } from "../../../utils/cards";
 import { gamePlayerIdsSelector, gamePlayerSelector } from "../../../selectors";
 
 export function* asyncPlayMine() {
@@ -35,7 +35,7 @@ export function* asyncPlayMine() {
 export function* asyncPlayMineTrashAndChoiceGainCards({ cards, cardIndexes }) {
   const player = yield select(gamePlayerSelector);
   const playerIds = yield select(gamePlayerIdsSelector);
-  const maxCost = CARD_COSTS[player.cards.hand[cardIndexes[0]]] + 3;
+  const maxCost = CARDS[player.cards.hand[cardIndexes[0]]].cost + 3;
 
   yield put(
     trashSelectedCards({

@@ -5,7 +5,7 @@ import {
   selectCardsInHand,
   trashSelectedCards
 } from "../../../actions";
-import { CARD_COSTS } from "../../../utils/constants";
+import { CARDS } from "../../../utils/cards";
 import { gamePlayerIdsSelector, gamePlayerSelector } from "../../../selectors";
 
 export function* asyncPlayRemodel() {
@@ -37,7 +37,7 @@ export function* asyncPlayRemodelTrashAndChoiceGainCards({
 }) {
   const player = yield select(gamePlayerSelector);
   const playerIds = yield select(gamePlayerIdsSelector);
-  const maxCost = CARD_COSTS[player.cards.hand[cardIndexes[0]]] + 2;
+  const maxCost = CARDS[player.cards.hand[cardIndexes[0]]].cost + 2;
 
   yield put(
     trashSelectedCards({

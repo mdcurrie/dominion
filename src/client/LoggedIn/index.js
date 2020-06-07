@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import CardSelection from "../CardSelection";
 import Game from "../Game";
 import Waiting from "../Waiting";
+import { KINGDOM_CARDS } from "../../utils/cards";
 
 const FIVE_SECONDS_IN_MS = 5000;
 const socket = {};
@@ -52,8 +53,11 @@ const LoggedIn = ({ username }) => {
   if (gameState.status === "NOT_IN_PROGRESS") {
     return <Waiting usernames={gameState.usernames} socket={socket.ws} />;
   } else if (gameState.status === "CARD_SELECTION") {
+    const cardPoolSize = 10 + gameState.usernames.length;
     return (
       <CardSelection
+        cards={KINGDOM_CARDS}
+        cardPoolSize={cardPoolSize}
         selectedCards={gameState.selectedCards}
         socket={socket.ws}
       />

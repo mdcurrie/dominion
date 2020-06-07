@@ -1,15 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import "./styles.css";
-import { KINGDOM_CARDS } from "../../utils/constants";
+import shuffle from "lodash/shuffle";
 
-const CardSelection = ({ selectedCards, socket }) => {
+import "./styles.css";
+
+const CardSelection = ({ cards, cardPoolSize, selectedCards, socket }) => {
+  // The cards available should be a random set of 10 + number of players of the
+  // possible cards that you can pick from
+  const possibleCards = shuffle(cards).slice(0, cardPoolSize);
   return (
     <div className="cardSelectionContainer">
       <div className="cardSelectionHeader">Select up to 10 Kingdom Cards</div>
       <div className="cardSelectionKingdomCards">
-        {KINGDOM_CARDS.map((card, index) => (
+        {possibleCards.map((card, index) => (
           <div
             key={index}
             className={classNames("cardSelectionKingdomCard", {
@@ -44,6 +48,8 @@ const CardSelection = ({ selectedCards, socket }) => {
 };
 
 CardSelection.propTypes = {
+  cards: PropTypes.arrayOf(PropTypes.string).isRequired,
+  cardPoolSize: PropTypes.number,
   selectedCards: PropTypes.arrayOf(PropTypes.string).isRequired,
   socket: PropTypes.object
 };

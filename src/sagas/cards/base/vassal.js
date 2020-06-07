@@ -9,7 +9,7 @@ import {
   selectOptions
 } from "../../../actions";
 import { asyncPlayCard } from "../../game";
-import { ACTION_CARDS } from "../../../utils/constants";
+import { isActionCard } from "../../../utils/cards";
 import { gamePlayerIdsSelector, gamePlayerSelector } from "../../../selectors";
 
 export function* asyncPlayVassal() {
@@ -50,9 +50,7 @@ export function* asyncPlayVassalDiscardAndSelectOptions() {
   );
 
   player = yield select(gamePlayerSelector);
-  if (
-    ACTION_CARDS.includes(player.cards.discard[player.cards.discard.length - 1])
-  ) {
+  if (isActionCard(player.cards.discard[player.cards.discard.length - 1])) {
     yield put(
       selectOptions({
         id: player.id,

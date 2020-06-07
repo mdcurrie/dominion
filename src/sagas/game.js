@@ -36,11 +36,11 @@ import {
   updateStatus
 } from "../actions";
 import {
-  ACTION_CARDS,
-  CARD_COSTS,
-  TREASURE_CARDS,
-  VICTORY_AND_CURSE_CARDS
-} from "../utils/constants";
+  isActionCard,
+  isTreasureCard,
+  isVictoryOrCurseCard,
+  CARDS
+} from "../utils/cards";
 import gameRandomizer from "../utils/randomizer";
 
 export function* asyncStartCardSelection() {
@@ -98,7 +98,7 @@ export function* asyncBuyCard({ id, name: cardName }) {
     currentPlayer.id !== id ||
     currentPlayer.buys <= 0 ||
     cardCount <= 0 ||
-    currentPlayer.gold < CARD_COSTS[cardName] ||
+    currentPlayer.gold < CARDS[cardName].cost ||
     playerRequest
   ) {
     return;
@@ -149,18 +149,14 @@ export function* asyncPlayCard({ id, name: cardName }) {
   const currentPlayer = yield select(currentPlayerSelector);
   const player = yield select(gamePlayerSelector);
   const playerRequest = yield select(gamePlayerRequestSelector);
-  if (
-    player.id !== id ||
-    playerRequest ||
-    VICTORY_AND_CURSE_CARDS.includes(cardName)
-  ) {
+  if (player.id !== id || playerRequest || isVictoryOrCurseCard(cardName)) {
     return;
   }
 
   if (
-    ACTION_CARDS.includes(cardName) &&
+    isActionCard(cardName) &&
     (currentPlayer.actions <= 0 ||
-      TREASURE_CARDS.some(c => player.cards.inplay.includes(c)))
+      player.cards.inplay.some(c => isTreasureCard(c)))
   ) {
     return;
   }
@@ -215,9 +211,8 @@ export function* asyncCompleteChoiceGainCards({ id, name: cardName }) {
     playerRequest.id !== id ||
     playerRequest.type !== "CHOICE_GAIN_CARDS" ||
     playerRequest.gainAmount <= 0 ||
-    playerRequest.maxCost < CARD_COSTS[cardName] ||
-    (playerRequest.cardType === "TREASURE" &&
-      !TREASURE_CARDS.includes(cardName))
+    playerRequest.maxCost < CARDS[cardName].cost ||
+    (playerRequest.cardType === "TREASURE" && !isTreasureCard(cardName))
   ) {
     return;
   }
@@ -259,8 +254,7 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
     cardIndexes.length < playerRequest.minSelectAmount ||
     (playerRequest.maxSelectAmount != null &&
       cardIndexes.length > playerRequest.maxSelectAmount) ||
-    (playerRequest.cardType === "TREASURE" &&
-      !TREASURE_CARDS.includes(cards[0]))
+    (playerRequest.cardType === "TREASURE" && !isTreasureCard(cards[0]))
   ) {
     return;
   }
