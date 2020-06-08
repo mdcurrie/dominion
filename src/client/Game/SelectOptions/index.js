@@ -8,6 +8,14 @@ const SelectOptions = ({ playerId, playerRequest, socket }) =>
   playerRequest.type === "SELECT_OPTIONS" ? (
     <div className="gameSelectOptionsContainer">
       <div className="gameSelectOptionsModal">
+        {playerRequest.flavorImage ? (
+          <div className="gameSelectOptionsHeader">
+            <img
+              className="gameSelectOptionsFlavorImage"
+              src={playerRequest.flavorImage}
+            ></img>
+          </div>
+        ) : null}
         <div className="gameSelectOptionsText">{playerRequest.text}</div>
         <div className="gameSelectOptionsButtons">
           {playerRequest.options.map((option, index) => (

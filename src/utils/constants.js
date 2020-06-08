@@ -94,3 +94,7 @@ export const ACTION_CARDS = [
   "Witch",
   "Artisan"
 ];
+
+export const FLAVOR_IMAGES = {
+  PoutineCat: "./flavor_images/Pusheen.png"
+};

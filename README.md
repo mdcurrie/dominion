@@ -1,17 +1,16 @@
 # Dominion
 
-> This is a stunnningly beautiful web app made by the incomparable Marcus "Marba" Currie. It's seamless UI and intuitive mechanics creates a sublime experience, a pseudo-euphoria inducing level of polish heretoforth not seen in an app with such conceptual integraity.  This realization of pure ambition which blends the digital and physical worlds into a swirling unbounded whorl of shifting possibilities allowing for the possiblility that any dream may take form.
+> This is a stunningly beautiful web app made by the incomparable Marcus "Marba" Currie. It's seamless UI and intuitive mechanics creates a sublime experience, a pseudo-euphoria inducing level of polish heretofore not seen in an app with such conceptual integrity. This realization of pure ambition blends the digital and physical worlds into a swirling unbounded whorl of shifting possibilities allowing for the possibility that any dream may take form.
 
 ## Compulsory Badges
-### Code Quality: A+
-### Innovation Level: 9001
-### Competitiveness: Confirmed Gardner's Magic Quadrant
+| Code Quality | Innovation Level | Competitiveness | Meme Level  |
+| -----        | ---              | ---             | ----        |
+| A+           | 9001             | Magic Quadrant  | Magnificent |
 
 
 ## Dev Setup
 
-For interpid contributors embarking upon their journey into an exhilirating land of symmetric and expressive code, follow the follwing steps, step-by-step:
-
+For intrepid contributors embarking upon their journey into an exhilarating land of symmetric and expressive code, follow the following steps, step-by-step:
 Clone the repo
 
 `git clone git@github.com:mdcurrie/dominion.git`
