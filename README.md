@@ -1,6 +1,6 @@
 # Dominion
 
-> This is a stunningly beautiful web app made by the incomparable Marcus "Marba" Currie. It's seamless UI and intuitive mechanics creates a sublime experience, a pseudo-euphoria inducing level of polish heretofore not seen in an app with such conceptual integrity. This realization of pure ambition blends the digital and physical worlds into a swirling unbounded whorl of shifting possibilities allowing for the possibility that any dream may take form.
+> This is a stunningly beautiful web app made by the incomparable Marcus "Marba" Currie. It's seamless UI and intuitive mechanics creates a sublime experience, a pseudo-euphoria inducing level of polish heretofore not seen in an app with such conceptual integrity. This realization of pure ambition blends the digital and physical worlds into a swirling unbounded whorl of shifting shimmering possibilities where amorphous dreams may manifest.
 
 ## Compulsory Badges
 | Code Quality | Innovation Level | Competitiveness | Meme Level  |
