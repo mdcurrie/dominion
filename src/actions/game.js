@@ -203,8 +203,8 @@ export function selectCardsInHand({
   };
 }
 
-export function selectOptions({ id, options, text }) {
-  return { type: "SELECT_OPTIONS", id, options, text };
+export function selectOptions({ id, options, text, flavorImage }) {
+  return { type: "SELECT_OPTIONS", id, options, text, flavorImage };
 }
 
 export function updateScore({ players }) {

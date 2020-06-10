@@ -20,6 +20,12 @@
   width: 280px;
 }
 
+.gameSelectOptionsFlavorImage {
+  display: block;
+  margin: 0px auto;
+  width: 90%;
+}
+
 .gameSelectOptionsText {
   margin-bottom: 8px;
 }

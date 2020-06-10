@@ -10,6 +10,7 @@ import {
   trashCardsInLimbo
 } from "../../../actions";
 import { gamePlayerIdsSelector, gamePlayerSelector } from "../../../selectors";
+import { FLAVOR_IMAGES } from "../../../utils/constants";
 
 export function* asyncPlaySentry() {
   const player = yield select(gamePlayerSelector);
@@ -63,7 +64,8 @@ export function* asyncPlaySentrySelectOptionsTrash() {
         text:
           player.cards.limbo.length == 1
             ? `The top card of your deck is ${player.cards.limbo[0]}, please choose an option.`
-            : `The top cards of your deck are ${player.cards.limbo[0]} and ${player.cards.limbo[1]}, please choose an option.`
+            : `The top cards of your deck are ${player.cards.limbo[0]} and ${player.cards.limbo[1]}, please choose an option.`,
+        flavorImage: FLAVOR_IMAGES.PoutineCat
       })
     );
   }
@@ -115,7 +117,8 @@ export function* asyncPlaySentrySelectOptionsDiscard() {
       selectOptions({
         id: player.id,
         options,
-        text: "Please choose an option."
+        text: "Please choose an option.",
+        flavorImage: FLAVOR_IMAGES.PoutineCat
       })
     );
   }
@@ -155,7 +158,8 @@ export function* asyncPlaySentrySelectOptionsPlaceInDeck() {
           text: cardName
         }))
       ],
-      text: "Select cards to place them on top of your deck."
+      text: "Select cards to place them on top of your deck.",
+      flavorImage: FLAVOR_IMAGES.PoutineCat
     })
   );
 }
