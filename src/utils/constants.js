@@ -5,6 +5,7 @@ export const CARD_COSTS = {
   Estate: 2,
   Duchy: 5,
   Province: 8,
+  Bazaar: 5,
   Cellar: 2,
   Chapel: 2,
   Moat: 2,
@@ -41,6 +42,7 @@ export const TREASURE_CARDS = ["Copper", "Silver", "Gold"];
 export const TREASURE_VALUES = { Copper: 1, Silver: 2, Gold: 3 };
 
 export const KINGDOM_CARDS = [
+  "Bazaar",
   "Cellar",
   "Chapel",
   "Moat",
@@ -69,6 +71,7 @@ export const KINGDOM_CARDS = [
 ];
 
 export const ACTION_CARDS = [
+  "Bazaar",
   "Cellar",
   "Chapel",
   "Moat",
