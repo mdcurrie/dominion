@@ -21,10 +21,37 @@ export function* asyncPlayOasis() {
     })
   );
   yield put(drawCards({ drawAmount: 1, id: player.id }));
-  yield put(discardCards({ actionAmount: 1, id: player.id }));
+  yield put(gainActions({ actionAmount: 1, id: player.id }));
   yield put(gainFloatingGold({ floatingGoldAmount: 1 }));
+  yield put(
+    selectCardsInHand({
+      id: player.id,
+      logIds: player.id,
+      minSelectAmount: 1,
+      maxSelectAmount: 1,
+      next: { type: "ASYNC_PLAY_OASIS_DISCARD" }
+    })
+  );
 }
 
-const oasisSagas = [takeEvery("ASYNC_PLAY_OASIS", asyncPlayOasis)];
+export function* asyncPlayOasisDiscard({ cards, cardIndexes }) {
+  const player = yield select(gamePlayerSelector);
+  const playerIds = yield select(gamePlayerIdsSelector);
+
+  yield put(
+    discardCards({
+      cards,
+      cardIndexes,
+      id: player.id,
+      logIds: playerIds,
+      username: player.username
+    })
+  );
+}
+
+const oasisSagas = [
+  takeEvery("ASYNC_PLAY_OASIS", asyncPlayOasis),
+  takeEvery("ASYNC_PLAY_OASIS_DISCARD", asyncPlayCellarDiscard)
+];
 
 export default oasisSagas;
