@@ -1,4 +1,4 @@
-mport { put, takeEvery, select } from "redux-saga/effects";
+import { put, takeEvery, select } from "redux-saga/effects";
 import {
   discardCards,
   drawCards,
@@ -51,7 +51,7 @@ export function* asyncPlayOasisDiscard({ cards, cardIndexes }) {
 
 const oasisSagas = [
   takeEvery("ASYNC_PLAY_OASIS", asyncPlayOasis),
-  takeEvery("ASYNC_PLAY_OASIS_DISCARD", asyncPlayCellarDiscard)
+  takeEvery("ASYNC_PLAY_OASIS_DISCARD", asyncPlayOasisDiscard)
 ];
 
 export default oasisSagas;
