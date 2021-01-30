@@ -1,5 +1,3 @@
 import bazaarSagas from "./bazaar";
 
-export default [
-  ...bazaarSagas,
-];
+export default [...bazaarSagas];

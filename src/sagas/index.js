@@ -5,5 +5,10 @@ import seasideSetSagas from "./cards/seaside";
 import gameSagas from "./game";
 
 export default function* rootSaga() {
-  yield all([...baseSetSagas, ...hinterlandsSagas, ...seasideSetSagas, ...gameSagas]);
+  yield all([
+    ...baseSetSagas,
+    ...hinterlandsSagas,
+    ...seasideSetSagas,
+    ...gameSagas
+  ]);
 }

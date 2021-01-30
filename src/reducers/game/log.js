@@ -189,6 +189,11 @@ const log = (state = [], action) => {
           "MESSAGE"
         )
       ];
+    case "ADD_LOG":
+      return [
+        ...state,
+        createLogEntry(action.logIds, `${action.message}`, "MESSAGE")
+      ];
     default:
       return state;
   }
