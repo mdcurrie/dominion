@@ -152,7 +152,8 @@ export function* asyncPlayCard({ id, name: cardName }) {
   if (
     player.id !== id ||
     playerRequest ||
-    VICTORY_AND_CURSE_CARDS.includes(cardName)
+    (VICTORY_AND_CURSE_CARDS.includes(cardName) &&
+      !ACTION_CARDS.includes(cardName))
   ) {
     return;
   }
