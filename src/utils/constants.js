@@ -32,7 +32,8 @@ export const CARD_COSTS = {
   Sentry: 5,
   Witch: 5,
   Artisan: 6,
-  Margrave: 5
+  Margrave: 5,
+  "Spice Merchant": 4
 };
 
 export const VICTORY_CARDS = ["Estate", "Duchy", "Province", "Gardens"];
@@ -71,7 +72,8 @@ export const KINGDOM_CARDS = [
   "Sentry",
   "Witch",
   "Artisan",
-  "Margrave"
+  "Margrave",
+  "Spice Merchant"
 ];
 
 export const ACTION_CARDS = [
@@ -101,7 +103,8 @@ export const ACTION_CARDS = [
   "Sentry",
   "Witch",
   "Artisan",
-  "Margrave"
+  "Margrave",
+  "Spice Merchant"
 ];
 
 export const FLAVOR_IMAGES = {
