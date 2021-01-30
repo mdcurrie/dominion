@@ -21,6 +21,8 @@ const score = (state = null, action) => {
           .length;
         const curseCount = allPlayerCards.filter(card => card === "Curse")
           .length;
+        const noblesCount = allPlayerCards.filter(card => card === "Nobles")
+          .length;
         return {
           username: player.username,
           estateCount,
@@ -28,11 +30,13 @@ const score = (state = null, action) => {
           provinceCount,
           gardensCount,
           curseCount,
+          noblesCount,
           cardCount: allPlayerCards.length,
           finalScore:
             estateCount +
             duchyCount * 3 +
             provinceCount * 6 +
+            noblesCount * 2 +
             gardensCount * Math.floor(allPlayerCards.length / 10) -
             curseCount
         };

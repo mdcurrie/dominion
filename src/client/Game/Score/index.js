@@ -21,6 +21,7 @@ const Score = ({ score, socket }) =>
                 {s.gardensCount ? (
                   <div>{`${s.gardensCount} Gardens (${s.cardCount} cards)`}</div>
                 ) : null}
+                {s.noblesCount ? <div>{`${s.noblesCount} Nobles`}</div> : null}
                 {s.curseCount ? <div>{`${s.curseCount} Curses`}</div> : null}
               </div>
             </div>

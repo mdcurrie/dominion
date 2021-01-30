@@ -49,7 +49,7 @@ export function* asyncPlayMargraveSelectCards({ id }) {
       blockAttack({ logIds: playerIds, username: otherPlayer.username })
     );
     if (nextId) {
-      yield asyncPlayMilitiaSelectCards({ id: nextId });
+      yield asyncPlayMargraveSelectCards({ id: nextId });
     }
   } else {
     yield put(
