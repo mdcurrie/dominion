@@ -4,6 +4,7 @@ import {
   drawCards,
   gainActions,
   gainFloatingGold,
+  selectCardsInHand,
   playAction
 } from "../../../actions";
 import { gamePlayerIdsSelector, gamePlayerSelector } from "../../../selectors";
