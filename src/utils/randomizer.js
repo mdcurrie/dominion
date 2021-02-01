@@ -63,7 +63,7 @@ function createKingdoms(numberOfPlayers, selectedCards) {
     ).slice(0, 10 - selectedCards.length)
   ];
   return kingdomCardNames.map(function(name) {
-    if (name == "Gardens") {
+    if (name == "Gardens" || name == "Nobles") {
       return { name, count: victoryCount };
     } else {
       return { name, count: 10 };
