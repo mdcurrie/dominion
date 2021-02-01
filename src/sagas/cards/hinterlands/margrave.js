@@ -37,7 +37,7 @@ export function* asyncPlayMargrave() {
 export function* asyncPlayMargraveSelectCards({ id }) {
   const playerIds = yield select(gamePlayerIdsSelector);
   const otherPlayersIds = yield select(gameOtherPlayersIdsSelector);
-  const otherPlayer = yield select(gamePlayerFromIdSelector, id);
+  let otherPlayer = yield select(gamePlayerFromIdSelector, id);
   const idIndex = otherPlayersIds.indexOf(id);
   const nextId =
     idIndex !== otherPlayersIds.length - 1
@@ -52,6 +52,8 @@ export function* asyncPlayMargraveSelectCards({ id }) {
       yield asyncPlayMargraveSelectCards({ id: nextId });
     }
   } else {
+    yield put(drawCards({ drawAmount: 1, id: otherPlayer.id }));
+    otherPlayer = yield select(gamePlayerFromIdSelector, id);
     yield put(
       selectCardsInHand({
         id: otherPlayer.id,
