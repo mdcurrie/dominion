@@ -4,7 +4,7 @@ import CardSelection from "../CardSelection";
 import Game from "../Game";
 import Waiting from "../Waiting";
 
-const FIVE_SECONDS_IN_MS = 5000;
+const HEARTBEAT_INTERVAL_IN_MS = 5000;
 let socket = null;
 
 const LoggedIn = ({ username }) => {
@@ -44,12 +44,12 @@ const LoggedIn = ({ username }) => {
       }
     };
 
+    // Heartbeat while connection is open.
     setInterval(() => {
-      // Heartbeat while connection is open.
       if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({}));
       }
-    }, FIVE_SECONDS_IN_MS);
+    }, HEARTBEAT_INTERVAL_IN_MS);
   }, []);
 
   if (gameState.status === "NOT_IN_PROGRESS") {
