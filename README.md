@@ -18,7 +18,7 @@ Clone the repo
 
 cd into the project folder and run the npm script to begin development.
 
-`cd dominion && npm run-script start-dev`
+`cd dominion && npm install && npm run-script start-dev`
 
 ## Stack
 
