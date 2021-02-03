@@ -45,7 +45,10 @@ const LoggedIn = ({ username }) => {
     };
 
     setInterval(() => {
-      socket.send(JSON.stringify({}));
+      // Heartbeat while connection is open.
+      if (socket.ws.readyState == WebSocket.OPEN) {
+        socket.ws.send(JSON.stringify({}));
+      }
     }, FIVE_SECONDS_IN_MS);
   }, []);
 
