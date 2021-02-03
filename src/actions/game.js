@@ -26,10 +26,11 @@ export function buyCard({ cardName, id, location, logIds, username }) {
   };
 }
 
-export function playTreasure({ cardName, id, logIds, username }) {
+export function playTreasure({ cardName, cardIndex, id, logIds, username }) {
   return {
     type: "PLAY_TREASURE",
     cardName,
+    cardIndex,
     id,
     logIds,
     username
@@ -40,10 +41,11 @@ export function gainActions({ actionAmount, id }) {
   return { type: "GAIN_ACTIONS", actionAmount, id };
 }
 
-export function playAction({ cardName, id, logIds, username }) {
+export function playAction({ cardName, cardIndex, id, logIds, username }) {
   return {
     type: "PLAY_ACTION",
     cardName,
+    cardIndex,
     id,
     logIds,
     username

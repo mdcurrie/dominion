@@ -2,7 +2,7 @@ import { put, takeEvery, select } from "redux-saga/effects";
 import { playTreasure } from "../../../actions";
 import { gamePlayerIdsSelector, gamePlayerSelector } from "../../../selectors";
 
-export function* asyncPlayCopper() {
+export function* asyncPlayCopper({ cardIndex }) {
   const player = yield select(gamePlayerSelector);
   const playerIds = yield select(gamePlayerIdsSelector);
 
@@ -10,6 +10,7 @@ export function* asyncPlayCopper() {
     playTreasure({
       cardName: "Copper",
       id: player.id,
+      cardIndex: cardIndex,
       logIds: playerIds,
       username: player.username
     })

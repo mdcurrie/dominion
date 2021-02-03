@@ -145,7 +145,7 @@ export function* asyncEndTurn({ id }) {
   );
 }
 
-export function* asyncPlayCard({ id, name: cardName }) {
+export function* asyncPlayCard({ id, cardName, cardIndex }) {
   const currentPlayer = yield select(currentPlayerSelector);
   const player = yield select(gamePlayerSelector);
   const playerRequest = yield select(gamePlayerRequestSelector);
@@ -166,7 +166,10 @@ export function* asyncPlayCard({ id, name: cardName }) {
     return;
   }
 
-  yield put({ type: `ASYNC_PLAY_${snakeCase(cardName).toUpperCase()}` });
+  yield put({
+    type: `ASYNC_PLAY_${snakeCase(cardName).toUpperCase()}`,
+    cardIndex
+  });
 }
 
 export function* asyncPlayAllTreasures({ id }) {
@@ -182,6 +185,7 @@ export function* asyncPlayAllTreasures({ id }) {
     .length;
   const copperCount = player.cards.hand.filter(card => card === "Copper")
     .length;
+  // Don't need card indexes here since all available treasures will be played.
   for (let i = 0; i < goldCount; i++) {
     yield put({ type: "ASYNC_PLAY_GOLD" });
   }
