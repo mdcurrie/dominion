@@ -5,7 +5,7 @@ import Game from "../Game";
 import Waiting from "../Waiting";
 
 const FIVE_SECONDS_IN_MS = 5000;
-const socket = {};
+let socket = null;
 
 const LoggedIn = ({ username }) => {
   const [gameState, setGameState] = useState({
@@ -33,11 +33,11 @@ const LoggedIn = ({ username }) => {
       process.env.NODE_ENV === "development"
         ? "ws://localhost:8080/dominion"
         : "ws://marcusdominion2.herokuapp.com/dominion";
-    socket.ws = new WebSocket(
+    socket = new WebSocket(
       `${url}?username=${encodeURIComponent(username)}`
     );
 
-    socket.ws.onmessage = function(event) {
+    socket.onmessage = function (event) {
       setGameState(JSON.parse(event.data));
       if (logEndRef.current) {
         logEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -46,19 +46,19 @@ const LoggedIn = ({ username }) => {
 
     setInterval(() => {
       // Heartbeat while connection is open.
-      if (socket.ws.readyState == WebSocket.OPEN) {
-        socket.ws.send(JSON.stringify({}));
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({}));
       }
     }, FIVE_SECONDS_IN_MS);
   }, []);
 
   if (gameState.status === "NOT_IN_PROGRESS") {
-    return <Waiting usernames={gameState.usernames} socket={socket.ws} />;
+    return <Waiting usernames={gameState.usernames} socket={socket} />;
   } else if (gameState.status === "CARD_SELECTION") {
     return (
       <CardSelection
         selectedCards={gameState.selectedCards}
-        socket={socket.ws}
+        socket={socket}
       />
     );
   } else if (gameState.status === "IN_PROGRESS") {
@@ -67,7 +67,7 @@ const LoggedIn = ({ username }) => {
         game={gameState.game}
         playerId={gameState.id}
         logEndRef={logEndRef}
-        socket={socket.ws}
+        socket={socket}
         username={username}
       />
     );
