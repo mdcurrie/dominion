@@ -1,3 +1,4 @@
+import isEmpty from "lodash/isEmpty";
 import path from "path";
 import uuid from "uuid";
 import express from "express";
@@ -11,7 +12,6 @@ import rootReducer from "../reducers";
 import rootSaga from "../sagas";
 import config from "../../webpack.dev.config.js";
 import { asyncAddConnection, asyncRemoveConnection } from "../actions";
-import { isEmptyObject } from "../utils/util";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -43,7 +43,7 @@ app.ws("/dominion", function(ws, req) {
   store.dispatch(asyncAddConnection({ ws, id: connectionId, username }));
 
   ws.on("message", function(msg) {
-    if (isEmptyObject(msg)) {
+    if (isEmpty(msg)) {
       return;
     }
     store.dispatch({ ...JSON.parse(msg), id: connectionId });

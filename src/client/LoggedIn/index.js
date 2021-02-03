@@ -33,11 +33,9 @@ const LoggedIn = ({ username }) => {
       process.env.NODE_ENV === "development"
         ? "ws://localhost:8080/dominion"
         : "ws://marcusdominion2.herokuapp.com/dominion";
-    socket = new WebSocket(
-      `${url}?username=${encodeURIComponent(username)}`
-    );
+    socket = new WebSocket(`${url}?username=${encodeURIComponent(username)}`);
 
-    socket.onmessage = function (event) {
+    socket.onmessage = function(event) {
       setGameState(JSON.parse(event.data));
       if (logEndRef.current) {
         logEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -56,10 +54,7 @@ const LoggedIn = ({ username }) => {
     return <Waiting usernames={gameState.usernames} socket={socket} />;
   } else if (gameState.status === "CARD_SELECTION") {
     return (
-      <CardSelection
-        selectedCards={gameState.selectedCards}
-        socket={socket}
-      />
+      <CardSelection selectedCards={gameState.selectedCards} socket={socket} />
     );
   } else if (gameState.status === "IN_PROGRESS") {
     return (
