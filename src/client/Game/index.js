@@ -75,7 +75,7 @@ Game.propTypes = {
     }),
     log: PropTypes.arrayOf(
       PropTypes.shape({
-        ids: PropTypes.string,
+        ids: PropTypes.arrayOf(PropTypes.string),
         text: PropTypes.string,
         type: PropTypes.string
       })
