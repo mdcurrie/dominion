@@ -44,7 +44,7 @@ app.ws("/dominion", function(ws, req) {
 
   ws.on("message", function(msg) {
     const msgObj = JSON.parse(msg);
-    if (isEmptyObject(msgObj)) {
+    if (isEmpty(msgObj)) {
       return;
     }
     store.dispatch({ ...msgObj, id: connectionId });
