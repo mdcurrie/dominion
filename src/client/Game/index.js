@@ -81,7 +81,7 @@ Game.propTypes = {
       })
     ),
     playerRequest: PropTypes.object,
-    score: PropTypes.object
+    score: PropTypes.arrayOf(PropTypes.object)
   }).isRequired,
   logEndRef: PropTypes.object.isRequired,
   playerId: PropTypes.string.isRequired,
