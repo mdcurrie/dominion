@@ -43,10 +43,11 @@ app.ws("/dominion", function(ws, req) {
   store.dispatch(asyncAddConnection({ ws, id: connectionId, username }));
 
   ws.on("message", function(msg) {
-    if (isEmpty(msg)) {
+    const msgObj = JSON.parse(msg);
+    if (isEmpty(msgObj)) {
       return;
     }
-    store.dispatch({ ...JSON.parse(msg), id: connectionId });
+    store.dispatch({ ...msgObj, id: connectionId });
   });
 
   ws.on("close", function() {
