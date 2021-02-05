@@ -81,7 +81,7 @@ Log.propTypes = {
   isSpectator: PropTypes.bool.isRequired,
   log: PropTypes.arrayOf(
     PropTypes.shape({
-      ids: PropTypes.string,
+      ids: PropTypes.arrayOf(PropTypes.string),
       text: PropTypes.string,
       type: PropTypes.string
     })

@@ -53,7 +53,7 @@ const Score = ({ score, socket }) =>
   ) : null;
 
 Score.propTypes = {
-  score: PropTypes.object.isRequired,
+  score: PropTypes.arrayOf(PropTypes.object),
   socket: PropTypes.object
 };
 
