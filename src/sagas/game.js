@@ -261,7 +261,8 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
     (playerRequest.maxSelectAmount != null &&
       cardIndexes.length > playerRequest.maxSelectAmount) ||
     (playerRequest.cardType === "TREASURE" &&
-      !TREASURE_CARDS.includes(cards[0]))
+      !TREASURE_CARDS.includes(cards[0]) &&
+      cardIndexes.length !== 0)
   ) {
     return;
   }

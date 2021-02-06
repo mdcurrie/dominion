@@ -82,7 +82,7 @@ export function* asyncPlaySpiceMerchantAddBuyAndGold() {
   yield put(
     logMessage({
       logIds: playerIds,
-      message: `${player.username} selected +1 Buy +2 Gold`
+      message: `${player.username} selected +1 Buy +2 Gold.`
     })
   );
   yield put(gainBuys({ buyAmount: 1, id: player.id }));
@@ -96,7 +96,7 @@ export function* asyncPlaySpiceMerchantDrawCardsAndAction() {
   yield put(
     logMessage({
       logIds: playerIds,
-      message: `${player.username} selected +2 Cards +1 Action`
+      message: `${player.username} selected +2 Cards +1 Action.`
     })
   );
   yield put(drawCards({ drawAmount: 2, id: player.id }));
