@@ -14,21 +14,21 @@ const Hand = ({ hand, playerId, playerRequest, socket }) => {
     setSelectedCards([]);
   }
 
-  function handleCardClick(name, index) {
+  function handleCardClick(cardName, cardIndex) {
     let selectedCardsCopy = [...selectedCards];
     if (
       playerRequest &&
       playerRequest.id === playerId &&
       playerRequest.type === "SELECT_CARDS_IN_HAND"
     ) {
-      if (selectedCardsCopy.includes(index)) {
-        let selectedIndex = selectedCardsCopy.indexOf(index);
+      if (selectedCardsCopy.includes(cardIndex)) {
+        let selectedIndex = selectedCardsCopy.indexOf(cardIndex);
         selectedCardsCopy = [
           ...selectedCardsCopy.slice(0, selectedIndex),
           ...selectedCardsCopy.slice(selectedIndex + 1)
         ];
       } else {
-        selectedCardsCopy.push(index);
+        selectedCardsCopy.push(cardIndex);
         if (
           playerRequest.maxSelectAmount != null &&
           selectedCardsCopy.length > playerRequest.maxSelectAmount
@@ -38,7 +38,9 @@ const Hand = ({ hand, playerId, playerRequest, socket }) => {
       }
       setSelectedCards(selectedCardsCopy);
     } else {
-      socket.send(JSON.stringify({ type: "ASYNC_PLAY_CARD", name }));
+      socket.send(
+        JSON.stringify({ type: "ASYNC_PLAY_CARD", cardName, cardIndex })
+      );
     }
   }
 

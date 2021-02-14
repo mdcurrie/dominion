@@ -58,7 +58,13 @@ const players = (state = [], action) => {
     case "PLAY_TREASURE":
       playerIndex = state.findIndex(player => player.id === action.id);
       player = state[playerIndex];
+
+      // Lookup the cardIndex in the hand by card name,
+      // but if an index is specified use that instead.
       cardIndex = player.cards.hand.findIndex(c => c === action.cardName);
+      if (action.cardIndex) {
+        cardIndex = action.cardIndex;
+      }
 
       return [
         ...state.slice(0, playerIndex),
